@@ -2,22 +2,32 @@ package pl.edu.mimuw.products;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Bag {
+  protected static Random RANDOM;
+
   private int foodAmount = 0;
   private int diamondsAmount = 0;
 
-  private Set<Clothes> clothes;
-  private Set<Tool> tools;
-  private Set<Program> programs;
+  protected Set<Clothes> clothes;
+  protected Set<Tool> tools;
+  protected Set<Program> programs;
 
-  public void putFood(int amount) {
+
+  public Bag() {
+    this.clothes = new HashSet<>();
+    this.tools = new HashSet<>();
+    this.programs = new HashSet<>();
+  }
+
+  public void storeFood(int amount) {
     if (amount < 0) throw new IllegalArgumentException();
     foodAmount += amount;
   }
 
-  public void putDiamonds(int amount) {
+  public void storeDiamonds(int amount) {
     if (amount < 0) throw new IllegalArgumentException();
     diamondsAmount += amount;
   }
@@ -36,15 +46,15 @@ public class Bag {
     return diamondsLeft;
   }
 
-  public void putClothes(Clothes... clothes) {
+  public void storeClothes(Clothes... clothes) {
     this.clothes.addAll(List.of(clothes));
   }
 
-  public void putTools(Tool... tools) {
+  public void storeTools(Tool... tools) {
     this.tools.addAll(List.of(tools));
   }
 
-  public void putPrograms(Program... programs) {
+  public void storePrograms(Program... programs) {
     this.programs.addAll(List.of(programs));
   }
 

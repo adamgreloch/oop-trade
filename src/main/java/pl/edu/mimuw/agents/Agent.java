@@ -6,8 +6,6 @@ import pl.edu.mimuw.products.*;
 public abstract class Agent {
   protected Simulation simulation;
 
-  protected Bag bag;
-
   public Agent(Simulation simulation) {
     this.simulation = simulation;
   }

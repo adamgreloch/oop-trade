@@ -1,21 +1,23 @@
 package pl.edu.mimuw.agents;
 
 import pl.edu.mimuw.Productivity;
+import pl.edu.mimuw.ProductivityVector;
 import pl.edu.mimuw.Simulation;
+import pl.edu.mimuw.products.Bag;
 import pl.edu.mimuw.products.WorkerBag;
 import pl.edu.mimuw.strategy.*;
 
-import java.util.*;
-
 public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
+  public static final int DAILY_CLOTHES_CONSUMPTION = 100;
   public static final int DAILY_FOOD_CONSUMPTION = 100;
 
   private int hunger = 0;
   private Productivity productivity;
 
-  private CareerPath careerPath;
-  private Map<CareerPath, Integer> careers; // Value indicates advancement level
+  private final WorkerBag bag;
+  private final Bag saleBag;
+  private final Career career;
 
   private final CareerStrategy careerStrategy;
   private final ConsumptionStrategy consumptionStrategy;
@@ -24,7 +26,7 @@ public class Worker extends Agent {
 
   public Worker(Simulation simulation,
                 Productivity productivity,
-                CareerPath careerPath,
+                Occupation occupation,
                 CareerStrategy careerStrategy,
                 ConsumptionStrategy consumptionStrategy,
                 ProductionStrategy productionStrategy,
@@ -32,11 +34,10 @@ public class Worker extends Agent {
     super(simulation);
     this.productivity = productivity;
 
-    this.bag = new WorkerBag(this);
+    this.career = new Career(occupation);
 
-    this.careerPath = careerPath;
-    this.careers = new HashMap<>();
-    this.careers.put(careerPath, 1);
+    this.bag = new WorkerBag(this);
+    this.saleBag = new Bag();
 
     this.careerStrategy = careerStrategy;
     this.consumptionStrategy = consumptionStrategy;
@@ -52,17 +53,19 @@ public class Worker extends Agent {
   }
 
   private void work() {
+    productionStrategy.produce(this, saleBag);
+    sell();
+    eat();
+    bag.wearClothes();
+    bag.useAllTools();
+    // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
   }
 
   private void study() {
-    if (careerStrategy.isCareerChangePending(this)) {
-      CareerPath change = careerStrategy.pickCareerOf(this);
-      if (!careers.containsKey(change))
-        careers.put(change, 1);
-      careerPath = change;
-    }
-
-
+    if (careerStrategy.isCareerChangePending(this))
+      career.changeOccupation(careerStrategy.pickCareer(this));
+    else
+      career.advanceLevel();
   }
 
   private void starve() {
@@ -76,12 +79,19 @@ public class Worker extends Agent {
     bag.clear();
   }
 
-  public void eat() {
+  private void sell() {
+  }
+
+  private void eat() {
     if (bag.takeFood(DAILY_FOOD_CONSUMPTION) < 0)
       starve();
   }
 
   public int starvationLevel() {
     return hunger;
+  }
+
+  public ProductivityVector getProductivity() {
+    return productivity.get();
   }
 }

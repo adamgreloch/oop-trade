@@ -6,7 +6,7 @@ import pl.edu.mimuw.strategy.TradeStrategy;
 
 public class Speculator extends Agent {
 
-  protected Bag bag;
+  private Bag bag;
 
   TradeStrategy tradeStrategy;
 

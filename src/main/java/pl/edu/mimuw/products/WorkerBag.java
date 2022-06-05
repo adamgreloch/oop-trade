@@ -4,6 +4,8 @@ import pl.edu.mimuw.ProductivityModifier;
 import pl.edu.mimuw.ProductivityVector;
 import pl.edu.mimuw.agents.Worker;
 
+import java.util.Set;
+
 /**
  * All Worker's possessions are stored in a Bag.
  */
@@ -29,5 +31,29 @@ public class WorkerBag extends Bag implements ProductivityModifier {
       default:
         return new ProductivityVector();
     }
+  }
+
+  public void wearClothes() {
+    int toWear = Worker.DAILY_CLOTHES_CONSUMPTION;
+    if (clothes.size() < toWear) {
+      for (Clothes c : clothes)
+        c.wearOnce();
+    }
+    else {
+      Clothes[] notWorn = Set.copyOf(this.clothes).toArray(Clothes[]::new);
+      int r;
+      while (toWear > 0) {
+        r = RANDOM.nextInt(clothes.size());
+        if (notWorn[r] != null) {
+          notWorn[r].wearOnce();
+          notWorn[r] = null;
+          toWear--;
+        }
+      }
+    }
+  }
+
+  public void useAllTools() {
+    tools.clear();
   }
 }

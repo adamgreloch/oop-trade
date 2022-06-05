@@ -9,7 +9,7 @@ public class Productivity {
   /** sum of modifiers
    *  i.e. totalModifier for modifiers -10%, 20%, 40% is equal 50.
    */
-  private final ProductivityVector totalModifier;
+  private ProductivityVector totalModifier;
   private int lastUpdated = 0;
 
   private final Set<ProductivityModifier> modifiers;
@@ -24,11 +24,15 @@ public class Productivity {
     this.modifiers.add(modifier);
   }
 
+  public ProductivityVector get() {
+    return base.add(getTotalModifier());
+  }
+
   private ProductivityVector getTotalModifier() {
     if (lastUpdated < Simulation.day()) {
       totalModifier.clear();
       for (ProductivityModifier modifier : modifiers)
-        totalModifier.add(modifier.getModifierValue());
+        totalModifier = totalModifier.add(modifier.getModifierValue());
       lastUpdated = Simulation.day();
     }
     return totalModifier;

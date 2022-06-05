@@ -1,6 +1,6 @@
 package pl.edu.mimuw.strategy;
 
-import pl.edu.mimuw.agents.CareerPath;
+import pl.edu.mimuw.agents.Occupation;
 import pl.edu.mimuw.agents.Worker;
 
 /**
@@ -10,6 +10,6 @@ public interface CareerStrategy {
 
   boolean isCareerChangePending(Worker worker);
 
-  CareerPath pickCareerOf(Worker worker);
+  Occupation pickCareer(Worker worker);
 
 }

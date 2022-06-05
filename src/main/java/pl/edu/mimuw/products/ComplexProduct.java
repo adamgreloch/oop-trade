@@ -1,6 +1,5 @@
 package pl.edu.mimuw.products;
 
-import pl.edu.mimuw.Productivity;
 import pl.edu.mimuw.ProductivityModifier;
 
 /**
@@ -9,13 +8,15 @@ import pl.edu.mimuw.ProductivityModifier;
  * such as Diamonds or Food.
  */
 
-public abstract class ComplexProduct implements ProductivityModifier {
-  protected int level = 1;
+public abstract class ComplexProduct {
+  private int level;
+
+  public ComplexProduct(int level) {
+    this.level = level;
+  }
 
   @Override
   public String toString() {
     return "product";
   }
-
-  public abstract void apply(Productivity productivity);
 }

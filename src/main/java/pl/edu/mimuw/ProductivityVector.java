@@ -23,14 +23,18 @@ public class ProductivityVector {
     this.data = new int[PRODUCT_COUNT];
   }
 
-  public void add(ProductivityVector other) {
+  public ProductivityVector add(ProductivityVector other) {
+    ProductivityVector res = new ProductivityVector();
     for (int i = 0; i < PRODUCT_COUNT; i++)
-      this.data[i] += other.data[i];
+      res.data[i] = this.data[i] + other.data[i];
+    return res;
   }
 
-  public void times(int scalar) {
+  public ProductivityVector times(int scalar) {
+    ProductivityVector res = new ProductivityVector();
     for (int i = 0; i < PRODUCT_COUNT; i++)
-      this.data[i] *= scalar;
+      res.data[i] = this.data[i] * scalar;
+    return res;
   }
 
   public int food() {

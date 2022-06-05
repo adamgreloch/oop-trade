@@ -11,10 +11,16 @@ import java.util.Set;
  */
 public class Simulation {
   private static int day = 1;
-  private Set<Agent> agents;
+  private Set<Agent> active;
+  private Set<Agent> dead;
 
   public Simulation(Agent... agents) {
-    this.agents = new HashSet<>(List.of(agents));
+    this.active = new HashSet<>(List.of(agents));
+  }
+
+  public void moveToDead(Agent agent) {
+    active.remove(agent);
+    dead.add(agent);
   }
 
   public static int day() {

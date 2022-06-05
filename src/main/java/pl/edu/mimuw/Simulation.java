@@ -13,9 +13,14 @@ public class Simulation {
   private static int day = 1;
   private Set<Agent> active;
   private Set<Agent> dead;
+  private Stock stock;
 
   public Simulation(Agent... agents) {
     this.active = new HashSet<>(List.of(agents));
+  }
+
+  public static int day() {
+    return day;
   }
 
   public void moveToDead(Agent agent) {
@@ -23,7 +28,7 @@ public class Simulation {
     dead.add(agent);
   }
 
-  public static int day() {
-    return day;
+  public Stock stock() {
+    return stock;
   }
 }

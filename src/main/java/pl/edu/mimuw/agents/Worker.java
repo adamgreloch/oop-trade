@@ -5,30 +5,30 @@ import pl.edu.mimuw.ProductivityVector;
 import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.products.Bag;
 import pl.edu.mimuw.products.WorkerBag;
-import pl.edu.mimuw.strategy.*;
+import pl.edu.mimuw.strategy.CareerStrategy;
+import pl.edu.mimuw.strategy.ProductionStrategy;
+import pl.edu.mimuw.strategy.PurchaseStrategy;
+import pl.edu.mimuw.strategy.StudyingStrategy;
 
 public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
   public static final int DAILY_CLOTHES_CONSUMPTION = 100;
   public static final int DAILY_FOOD_CONSUMPTION = 100;
-
-  private int hunger = 0;
-  private Productivity productivity;
-
+  private final Productivity productivity;
   private final WorkerBag bag;
   private final Bag saleBag;
   private final Career career;
-
   private final CareerStrategy careerStrategy;
-  private final ConsumptionStrategy consumptionStrategy;
+  private final PurchaseStrategy purchaseStrategy;
   private final ProductionStrategy productionStrategy;
   private final StudyingStrategy studyingStrategy;
+  private int hunger = 0;
 
   public Worker(Simulation simulation,
                 Productivity productivity,
                 Occupation occupation,
                 CareerStrategy careerStrategy,
-                ConsumptionStrategy consumptionStrategy,
+                PurchaseStrategy purchaseStrategy,
                 ProductionStrategy productionStrategy,
                 StudyingStrategy studyingStrategy) {
     super(simulation);
@@ -40,7 +40,7 @@ public class Worker extends Agent {
     this.saleBag = new Bag();
 
     this.careerStrategy = careerStrategy;
-    this.consumptionStrategy = consumptionStrategy;
+    this.purchaseStrategy = purchaseStrategy;
     this.productionStrategy = productionStrategy;
     this.studyingStrategy = studyingStrategy;
   }
@@ -54,7 +54,8 @@ public class Worker extends Agent {
 
   private void work() {
     productionStrategy.produce(this, saleBag);
-    sell();
+    offerSale();
+    offerPurchase();
     eat();
     bag.wearClothes();
     bag.useAllTools();
@@ -79,7 +80,11 @@ public class Worker extends Agent {
     bag.clear();
   }
 
-  private void sell() {
+  private void offerSale() {
+  }
+
+  private void offerPurchase() {
+    simulation.stock().hearPurchaseOffers(purchaseStrategy.purchasesToOffer(this));
   }
 
   private void eat() {

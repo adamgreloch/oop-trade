@@ -7,13 +7,11 @@ import java.util.Set;
 
 public class Bag {
   protected static Random RANDOM;
-
-  private int foodAmount = 0;
-  private int diamondsAmount = 0;
-
   protected Set<Clothes> clothes;
   protected Set<Tool> tools;
   protected Set<Program> programs;
+  private int foodAmount = 0;
+  private int diamondsAmount = 0;
 
 
   public Bag() {

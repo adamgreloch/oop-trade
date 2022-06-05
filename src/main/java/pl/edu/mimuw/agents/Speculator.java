@@ -6,9 +6,8 @@ import pl.edu.mimuw.strategy.TradeStrategy;
 
 public class Speculator extends Agent {
 
-  private Bag bag;
-
   TradeStrategy tradeStrategy;
+  private Bag bag;
 
   public Speculator(Simulation simulation, TradeStrategy tradeStrategy) {
     super(simulation);

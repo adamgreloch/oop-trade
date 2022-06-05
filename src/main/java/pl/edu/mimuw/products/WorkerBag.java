@@ -6,9 +6,6 @@ import pl.edu.mimuw.agents.Worker;
 
 import java.util.Set;
 
-/**
- * All Worker's possessions are stored in a Bag.
- */
 public class WorkerBag extends Bag implements ProductivityModifier {
   private static final int MINOR_STARVATION_PENALTY = -100;
   private static final int MAJOR_STARVATION_PENALTY = -300;
@@ -37,7 +34,7 @@ public class WorkerBag extends Bag implements ProductivityModifier {
     int toWear = Worker.DAILY_CLOTHES_CONSUMPTION;
     if (clothes.size() < toWear) {
       for (Clothes c : clothes)
-        c.wearOnce();
+        wearWhileCheckingCondition(c);
     }
     else {
       Clothes[] notWorn = Set.copyOf(this.clothes).toArray(Clothes[]::new);
@@ -45,12 +42,16 @@ public class WorkerBag extends Bag implements ProductivityModifier {
       while (toWear > 0) {
         r = RANDOM.nextInt(clothes.size());
         if (notWorn[r] != null) {
-          notWorn[r].wearOnce();
+          wearWhileCheckingCondition(notWorn[r]);
           notWorn[r] = null;
           toWear--;
         }
       }
     }
+  }
+
+  private void wearWhileCheckingCondition(Clothes toWear) {
+    if (toWear.wearOnce() == 0) this.clothes.remove(toWear);
   }
 
   public void useAllTools() {

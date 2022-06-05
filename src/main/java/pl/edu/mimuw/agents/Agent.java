@@ -1,7 +1,6 @@
 package pl.edu.mimuw.agents;
 
 import pl.edu.mimuw.Simulation;
-import pl.edu.mimuw.products.*;
 
 public abstract class Agent {
   protected Simulation simulation;

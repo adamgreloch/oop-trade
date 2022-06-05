@@ -8,7 +8,11 @@ public class Clothes extends ComplexProduct {
     this.daysLeft = level * level;
   }
 
+  public String toString() {
+    return null;
+  }
+
   public int wearOnce() {
-    return this.daysLeft--;
+    return --this.daysLeft;
   }
 }

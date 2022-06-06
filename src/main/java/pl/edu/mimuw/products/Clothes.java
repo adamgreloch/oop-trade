@@ -1,10 +1,10 @@
 package pl.edu.mimuw.products;
 
-public class Clothes extends ComplexProduct {
+public class Clothes extends TradeableProduct {
   private int daysLeft = 0;
 
   public Clothes(int level) {
-    super(level);
+    super(level, "clothes");
     this.daysLeft = level * level;
   }
 

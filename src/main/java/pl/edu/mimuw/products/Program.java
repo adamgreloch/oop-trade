@@ -1,9 +1,9 @@
 package pl.edu.mimuw.products;
 
-public class Program extends ComplexProduct {
+public class Program extends TradeableProduct {
 
   public Program(int level) {
-    super(level);
+    super(level, "program");
   }
 
   @Override

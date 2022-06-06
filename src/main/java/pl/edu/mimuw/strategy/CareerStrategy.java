@@ -1,5 +1,6 @@
 package pl.edu.mimuw.strategy;
 
+import pl.edu.mimuw.agents.Career;
 import pl.edu.mimuw.agents.Occupation;
 import pl.edu.mimuw.agents.Worker;
 

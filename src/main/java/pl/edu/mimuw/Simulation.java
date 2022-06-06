@@ -1,9 +1,9 @@
 package pl.edu.mimuw;
 
 import pl.edu.mimuw.agents.Agent;
+import pl.edu.mimuw.strategy.StockStrategy;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -11,12 +11,19 @@ import java.util.Set;
  */
 public class Simulation {
   private static int day = 1;
-  private Set<Agent> active;
-  private Set<Agent> dead;
-  private Stock stock;
+  private int lastId = 0;
+  private final Set<Agent> active;
+  private final Set<Agent> dead;
+  private final Stock stock;
 
-  public Simulation(Agent... agents) {
-    this.active = new HashSet<>(List.of(agents));
+  public Simulation(StockStrategy stockStrategy) {
+    this.active = new HashSet<>();
+    this.dead = new HashSet<>();
+    this.stock = new Stock(stockStrategy);
+  }
+
+  public void addAgents(Set<Agent> agents) {
+    active.addAll(agents);
   }
 
   public static int day() {
@@ -30,5 +37,9 @@ public class Simulation {
 
   public Stock stock() {
     return stock;
+  }
+
+  public int assignId() {
+    return lastId++;
   }
 }

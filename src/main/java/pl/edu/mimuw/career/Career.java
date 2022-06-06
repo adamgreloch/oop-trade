@@ -1,12 +1,12 @@
-package pl.edu.mimuw.agents;
+package pl.edu.mimuw.career;
 
-import pl.edu.mimuw.ProductivityModifier;
+import pl.edu.mimuw.ProductivityBuff;
 import pl.edu.mimuw.ProductivityVector;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Career implements ProductivityModifier {
+public class Career implements ProductivityBuff {
   private final Map<Occupation, Integer> careers; // Value indicates advancement level
   private Occupation current;
 
@@ -31,7 +31,7 @@ public class Career implements ProductivityModifier {
     careers.put(current, occupationLevel() + 1);
   }
 
-  public ProductivityVector getModifierValue() {
-    return current.getModifierValue(occupationLevel());
+  public ProductivityVector getBuffValue() {
+    return current.getBuffValueForLevel(occupationLevel());
   }
 }

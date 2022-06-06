@@ -1,9 +1,9 @@
 package pl.edu.mimuw.products;
 
-import pl.edu.mimuw.ProductivityModifier;
+import pl.edu.mimuw.ProductivityBuff;
 import pl.edu.mimuw.ProductivityVector;
 
-public class Tool extends TradeableProduct implements ProductivityModifier {
+public class Tool extends TradeableProduct implements ProductivityBuff {
 
   public Tool(int level) {
     super(level, "tool");
@@ -15,7 +15,7 @@ public class Tool extends TradeableProduct implements ProductivityModifier {
   }
 
   @Override
-  public ProductivityVector getModifierValue() {
+  public ProductivityVector getBuffValue() {
     return new ProductivityVector(level());
   }
 }

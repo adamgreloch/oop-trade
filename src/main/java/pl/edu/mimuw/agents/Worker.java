@@ -3,6 +3,8 @@ package pl.edu.mimuw.agents;
 import pl.edu.mimuw.Productivity;
 import pl.edu.mimuw.ProductivityVector;
 import pl.edu.mimuw.Simulation;
+import pl.edu.mimuw.career.Career;
+import pl.edu.mimuw.career.Occupation;
 import pl.edu.mimuw.products.Bag;
 import pl.edu.mimuw.products.WorkerBag;
 import pl.edu.mimuw.strategy.CareerStrategy;

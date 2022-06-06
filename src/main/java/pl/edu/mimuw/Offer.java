@@ -7,8 +7,13 @@ import pl.edu.mimuw.products.TradeableProduct;
  */
 public class Offer {
   private boolean isPurchaseOffer;
+
   private double price;
   private int quantity;
+
+  private int maxProductLevel;
+  private int minProductLevel;
+
   private TradeableProduct product;
 
 

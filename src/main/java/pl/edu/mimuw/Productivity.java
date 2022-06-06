@@ -5,55 +5,55 @@ import java.util.Set;
 
 public class Productivity {
   private final ProductivityVector base;
-  private final Set<ProductivityModifier> modifiers;
+  private final Set<ProductivityBuff> buffs;
   /**
-   * sum of modifiers
-   * i.e. totalModifier for modifiers -10%, 20%, 40% is equal 50.
+   * sum of buffs
+   * i.e. totalBuff for buffs -10%, 20%, 40% is equal 50.
    */
-  private ProductivityVector totalModifier;
+  private ProductivityVector totalBuff;
   private int lastUpdated = 0;
 
   public Productivity(int baseFood, int baseClothes, int baseTools, int baseDiamonds, int basePrograms) {
     this.base = new ProductivityVector(baseFood, baseClothes, baseTools, baseDiamonds, basePrograms);
-    this.modifiers = new HashSet<>();
-    this.totalModifier = new ProductivityVector();
+    this.buffs = new HashSet<>();
+    this.totalBuff = new ProductivityVector();
   }
 
-  public void addModifier(ProductivityModifier modifier) {
-    this.modifiers.add(modifier);
+  public void addBuff(ProductivityBuff buff) {
+    this.buffs.add(buff);
   }
 
   public ProductivityVector get() {
-    return base.add(getTotalModifier());
+    return base.add(getTotalBuff());
   }
 
-  private ProductivityVector getTotalModifier() {
+  private ProductivityVector getTotalBuff() {
     if (lastUpdated < Simulation.day()) {
-      totalModifier.clear();
-      for (ProductivityModifier modifier : modifiers)
-        totalModifier = totalModifier.add(modifier.getModifierValue());
+      totalBuff.clear();
+      for (ProductivityBuff buff : buffs)
+        totalBuff = totalBuff.add(buff.getBuffValue());
       lastUpdated = Simulation.day();
     }
-    return totalModifier;
+    return totalBuff;
   }
 
   public int food() {
-    return base.food() * (1 + getTotalModifier().food() / 100);
+    return base.food() * (1 + getTotalBuff().food() / 100);
   }
 
   public int clothes() {
-    return base.clothes() * (1 + getTotalModifier().clothes() / 100);
+    return base.clothes() * (1 + getTotalBuff().clothes() / 100);
   }
 
   public int tools() {
-    return base.tools() * (1 + getTotalModifier().tools() / 100);
+    return base.tools() * (1 + getTotalBuff().tools() / 100);
   }
 
   public int diamonds() {
-    return base.diamonds() * (1 + getTotalModifier().diamonds() / 100);
+    return base.diamonds() * (1 + getTotalBuff().diamonds() / 100);
   }
 
   public int programs() {
-    return base.programs() * (1 + getTotalModifier().programs() / 100);
+    return base.programs() * (1 + getTotalBuff().programs() / 100);
   }
 }

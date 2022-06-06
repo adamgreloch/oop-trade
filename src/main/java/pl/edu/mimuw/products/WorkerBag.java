@@ -1,12 +1,12 @@
 package pl.edu.mimuw.products;
 
-import pl.edu.mimuw.ProductivityModifier;
+import pl.edu.mimuw.ProductivityBuff;
 import pl.edu.mimuw.ProductivityVector;
 import pl.edu.mimuw.agents.Worker;
 
 import java.util.Set;
 
-public class WorkerBag extends Bag implements ProductivityModifier {
+public class WorkerBag extends Bag implements ProductivityBuff {
   private static final int MINOR_STARVATION_PENALTY = -100;
   private static final int MAJOR_STARVATION_PENALTY = -300;
 
@@ -17,7 +17,7 @@ public class WorkerBag extends Bag implements ProductivityModifier {
     this.owner = owner;
   }
 
-  public ProductivityVector getModifierValue() {
+  public ProductivityVector getBuffValue() {
     assert owner.starvationLevel() < Worker.DEATH_THRESHOLD;
 
     switch (owner.starvationLevel()) {

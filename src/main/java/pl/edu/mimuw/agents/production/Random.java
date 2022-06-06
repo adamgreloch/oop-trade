@@ -10,12 +10,12 @@ public class Random implements ProductionStrategy {
   public Random() {
   }
 
-  public void produce(Worker worker, Bag storage) {
+  public void produce(Worker worker, Bag destination) {
     Product[] products = {new Food(), new Clothes(1), new Tool(1), new Diamond(), new Program(1)};
     Product buffed = worker.getCareer().currentProduct();
     Product picked = products[Simulation.RANDOM.nextInt(products.length)];
-    if (picked.typeEquals(buffed))
+    if (picked.equals(buffed))
       picked = buffed;
-    storage.storeProduct(picked, ProductivityVector.find(worker.getProductivity(), picked));
+    destination.storeProduct(picked, ProductivityVector.find(worker.getProductivity(), picked));
   }
 }

@@ -1,19 +1,20 @@
 package pl.edu.mimuw.bag;
 
-import pl.edu.mimuw.Multiset;
 import pl.edu.mimuw.products.*;
 
-public class Bag {
-  protected Multiset<Clothes> clothes;
-  protected Multiset<Tool> tools;
-  protected Multiset<Program> programs;
+import java.util.*;
+
+public class Bag implements Iterable<Product> {
+  protected Set<Clothes> clothes;
+  protected Set<Tool> tools;
+  protected Set<Program> programs;
   private int foodAmount = 0;
   private double diamondsAmount = 0;
 
   public Bag() {
-    this.clothes = new Multiset<>();
-    this.tools = new Multiset<>();
-    this.programs = new Multiset<>();
+    this.clothes = new HashSet<>();
+    this.tools = new HashSet<>();
+    this.programs = new HashSet<>();
   }
 
   public void storeFood(int amount) {
@@ -47,23 +48,39 @@ public class Bag {
   }
 
   public void storeProduct(Product product, int quantity) {
+    if (quantity < 0) throw new IllegalArgumentException();
     if (product instanceof Food) storeFood(quantity);
     if (product instanceof Diamond) storeDiamonds(quantity);
-    if (product instanceof Clothes) this.clothes.add((Clothes) product, quantity);
-    if (product instanceof Tool) this.tools.add((Tool) product, quantity);
-    if (product instanceof Program) this.programs.add((Program) product, quantity);
+    if (product instanceof Clothes) storeClothes(product.level(), quantity);
+    if (product instanceof Tool) storeTools(product.level(), quantity);
+    if (product instanceof Program) storePrograms(product.level(), quantity);
   }
 
-  public Multiset<Clothes> getClothes() {
-    return new Multiset<>(clothes);
+  private void storeClothes(int level, int quantity) {
+    for (int i = 0; i < quantity; i++)
+      this.clothes.add(new Clothes(level));
   }
 
-  public Multiset<Tool> getTools() {
-    return new Multiset<>(tools);
+  private void storeTools(int level, int quantity) {
+    for (int i = 0; i < quantity; i++)
+      this.tools.add(new Tool(level));
   }
 
-  public Multiset<Program> getPrograms() {
-    return new Multiset<>(programs);
+  private void storePrograms(int level, int quantity) {
+    for (int i = 0; i < quantity; i++)
+      this.programs.add(new Program(level));
+  }
+
+  public Set<Clothes> getClothes() {
+    return new HashSet<>(clothes);
+  }
+
+  public Set<Tool> getTools() {
+    return new HashSet<>(tools);
+  }
+
+  public Set<Program> getPrograms() {
+    return new HashSet<>(programs);
   }
 
   public int countFood() {
@@ -80,5 +97,23 @@ public class Bag {
     clothes.clear();
     tools.clear();
     programs.clear();
+  }
+
+  public Iterator<Product> iterator() {
+    List<Product> res = new LinkedList<>();
+    if (foodAmount > 0) res.add(new Food());
+    if (diamondsAmount > 0) res.add(new Diamond());
+    res.addAll(this.clothes);
+    res.addAll(this.tools);
+    res.addAll(this.programs);
+    return res.iterator();
+  }
+
+  public int countTradeable(TradeableProduct product) {
+    if (product instanceof Food) return foodAmount;
+    if (product instanceof Clothes) return this.clothes.size();
+    if (product instanceof Tool) return this.tools.size();
+    if (product instanceof Program) return this.programs.size();
+    throw new IllegalArgumentException("Argument product out of simulation scope");
   }
 }

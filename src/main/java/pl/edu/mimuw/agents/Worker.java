@@ -1,15 +1,20 @@
 package pl.edu.mimuw.agents;
 
-import pl.edu.mimuw.agents.production.ProductionStrategy;
-import pl.edu.mimuw.agents.purchase.PurchaseStrategy;
-import pl.edu.mimuw.agents.studying.StudyingStrategy;
-import pl.edu.mimuw.agents.productivity.Productivity;
-import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.career.Career;
-import pl.edu.mimuw.agents.career.Occupation;
-import pl.edu.mimuw.bag.WorkerBag;
 import pl.edu.mimuw.agents.career.CareerStrategy;
+import pl.edu.mimuw.agents.career.Occupation;
+import pl.edu.mimuw.agents.production.ProductionStrategy;
+import pl.edu.mimuw.agents.productivity.Productivity;
+import pl.edu.mimuw.agents.productivity.ProductivityVector;
+import pl.edu.mimuw.agents.purchase.PurchaseStrategy;
+import pl.edu.mimuw.agents.studying.StudyingStrategy;
+import pl.edu.mimuw.bag.WorkerBag;
+import pl.edu.mimuw.products.*;
+import pl.edu.mimuw.stock.Offer;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
@@ -55,11 +60,11 @@ public class Worker extends Agent {
   private void work() {
     productionStrategy.produce(this, saleBag);
     offerSale();
-    offerPurchase();
     eat();
-    workerBag.wearClothes();
     workerBag.useAllTools();
+    workerBag.wearClothes();
     // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
+    offerPurchase();
   }
 
   private void study() {
@@ -82,6 +87,14 @@ public class Worker extends Agent {
   }
 
   private void offerSale() {
+    Set<Offer> offers = new HashSet<>();
+    TradeableProduct toSell;
+    for (Product p : saleBag)
+      if (p instanceof TradeableProduct) {
+        toSell = (TradeableProduct) p;
+        offers.add(new Offer(this, toSell, saleBag.countTradeable(toSell), false));
+      }
+    simulation.stock().addOffer(offers, this);
   }
 
   private void offerPurchase() {
@@ -91,6 +104,14 @@ public class Worker extends Agent {
   private void eat() {
     if (workerBag.takeFood(DAILY_FOOD_CONSUMPTION) < 0)
       starve();
+  }
+
+  public void giveStartingResources(int food, int clothes, int tools, int diamonds, int programs) {
+    workerBag.storeFood(food);
+    workerBag.storeDiamonds(diamonds);
+    workerBag.storeProduct(new Clothes(1), clothes);
+    workerBag.storeProduct(new Tool(1), tools);
+    workerBag.storeProduct(new Program(1), programs);
   }
 
   public int starvationLevel() {
@@ -103,5 +124,10 @@ public class Worker extends Agent {
 
   public Career getCareer() {
     return career;
+  }
+
+  @Override
+  public String toString() {
+    return "Worker " + id();
   }
 }

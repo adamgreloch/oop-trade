@@ -8,5 +8,5 @@ import pl.edu.mimuw.bag.Bag;
  */
 public interface ProductionStrategy {
 
-  void produce(Worker worker, Bag storage);
+  void produce(Worker worker, Bag destination);
 }

@@ -1,7 +1,7 @@
 package pl.edu.mimuw.agents.purchase;
 
-import pl.edu.mimuw.stock.Offer;
 import pl.edu.mimuw.agents.Worker;
+import pl.edu.mimuw.stock.Offer;
 
 import java.util.Set;
 

@@ -5,9 +5,4 @@ public class Program extends DistinguishableProduct {
   public Program(int level) {
     super(level, "program", 3);
   }
-
-  @Override
-  public String toString() {
-    return null;
-  }
 }

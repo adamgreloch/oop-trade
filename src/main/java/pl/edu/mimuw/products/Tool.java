@@ -10,11 +10,6 @@ public class Tool extends DistinguishableProduct implements ProductivityBuff {
   }
 
   @Override
-  public String toString() {
-    return null;
-  }
-
-  @Override
   public ProductivityVector getBuffValue() {
     return new ProductivityVector(level());
   }

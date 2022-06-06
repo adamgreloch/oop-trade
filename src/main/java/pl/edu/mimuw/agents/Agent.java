@@ -4,8 +4,8 @@ import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.bag.Bag;
 
 public abstract class Agent {
-  protected Simulation simulation;
   private final int id;
+  protected Simulation simulation;
   protected Bag saleBag;
   protected Bag storageBag;
 

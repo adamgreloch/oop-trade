@@ -16,6 +16,14 @@ public class Stock {
   private final Set<OfferQueue> workerOfferQueues;
   private final SortedSet<Offer> speculatorOffers;
 
+  public Stock(Simulation simulation, StockStrategy stockStrategy) {
+    this.bank = new Bank(simulation);
+    this.log = new Log();
+    this.stockStrategy = stockStrategy;
+    this.workerOfferQueues = new HashSet<>();
+    this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
+  }
+
   /**
    * Sort Speculator offers in such way, that the most beneficial one is first in the iterator.
    */
@@ -25,20 +33,13 @@ public class Stock {
     return res;
   }
 
-  public Stock(Simulation simulation, StockStrategy stockStrategy) {
-    this.bank = new Bank(simulation);
-    this.log = new Log();
-    this.stockStrategy = stockStrategy;
-    this.workerOfferQueues = new HashSet<>();
-    this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
-  }
-
   public void addOffer(Set<Offer> offers, Agent issuer) {
     if (issuer instanceof Worker) {
       OfferQueue queue = new OfferQueue(issuer);
       queue.addAll(offers);
       workerOfferQueues.add(queue);
-    } else speculatorOffers.addAll(offers);
+    }
+    else speculatorOffers.addAll(offers);
   }
 
   public void processTransactions() {
@@ -55,9 +56,7 @@ public class Stock {
             break;
           }
         }
-        {
-          workerOffer.transaction(found, log);
-        }
+        workerOffer.transaction(found, log);
       }
     }
     speculatorOffers.clear();

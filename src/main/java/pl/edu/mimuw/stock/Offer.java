@@ -7,16 +7,13 @@ import pl.edu.mimuw.products.TradeableProduct;
  * Oferty kupna i sprzedaży, które będą następnie dopasowywane przez Giełdę.
  */
 public class Offer implements Comparable<Offer> {
+  private final double price; // price per one
+  private final TradeableProduct product;
   boolean isPurchaseOffer;
   boolean isWorkerOffer = false;
-
-  private Agent issuer; // possibly redund
-  private final double price; // price per one
+  private final Agent issuer; // possibly redund
   private int quantity;
-
   private boolean highestLevelPossible = false;
-
-  private final TradeableProduct product;
 
   /**
    * Worker's offer constructor.
@@ -84,15 +81,16 @@ public class Offer implements Comparable<Offer> {
     Offer buy = this.isPurchaseOffer ? this : other;
     Offer sell = this.isPurchaseOffer ? other : this;
 
-    int sellPrice = Math.min(buy.quantity, sell.quantity);
-    log.logPrice(this.product, sellPrice);
+    int soldQuantity = Math.min(buy.quantity, sell.quantity);
 
-    sell.quantity -= sellPrice;
-    buy.quantity -= sellPrice;
+    sell.quantity -= soldQuantity;
+    buy.quantity -= soldQuantity;
 
-    double total = sellPrice * (buy.isWorkerOffer ? sell.price : buy.price);
-    sell.issuer.earnDiamonds(total);
-    buy.issuer.spendDiamonds(total);
+    double sellPrice = soldQuantity * (buy.isWorkerOffer ? sell.price : buy.price);
+    sell.issuer.earnDiamonds(sellPrice);
+    buy.issuer.spendDiamonds(sellPrice);
+
+    log.log(this.product, sellPrice, soldQuantity);
 
     return this.quantity - other.quantity;
   }

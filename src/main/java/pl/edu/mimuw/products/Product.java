@@ -16,14 +16,14 @@ public abstract class Product {
   }
 
   /**
-   * Note: two Product objects are considered type equal,
+   * @ Note: two Product objects are considered equal,
    * iff their product type (clothes, tools, programs etc.) is equal.
    * This means that objects of the same product type are not
    * distinguishable by this definition.
-   *
    * @see DistinguishableProduct
    */
-  public boolean typeEquals(Object o) {
+  @Override
+  public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Product that = (Product) o;
@@ -38,7 +38,11 @@ public abstract class Product {
   @Override
   public String toString() {
     StringBuilder res = new StringBuilder(productName);
-    if (level > 0) res.append("(level ").append(level).append(")");
+    if (level > 0) res.append(" (level ").append(level).append("), ").append(info());
     return res.toString();
+  }
+
+  public String info() {
+    return "";
   }
 }

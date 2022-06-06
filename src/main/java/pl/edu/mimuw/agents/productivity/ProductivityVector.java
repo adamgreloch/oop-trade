@@ -26,6 +26,15 @@ public class ProductivityVector {
     Arrays.fill(this.data, constant);
   }
 
+  public static int find(ProductivityVector vector, Product product) {
+    if (product instanceof Food) return vector.data[0];
+    if (product instanceof Clothes) return vector.data[1];
+    if (product instanceof Tool) return vector.data[2];
+    if (product instanceof Diamond) return vector.data[3];
+    if (product instanceof Program) return vector.data[4];
+    throw new IllegalArgumentException("Product outside of simulation scope");
+  }
+
   public void clear() {
     this.data = new int[PRODUCT_COUNT];
   }
@@ -35,15 +44,6 @@ public class ProductivityVector {
     for (int i = 0; i < PRODUCT_COUNT; i++)
       res.data[i] = this.data[i] + other.data[i];
     return res;
-  }
-
-  public static int find(ProductivityVector vector, Product product) {
-    if (product instanceof Food) return vector.data[0];
-    if (product instanceof Clothes) return vector.data[1];
-    if (product instanceof Tool) return vector.data[2];
-    if (product instanceof Diamond) return vector.data[3];
-    if (product instanceof Program) return vector.data[4];
-    throw new IllegalArgumentException("Product outside of simulation scope");
   }
 
   public ProductivityVector times(int scalar) {

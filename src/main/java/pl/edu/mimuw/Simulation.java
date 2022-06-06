@@ -13,17 +13,21 @@ import java.util.Set;
  */
 public class Simulation {
 
-  public static Random RANDOM;
+  public static Random RANDOM = new Random();
   private static int day = 1;
-  private int lastId = 0;
   private final Set<Agent> active;
   private final Set<Agent> dead;
   private final Stock stock;
+  private int lastId = 0;
 
   public Simulation(StockStrategy stockStrategy) {
     this.active = new HashSet<>();
     this.dead = new HashSet<>();
     this.stock = new Stock(this, stockStrategy);
+  }
+
+  public static int day() {
+    return day;
   }
 
   public void addAgents(Set<Agent> agents) {
@@ -38,13 +42,10 @@ public class Simulation {
     }
   }
 
-  public static int day() {
-    return day;
-  }
-
   public void moveToDead(Agent agent) {
     active.remove(agent);
     dead.add(agent);
+    System.out.println(agent + " died");
   }
 
   public Stock stock() {

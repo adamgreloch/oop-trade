@@ -1,12 +1,13 @@
 package pl.edu.mimuw.bag;
 
-import pl.edu.mimuw.Simulation;
+import pl.edu.mimuw.agents.Worker;
 import pl.edu.mimuw.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.agents.productivity.ProductivityVector;
-import pl.edu.mimuw.agents.Worker;
 import pl.edu.mimuw.products.Clothes;
 
-import java.util.Set;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class WorkerBag extends Bag implements ProductivityBuff {
   private static final int MINOR_STARVATION_PENALTY = -100;
@@ -34,21 +35,17 @@ public class WorkerBag extends Bag implements ProductivityBuff {
 
   public void wearClothes() {
     int toWear = Worker.DAILY_CLOTHES_CONSUMPTION;
-    if (clothes.size() < toWear) {
-      for (Clothes c : clothes)
-        wearWhileCheckingCondition(c);
+    if (this.clothes.size() <= toWear) {
+      this.clothes.clear();
+      return;
     }
-    else {
-      Clothes[] notWorn = this.clothes.toList().toArray(Clothes[]::new);
-      int r;
-      while (toWear > 0) {
-        r = Simulation.RANDOM.nextInt(clothes.size());
-        if (notWorn[r] != null) {
-          wearWhileCheckingCondition(notWorn[r]);
-          notWorn[r] = null;
-          toWear--;
-        }
-      }
+
+    List<Clothes> notWorn = new LinkedList<>(this.clothes);
+    Collections.shuffle(notWorn);
+    for (Clothes clothes : notWorn) {
+      if (toWear == 0) break;
+      wearWhileCheckingCondition(clothes);
+      toWear--;
     }
   }
 

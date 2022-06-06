@@ -1,10 +1,9 @@
 package pl.edu.mimuw.stock;
 
-import pl.edu.mimuw.products.TradeableProduct;
-
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
 public interface StockStrategy {
 
-  void processTransactions(Map<TradeableProduct, SalePurchaseOffers> offersPending);
+  List<OfferQueue> sortWorkerOffers(Set<OfferQueue> workerOffers);
 }

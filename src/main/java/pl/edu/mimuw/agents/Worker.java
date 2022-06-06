@@ -8,7 +8,6 @@ import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.career.Career;
 import pl.edu.mimuw.agents.career.Occupation;
-import pl.edu.mimuw.products.Bag;
 import pl.edu.mimuw.products.WorkerBag;
 import pl.edu.mimuw.agents.career.CareerStrategy;
 
@@ -17,8 +16,7 @@ public class Worker extends Agent {
   public static final int DAILY_CLOTHES_CONSUMPTION = 100;
   public static final int DAILY_FOOD_CONSUMPTION = 100;
   private final Productivity productivity;
-  private final WorkerBag bag;
-  private final Bag saleBag;
+  private final WorkerBag workerBag;
   private final Career career;
   private final CareerStrategy careerStrategy;
   private final PurchaseStrategy purchaseStrategy;
@@ -38,8 +36,8 @@ public class Worker extends Agent {
 
     this.career = new Career(occupation);
 
-    this.bag = new WorkerBag(this);
-    this.saleBag = new Bag();
+    this.workerBag = new WorkerBag(this);
+    this.storageBag = workerBag;
 
     this.careerStrategy = careerStrategy;
     this.purchaseStrategy = purchaseStrategy;
@@ -59,8 +57,8 @@ public class Worker extends Agent {
     offerSale();
     offerPurchase();
     eat();
-    bag.wearClothes();
-    bag.useAllTools();
+    workerBag.wearClothes();
+    workerBag.useAllTools();
     // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
   }
 
@@ -79,18 +77,18 @@ public class Worker extends Agent {
   }
 
   private void die() {
-    bag.clear();
+    workerBag.clear();
   }
 
   private void offerSale() {
   }
 
   private void offerPurchase() {
-    simulation.stock().addOffer(purchaseStrategy.purchasesToOffer(this));
+    simulation.stock().addOffer(purchaseStrategy.purchasesToOffer(this), this);
   }
 
   private void eat() {
-    if (bag.takeFood(DAILY_FOOD_CONSUMPTION) < 0)
+    if (workerBag.takeFood(DAILY_FOOD_CONSUMPTION) < 0)
       starve();
   }
 
@@ -100,9 +98,5 @@ public class Worker extends Agent {
 
   public ProductivityVector getProductivity() {
     return productivity.get();
-  }
-
-  public int diamonds() {
-    return bag.countDiamonds();
   }
 }

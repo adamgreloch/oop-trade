@@ -11,7 +11,7 @@ public class Bag {
   protected Set<Tool> tools;
   protected Set<Program> programs;
   private int foodAmount = 0;
-  private int diamondsAmount = 0;
+  private double diamondsAmount = 0;
 
 
   public Bag() {
@@ -25,7 +25,7 @@ public class Bag {
     foodAmount += amount;
   }
 
-  public void storeDiamonds(int amount) {
+  public void storeDiamonds(double amount) {
     if (amount < 0) throw new IllegalArgumentException();
     diamondsAmount += amount;
   }
@@ -43,9 +43,9 @@ public class Bag {
     return foodLeft;
   }
 
-  public int takeDiamonds(int amount) {
+  public double takeDiamonds(double amount) {
     if (amount < 0) throw new IllegalArgumentException();
-    int diamondsLeft = diamondsAmount - amount;
+    double diamondsLeft = diamondsAmount - amount;
     diamondsAmount = Math.max(diamondsLeft, 0);
     return diamondsLeft;
   }
@@ -78,7 +78,7 @@ public class Bag {
     return foodAmount;
   }
 
-  public int countDiamonds() {
+  public double countDiamonds() {
     return diamondsAmount;
   }
 

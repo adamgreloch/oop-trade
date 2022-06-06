@@ -20,7 +20,7 @@ public class Simulation {
   public Simulation(StockStrategy stockStrategy) {
     this.active = new HashSet<>();
     this.dead = new HashSet<>();
-    this.stock = new Stock(stockStrategy);
+    this.stock = new Stock(this, stockStrategy);
   }
 
   public void addAgents(Set<Agent> agents) {

@@ -4,7 +4,7 @@ public class Clothes extends DistinguishableProduct {
   private int daysLeft = 0;
 
   public Clothes(int level) {
-    super(level, "clothes");
+    super(level, "clothes", 1);
     this.daysLeft = level * level;
   }
 

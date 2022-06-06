@@ -6,7 +6,7 @@ import pl.edu.mimuw.agents.productivity.ProductivityVector;
 public class Tool extends DistinguishableProduct implements ProductivityBuff {
 
   public Tool(int level) {
-    super(level, "tool");
+    super(level, "tool", 2);
   }
 
   @Override

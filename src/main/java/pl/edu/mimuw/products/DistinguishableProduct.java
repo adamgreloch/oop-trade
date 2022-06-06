@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class DistinguishableProduct extends TradeableProduct {
 
-  public DistinguishableProduct(int level, String productName) {
-    super(level, productName);
+  public DistinguishableProduct(int level, String productName, int tradePriority) {
+    super(level, productName, tradePriority);
   }
 
   @Override

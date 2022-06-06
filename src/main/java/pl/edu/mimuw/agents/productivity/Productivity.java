@@ -1,4 +1,6 @@
-package pl.edu.mimuw;
+package pl.edu.mimuw.agents.productivity;
+
+import pl.edu.mimuw.Simulation;
 
 import java.util.HashSet;
 import java.util.Set;

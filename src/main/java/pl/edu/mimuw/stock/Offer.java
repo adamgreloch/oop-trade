@@ -1,29 +1,32 @@
 package pl.edu.mimuw.stock;
 
+import pl.edu.mimuw.agents.Agent;
 import pl.edu.mimuw.products.TradeableProduct;
 
 /**
  * Oferty kupna i sprzedaży, które będą następnie dopasowywane przez Giełdę.
  */
 public class Offer {
-  boolean isPurchaseOffer;
-  private boolean workerOffer = false;
+  boolean purchaseOffer;
+  boolean workerOffer = false;
 
-  private double price;
-  private int quantity;
-  private int level;
+  private Agent issuer;
+  private final double price;
+  private final int quantity;
+  private final int level;
 
   private boolean highestLevelPossible = false;
 
-  private TradeableProduct product;
+  private final TradeableProduct product;
 
   /**
    * Worker's offer constructor.
    */
-  public Offer(TradeableProduct product, int quantity, boolean isPurchaseOffer) {
+  public Offer(Agent issuer, TradeableProduct product, int quantity, boolean purchaseOffer) {
+    this.issuer = issuer;
     this.workerOffer = true;
     this.highestLevelPossible = true;
-    this.isPurchaseOffer = isPurchaseOffer;
+    this.purchaseOffer = purchaseOffer;
     this.product = product;
     this.quantity = quantity;
     this.price = 0;
@@ -33,8 +36,8 @@ public class Offer {
   /**
    * Speculator's offer constructor.
    */
-  public Offer(TradeableProduct product, int quantity, double price, boolean isPurchaseOffer) {
-    this.isPurchaseOffer = isPurchaseOffer;
+  public Offer(TradeableProduct product, int quantity, double price, boolean purchaseOffer) {
+    this.purchaseOffer = purchaseOffer;
     this.product = product;
     this.quantity = quantity;
     this.price = price;

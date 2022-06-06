@@ -1,6 +1,6 @@
-package pl.edu.mimuw.career;
+package pl.edu.mimuw.agents.career;
 
-import pl.edu.mimuw.ProductivityVector;
+import pl.edu.mimuw.agents.productivity.ProductivityVector;
 
 public abstract class Occupation {
   public static final int[] EARLY_LEVEL_BUFFS = {50, 150, 300};

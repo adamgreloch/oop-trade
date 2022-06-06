@@ -1,7 +1,7 @@
 package pl.edu.mimuw.products;
 
-import pl.edu.mimuw.ProductivityBuff;
-import pl.edu.mimuw.ProductivityVector;
+import pl.edu.mimuw.agents.productivity.ProductivityBuff;
+import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.agents.Worker;
 
 import java.util.Set;

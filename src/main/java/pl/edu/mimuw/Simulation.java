@@ -2,7 +2,7 @@ package pl.edu.mimuw;
 
 import pl.edu.mimuw.agents.Agent;
 import pl.edu.mimuw.stock.Stock;
-import pl.edu.mimuw.strategy.StockStrategy;
+import pl.edu.mimuw.stock.StockStrategy;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +11,7 @@ import java.util.Set;
  * Centrum symulacji. Przeprowadza rundy przez kolejne etapy, przeprowadza symulację przez kolejne rundy
  */
 public class Simulation {
-  private static int day = 1;
+  private static final int day = 1;
   private int lastId = 0;
   private final Set<Agent> active;
   private final Set<Agent> dead;

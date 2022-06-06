@@ -1,4 +1,4 @@
-package pl.edu.mimuw.strategy;
+package pl.edu.mimuw.agents.production;
 
 import pl.edu.mimuw.agents.Worker;
 import pl.edu.mimuw.products.Bag;

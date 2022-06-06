@@ -1,13 +1,13 @@
 package pl.edu.mimuw.agents;
 
 import pl.edu.mimuw.Simulation;
+import pl.edu.mimuw.agents.trade.TradeStrategy;
 import pl.edu.mimuw.products.Bag;
-import pl.edu.mimuw.strategy.TradeStrategy;
 
 public class Speculator extends Agent {
 
   TradeStrategy tradeStrategy;
-  private Bag bag;
+  private final Bag bag;
 
   public Speculator(Simulation simulation, TradeStrategy tradeStrategy) {
     super(simulation);
@@ -16,5 +16,9 @@ public class Speculator extends Agent {
   }
 
   public void act() {
+  }
+
+  public int diamonds() {
+    return bag.countDiamonds();
   }
 }

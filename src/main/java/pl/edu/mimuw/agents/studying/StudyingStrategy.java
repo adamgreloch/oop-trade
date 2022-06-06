@@ -1,4 +1,4 @@
-package pl.edu.mimuw.strategy;
+package pl.edu.mimuw.agents.studying;
 
 import pl.edu.mimuw.agents.Worker;
 

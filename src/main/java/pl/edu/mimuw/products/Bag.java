@@ -74,6 +74,14 @@ public class Bag {
     return new HashSet<>(programs);
   }
 
+  public int countFood() {
+    return foodAmount;
+  }
+
+  public int countDiamonds() {
+    return diamondsAmount;
+  }
+
   public void clear() {
     diamondsAmount = 0;
     foodAmount = 0;

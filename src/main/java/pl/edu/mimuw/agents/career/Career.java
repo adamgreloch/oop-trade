@@ -1,7 +1,7 @@
-package pl.edu.mimuw.career;
+package pl.edu.mimuw.agents.career;
 
-import pl.edu.mimuw.ProductivityBuff;
-import pl.edu.mimuw.ProductivityVector;
+import pl.edu.mimuw.agents.productivity.ProductivityBuff;
+import pl.edu.mimuw.agents.productivity.ProductivityVector;
 
 import java.util.HashMap;
 import java.util.Map;

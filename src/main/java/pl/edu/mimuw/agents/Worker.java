@@ -1,16 +1,16 @@
 package pl.edu.mimuw.agents;
 
-import pl.edu.mimuw.Productivity;
-import pl.edu.mimuw.ProductivityVector;
+import pl.edu.mimuw.agents.production.ProductionStrategy;
+import pl.edu.mimuw.agents.purchase.PurchaseStrategy;
+import pl.edu.mimuw.agents.studying.StudyingStrategy;
+import pl.edu.mimuw.agents.productivity.Productivity;
+import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.Simulation;
-import pl.edu.mimuw.career.Career;
-import pl.edu.mimuw.career.Occupation;
+import pl.edu.mimuw.agents.career.Career;
+import pl.edu.mimuw.agents.career.Occupation;
 import pl.edu.mimuw.products.Bag;
 import pl.edu.mimuw.products.WorkerBag;
-import pl.edu.mimuw.strategy.CareerStrategy;
-import pl.edu.mimuw.strategy.ProductionStrategy;
-import pl.edu.mimuw.strategy.PurchaseStrategy;
-import pl.edu.mimuw.strategy.StudyingStrategy;
+import pl.edu.mimuw.agents.career.CareerStrategy;
 
 public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
@@ -100,5 +100,9 @@ public class Worker extends Agent {
 
   public ProductivityVector getProductivity() {
     return productivity.get();
+  }
+
+  public int diamonds() {
+    return bag.countDiamonds();
   }
 }

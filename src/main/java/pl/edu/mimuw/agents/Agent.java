@@ -4,7 +4,7 @@ import pl.edu.mimuw.Simulation;
 
 public abstract class Agent {
   protected Simulation simulation;
-  private int id;
+  private final int id;
 
   public Agent(Simulation simulation) {
     this.simulation = simulation;
@@ -20,4 +20,6 @@ public abstract class Agent {
   public int id() {
     return id;
   }
+
+  public abstract int diamonds();
 }

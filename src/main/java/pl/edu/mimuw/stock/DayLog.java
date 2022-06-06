@@ -1,6 +1,7 @@
 package pl.edu.mimuw.stock;
 
 import pl.edu.mimuw.products.Product;
+import pl.edu.mimuw.products.Program;
 import pl.edu.mimuw.products.TradeableProduct;
 
 import java.util.HashMap;
@@ -37,12 +38,19 @@ public class DayLog {
     this.quantities.put(product, this.quantities.getOrDefault(product, 0) + soldQuantity);
   }
 
-  public void fallBack(DayLog fallBack) {
-    for (Product product : fallBack.products)
-      if (!this.products.contains(product)) {
-        this.max.put(product, fallBack.max.get(product));
-        this.average.put(product, fallBack.average.get(product));
-        this.min.put(product, fallBack.min.get(product));
-      }
+  public double min(Product product, DayLog fallBack) {
+    return this.min.getOrDefault(product, fallBack.min.get(product));
+  }
+
+  @Override
+  public String toString() {
+    return "DayLog{" +
+            "day=" + day +
+            ", products=" + products +
+            ", max=" + max +
+            ", average=" + average +
+            ", min=" + min +
+            ", quantities=" + quantities +
+            '}';
   }
 }

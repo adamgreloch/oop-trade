@@ -10,19 +10,21 @@ public class Log {
 
   private final List<DayLog> days;
   private final DayLog fallBack;
+  private DayLog previous;
   private DayLog current;
 
   public Log() {
     this.days = new LinkedList<>();
     this.current = new DayLog(1);
     this.fallBack = new DayLog(0);
+    this.previous = fallBack;
   }
 
   /**
    * @return Price of the lowest product purchase price the day before or price from zero-day.
    */
   public double previousLowest(TradeableProduct product) {
-    return 0;
+    return previous.min(product, fallBack);
   }
 
   public void setFallBackPrices(double food, double clothes, double tools, double programs) {
@@ -35,7 +37,8 @@ public class Log {
   public void log(TradeableProduct product, double sellPrice, int soldQuantity) {
     if (current.day < Simulation.day()) {
       days.add(current);
-      current.fallBack(fallBack);
+      System.out.println(current);
+      previous = current;
       current = new DayLog(Simulation.day());
     }
     current.log(product, sellPrice, soldQuantity);

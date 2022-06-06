@@ -70,4 +70,8 @@ public class Stock {
     }
     return null;
   }
+
+  public void setFallBackPrices(double food, double clothes, double tools, double programs) {
+    log.setFallBackPrices(food, clothes, tools, programs);
+  }
 }

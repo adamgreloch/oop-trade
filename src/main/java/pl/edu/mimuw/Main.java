@@ -34,6 +34,7 @@ public class Main {
     Worker w1 = new Worker(simulation, productivity,
             farmer, conservatist, technophobe, random, workaholic);
     w1.giveStartingResources(100, 100, 100, 100, 100);
+    simulation.stock().setFallBackPrices(100.0, 100.0, 100.0, 100.0);
 
     simulation.addAgents(Collections.singleton(w1));
     simulation.run(100);

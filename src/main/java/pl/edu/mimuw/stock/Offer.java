@@ -89,6 +89,7 @@ public class Offer implements Comparable<Offer> {
     double sellPrice = soldQuantity * (buy.isWorkerOffer ? sell.price : buy.price);
     sell.issuer.earnDiamonds(sellPrice);
     buy.issuer.spendDiamonds(sellPrice);
+    buy.issuer.acquireProduct(this.product, soldQuantity);
 
     log.log(this.product, sellPrice, soldQuantity);
 

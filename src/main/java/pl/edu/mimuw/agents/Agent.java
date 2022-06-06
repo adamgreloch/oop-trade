@@ -2,6 +2,7 @@ package pl.edu.mimuw.agents;
 
 import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.bag.Bag;
+import pl.edu.mimuw.products.TradeableProduct;
 
 public abstract class Agent {
   private final int id;
@@ -36,5 +37,9 @@ public abstract class Agent {
 
   public void spendDiamonds(double amount) {
     storageBag.takeDiamonds(amount);
+  }
+
+  public void acquireProduct(TradeableProduct product, int quantity) {
+    storageBag.storeProduct(product, quantity);
   }
 }

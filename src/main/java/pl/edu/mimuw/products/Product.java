@@ -22,6 +22,9 @@ public abstract class Product {
    * distinguishable by this definition.
    * @see DistinguishableProduct
    */
+
+  // TODO this is actually overridden in most cases in subclasses and does not work
+  // as intended
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

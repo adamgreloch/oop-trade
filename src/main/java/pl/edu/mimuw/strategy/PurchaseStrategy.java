@@ -1,6 +1,6 @@
 package pl.edu.mimuw.strategy;
 
-import pl.edu.mimuw.Offer;
+import pl.edu.mimuw.stock.Offer;
 import pl.edu.mimuw.agents.Worker;
 
 import java.util.Set;

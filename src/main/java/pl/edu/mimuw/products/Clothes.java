@@ -1,6 +1,6 @@
 package pl.edu.mimuw.products;
 
-public class Clothes extends TradeableProduct {
+public class Clothes extends DistinguishableProduct {
   private int daysLeft = 0;
 
   public Clothes(int level) {

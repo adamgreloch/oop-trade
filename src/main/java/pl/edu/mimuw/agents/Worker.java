@@ -86,7 +86,7 @@ public class Worker extends Agent {
   }
 
   private void offerPurchase() {
-    simulation.stock().hearPurchaseOffers(purchaseStrategy.purchasesToOffer(this));
+    simulation.stock().addOffer(purchaseStrategy.purchasesToOffer(this));
   }
 
   private void eat() {

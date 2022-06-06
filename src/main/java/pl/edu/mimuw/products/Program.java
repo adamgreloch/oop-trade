@@ -1,6 +1,6 @@
 package pl.edu.mimuw.products;
 
-public class Program extends TradeableProduct {
+public class Program extends DistinguishableProduct {
 
   public Program(int level) {
     super(level, "program");

@@ -3,8 +3,8 @@ package pl.edu.mimuw.products;
 import java.util.Objects;
 
 public abstract class TradeableProduct {
-  private final String productName;
-  private final int level;
+  protected final String productName;
+  protected final int level;
 
   public TradeableProduct(int level, String productName) {
     this.productName = productName;
@@ -20,12 +20,12 @@ public abstract class TradeableProduct {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     TradeableProduct that = (TradeableProduct) o;
-    return productName.equals(that.productName) && level == that.level;
+    return productName.equals(that.productName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productName, level);
+    return Objects.hash(productName);
   }
 
   @Override

@@ -3,7 +3,7 @@ package pl.edu.mimuw.products;
 import pl.edu.mimuw.ProductivityBuff;
 import pl.edu.mimuw.ProductivityVector;
 
-public class Tool extends TradeableProduct implements ProductivityBuff {
+public class Tool extends DistinguishableProduct implements ProductivityBuff {
 
   public Tool(int level) {
     super(level, "tool");

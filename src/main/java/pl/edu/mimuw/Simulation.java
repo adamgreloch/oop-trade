@@ -1,6 +1,7 @@
 package pl.edu.mimuw;
 
 import pl.edu.mimuw.agents.Agent;
+import pl.edu.mimuw.stock.Stock;
 import pl.edu.mimuw.strategy.StockStrategy;
 
 import java.util.HashSet;

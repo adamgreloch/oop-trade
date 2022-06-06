@@ -30,6 +30,12 @@ public class Bag {
     diamondsAmount += amount;
   }
 
+  /**
+   * Takes food from a Bag.
+   *
+   * @param amount amount of food to be taken
+   * @return how much food left in a Bag
+   */
   public int takeFood(int amount) {
     if (amount < 0) throw new IllegalArgumentException();
     int foodLeft = foodAmount - amount;

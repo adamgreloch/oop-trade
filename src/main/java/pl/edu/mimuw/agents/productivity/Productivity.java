@@ -25,10 +25,6 @@ public class Productivity {
     this.buffs.add(buff);
   }
 
-  public ProductivityVector get() {
-    return base.add(getTotalBuff());
-  }
-
   private ProductivityVector getTotalBuff() {
     if (lastUpdated < Simulation.day()) {
       totalBuff.clear();
@@ -37,6 +33,10 @@ public class Productivity {
       lastUpdated = Simulation.day();
     }
     return totalBuff;
+  }
+
+  public ProductivityVector get() {
+    return base.add(getTotalBuff());
   }
 
   public int food() {

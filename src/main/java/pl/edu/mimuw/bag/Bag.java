@@ -1,23 +1,19 @@
-package pl.edu.mimuw.products;
+package pl.edu.mimuw.bag;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import pl.edu.mimuw.Multiset;
+import pl.edu.mimuw.products.*;
 
 public class Bag {
-  protected static Random RANDOM;
-  protected Set<Clothes> clothes;
-  protected Set<Tool> tools;
-  protected Set<Program> programs;
+  protected Multiset<Clothes> clothes;
+  protected Multiset<Tool> tools;
+  protected Multiset<Program> programs;
   private int foodAmount = 0;
   private double diamondsAmount = 0;
 
-
   public Bag() {
-    this.clothes = new HashSet<>();
-    this.tools = new HashSet<>();
-    this.programs = new HashSet<>();
+    this.clothes = new Multiset<>();
+    this.tools = new Multiset<>();
+    this.programs = new Multiset<>();
   }
 
   public void storeFood(int amount) {
@@ -50,28 +46,24 @@ public class Bag {
     return diamondsLeft;
   }
 
-  public void storeClothes(Clothes... clothes) {
-    this.clothes.addAll(List.of(clothes));
+  public void storeProduct(Product product, int quantity) {
+    if (product instanceof Food) storeFood(quantity);
+    if (product instanceof Diamond) storeDiamonds(quantity);
+    if (product instanceof Clothes) this.clothes.add((Clothes) product, quantity);
+    if (product instanceof Tool) this.tools.add((Tool) product, quantity);
+    if (product instanceof Program) this.programs.add((Program) product, quantity);
   }
 
-  public void storeTools(Tool... tools) {
-    this.tools.addAll(List.of(tools));
+  public Multiset<Clothes> getClothes() {
+    return new Multiset<>(clothes);
   }
 
-  public void storePrograms(Program... programs) {
-    this.programs.addAll(List.of(programs));
+  public Multiset<Tool> getTools() {
+    return new Multiset<>(tools);
   }
 
-  public Set<Clothes> getClothes() {
-    return new HashSet<>(clothes);
-  }
-
-  public Set<Tool> getTools() {
-    return new HashSet<>(tools);
-  }
-
-  public Set<Program> getPrograms() {
-    return new HashSet<>(programs);
+  public Multiset<Program> getPrograms() {
+    return new Multiset<>(programs);
   }
 
   public int countFood() {

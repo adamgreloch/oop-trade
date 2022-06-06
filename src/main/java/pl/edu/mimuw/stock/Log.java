@@ -2,9 +2,9 @@ package pl.edu.mimuw.stock;
 
 import pl.edu.mimuw.products.TradeableProduct;
 
-public class History {
+public class Log {
 
-  public History() {
+  public Log() {
   }
 
   /**
@@ -12,5 +12,9 @@ public class History {
    */
   public double previousLowest(TradeableProduct product) {
     return 0;
+  }
+
+  public void logPrice(TradeableProduct product, double sellPrice) {
+    System.out.println(product + " " + sellPrice);
   }
 }

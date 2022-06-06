@@ -2,6 +2,7 @@ package pl.edu.mimuw.agents.career;
 
 import pl.edu.mimuw.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.agents.productivity.ProductivityVector;
+import pl.edu.mimuw.products.Product;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +28,15 @@ public class Career implements ProductivityBuff {
     return careers.get(current);
   }
 
+  public Product currentProduct() {
+    return current.produceBuffedProduct(occupationLevel());
+  }
+
   public void advanceLevel() {
     careers.put(current, occupationLevel() + 1);
   }
 
   public ProductivityVector getBuffValue() {
-    return current.getBuffValueForLevel(occupationLevel());
+    return current.getBuffVector(occupationLevel());
   }
 }

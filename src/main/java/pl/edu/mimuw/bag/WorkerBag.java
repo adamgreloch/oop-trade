@@ -1,8 +1,10 @@
-package pl.edu.mimuw.products;
+package pl.edu.mimuw.bag;
 
+import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.agents.Worker;
+import pl.edu.mimuw.products.Clothes;
 
 import java.util.Set;
 
@@ -37,10 +39,10 @@ public class WorkerBag extends Bag implements ProductivityBuff {
         wearWhileCheckingCondition(c);
     }
     else {
-      Clothes[] notWorn = Set.copyOf(this.clothes).toArray(Clothes[]::new);
+      Clothes[] notWorn = this.clothes.toList().toArray(Clothes[]::new);
       int r;
       while (toWear > 0) {
-        r = RANDOM.nextInt(clothes.size());
+        r = Simulation.RANDOM.nextInt(clothes.size());
         if (notWorn[r] != null) {
           wearWhileCheckingCondition(notWorn[r]);
           notWorn[r] = null;

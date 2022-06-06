@@ -11,7 +11,7 @@ import java.util.*;
 public class Stock {
 
   private final Bank bank;
-  private final History history;
+  private final Log log;
   private final StockStrategy stockStrategy;
   private final Set<OfferQueue> workerOfferQueues;
   private final SortedSet<Offer> speculatorOffers;
@@ -27,7 +27,7 @@ public class Stock {
 
   public Stock(Simulation simulation, StockStrategy stockStrategy) {
     this.bank = new Bank(simulation);
-    this.history = new History();
+    this.log = new Log();
     this.stockStrategy = stockStrategy;
     this.workerOfferQueues = new HashSet<>();
     this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
@@ -49,11 +49,14 @@ public class Stock {
         found = findBestSpeculatorOffer(workerOffer.product());
         if (found == null) {
           if (!workerOffer.isPurchaseOffer)
-            bank.buyAll(workerOffer, history.previousLowest(workerOffer.product()));
+            found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product()));
           else {
             workerOfferQueues.remove(workerOfferQueue);
             break;
           }
+        }
+        {
+          workerOffer.transaction(found, log);
         }
       }
     }

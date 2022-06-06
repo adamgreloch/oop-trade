@@ -78,18 +78,19 @@ public class Offer implements Comparable<Offer> {
    * zero if both have been completed, positive integer if other
    * has been completed.
    */
-  public int transaction(Offer other) {
+  public int transaction(Offer other, Log log) {
     assert this.product.equals(other.product);
     assert this.isPurchaseOffer != other.isPurchaseOffer;
     Offer buy = this.isPurchaseOffer ? this : other;
     Offer sell = this.isPurchaseOffer ? other : this;
 
-    int sold = Math.min(buy.quantity, sell.quantity);
+    int sellPrice = Math.min(buy.quantity, sell.quantity);
+    log.logPrice(this.product, sellPrice);
 
-    sell.quantity -= sold;
-    buy.quantity -= sold;
+    sell.quantity -= sellPrice;
+    buy.quantity -= sellPrice;
 
-    double total = sold * (buy.isWorkerOffer ? sell.price : buy.price);
+    double total = sellPrice * (buy.isWorkerOffer ? sell.price : buy.price);
     sell.issuer.earnDiamonds(total);
     buy.issuer.spendDiamonds(total);
 

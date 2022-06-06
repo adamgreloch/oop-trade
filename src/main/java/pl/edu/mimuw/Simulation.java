@@ -5,13 +5,16 @@ import pl.edu.mimuw.stock.Stock;
 import pl.edu.mimuw.stock.StockStrategy;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
  * Centrum symulacji. Przeprowadza rundy przez kolejne etapy, przeprowadza symulację przez kolejne rundy
  */
 public class Simulation {
-  private static final int day = 1;
+
+  public static Random RANDOM;
+  private static int day = 1;
   private int lastId = 0;
   private final Set<Agent> active;
   private final Set<Agent> dead;
@@ -25,6 +28,14 @@ public class Simulation {
 
   public void addAgents(Set<Agent> agents) {
     active.addAll(agents);
+  }
+
+  public void run(int duration) {
+    while (day <= duration) {
+      active.forEach(Agent::act);
+      stock.processTransactions();
+      day++;
+    }
   }
 
   public static int day() {

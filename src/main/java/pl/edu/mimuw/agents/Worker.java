@@ -8,7 +8,7 @@ import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.career.Career;
 import pl.edu.mimuw.agents.career.Occupation;
-import pl.edu.mimuw.products.WorkerBag;
+import pl.edu.mimuw.bag.WorkerBag;
 import pl.edu.mimuw.agents.career.CareerStrategy;
 
 public class Worker extends Agent {
@@ -78,6 +78,7 @@ public class Worker extends Agent {
 
   private void die() {
     workerBag.clear();
+    simulation.moveToDead(this);
   }
 
   private void offerSale() {
@@ -98,5 +99,9 @@ public class Worker extends Agent {
 
   public ProductivityVector getProductivity() {
     return productivity.get();
+  }
+
+  public Career getCareer() {
+    return career;
   }
 }

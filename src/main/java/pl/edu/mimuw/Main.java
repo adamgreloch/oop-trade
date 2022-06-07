@@ -5,6 +5,7 @@ import pl.edu.mimuw.agents.Worker;
 import pl.edu.mimuw.agents.career.*;
 import pl.edu.mimuw.agents.production.ProductionStrategy;
 import pl.edu.mimuw.agents.production.Random;
+import pl.edu.mimuw.agents.production.Shortsighted;
 import pl.edu.mimuw.agents.productivity.Productivity;
 import pl.edu.mimuw.agents.purchase.PurchaseStrategy;
 import pl.edu.mimuw.agents.purchase.Technophobe;
@@ -28,12 +29,15 @@ public class Main {
     Occupation farmer = new Farmer();
     Occupation engineer = new Engineer();
     Occupation craftsman = new Craftsman();
+
     ProductionStrategy random = new Random();
+    ProductionStrategy shortsighted = new Shortsighted(simulation.stock());
+
     Productivity productivity = new Productivity(100, 100,
             100, 100, 100);
 
     Worker w1 = new Worker(simulation, productivity,
-            farmer, conservative, technophobe, random, workaholic);
+            farmer, conservative, technophobe, shortsighted, workaholic);
     w1.giveStartingResources(100, 100, 100, 100, 100);
 
     Worker w2 = new Worker(simulation, productivity,

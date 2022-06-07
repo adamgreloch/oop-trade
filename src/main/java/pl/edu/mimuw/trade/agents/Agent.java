@@ -18,9 +18,9 @@ public abstract class Agent {
 
 
   // TODO is simulation needed?
-  public Agent(Simulation simulation) {
+  public Agent(int id, Simulation simulation) {
     this.simulation = simulation;
-    this.id = simulation.assignId();
+    this.id = id;
     this.saleBag = new Bag();
     this.storageBag = saleBag;
   }

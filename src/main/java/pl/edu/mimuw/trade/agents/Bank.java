@@ -8,7 +8,7 @@ import static java.lang.Double.MAX_VALUE;
 public class Bank extends Agent {
 
   public Bank(Simulation simulation) {
-    super(simulation);
+    super(Integer.MAX_VALUE, simulation);
   }
 
   public void act() {

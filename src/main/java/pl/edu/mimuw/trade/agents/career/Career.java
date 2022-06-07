@@ -11,10 +11,10 @@ public class Career implements ProductivityBuff {
   private final Map<Occupation, Integer> careers; // Value indicates advancement level
   private Occupation current;
 
-  public Career(Occupation current) {
+  public Career(Occupation current, int currentLevel) {
     this.current = current;
     this.careers = new HashMap<>();
-    this.careers.put(current, 1);
+    this.careers.put(current, currentLevel);
   }
 
   public void changeOccupation(Occupation next) {

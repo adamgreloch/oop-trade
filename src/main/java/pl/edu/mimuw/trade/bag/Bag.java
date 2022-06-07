@@ -61,7 +61,7 @@ public class Bag {
 
   public void storeNewProducts(Product product, int quantity) {
     if (quantity < 0) throw new IllegalArgumentException();
-    if (product instanceof Food) storeFood(quantity);
+    if (product instanceof Food) storeFood(quantity); // TODO should add to saleBag not storageBag!!!
     if (product instanceof Diamond) storeDiamonds(quantity);
     if (product instanceof Clothes) storeClothes(product.level(), quantity);
     if (product instanceof Tool) storeTools(product.level(), quantity);

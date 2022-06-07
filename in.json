@@ -1,0 +1,46 @@
+{
+  "info": {
+    "dlugosc": 5,
+    "gielda": "kapitalistyczna",
+    "ceny": {
+      "programy": 10,
+      "jedzenie": 125.27,
+      "ubrania": 10,
+      "narzedzia": 105
+    }
+  },
+  "robotnicy": [
+    {
+      "id": 1,
+      "poziom": 1,
+      "kariera": "rolnik",
+      "kupowanie": "technofob",
+      "produkcja": "krotkowzroczny",
+      "uczenie": {
+        "typ": "oszczedny",
+        "limit_diamentow": 10000
+      },
+      "zmiana": "konserwatysta",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100
+      }
+    }
+  ],
+  "spekulanci": [
+    {
+      "id": 12,
+      "kariera": "sredni"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Bank;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.TradeableProduct;
+import pl.edu.mimuw.trade.stock.strategy.StockStrategy;
 
 import java.util.*;
 

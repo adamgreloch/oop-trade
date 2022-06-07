@@ -1,9 +1,10 @@
 package pl.edu.mimuw.trade.stock;
 
 import pl.edu.mimuw.trade.agents.Agent;
+import pl.edu.mimuw.trade.stock.strategy.StockStrategy;
 
+import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -28,8 +29,8 @@ public class Simulation {
     return day;
   }
 
-  public void addAgents(Agent... agents) {
-    active.addAll(List.of(agents));
+  public void addAgents(Collection<Agent> agents) {
+    active.addAll(agents);
   }
 
   public void run(int duration) {

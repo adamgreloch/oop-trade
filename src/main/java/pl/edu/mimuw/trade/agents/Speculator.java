@@ -7,8 +7,8 @@ public class Speculator extends Agent {
 
   SpeculationStrategy speculationStrategy;
 
-  public Speculator(Simulation simulation, SpeculationStrategy speculationStrategy) {
-    super(simulation);
+  public Speculator(int id, Simulation simulation, SpeculationStrategy speculationStrategy) {
+    super(id, simulation);
     this.speculationStrategy = speculationStrategy;
   }
 

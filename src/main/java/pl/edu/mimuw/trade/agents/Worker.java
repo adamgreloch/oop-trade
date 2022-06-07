@@ -30,21 +30,18 @@ public class Worker extends Agent {
   private final StudyingStrategy studyingStrategy;
   private int hunger = 0;
 
-  public Worker(Simulation simulation,
-                Productivity productivity,
+  public Worker(int id, Simulation simulation, Productivity productivity,
                 Occupation occupation,
+                int occupationLevel,
                 CareerStrategy careerStrategy,
                 PurchaseStrategy purchaseStrategy,
                 ProductionStrategy productionStrategy,
                 StudyingStrategy studyingStrategy) {
-    super(simulation);
+    super(id, simulation);
     this.productivity = productivity;
-
-    this.career = new Career(occupation);
-
+    this.career = new Career(occupation, occupationLevel);
     this.workerBag = new WorkerBag(this);
     this.storageBag = workerBag;
-
     this.careerStrategy = careerStrategy;
     this.purchaseStrategy = purchaseStrategy;
     this.productionStrategy = productionStrategy;

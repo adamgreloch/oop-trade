@@ -45,15 +45,27 @@ public class DayLog {
     return this.min.getOrDefault(product, fallBack.min.get(product));
   }
 
+  public boolean soldThatDay(TradeableProduct product) {
+    return this.products.contains(product.ignoreLevel());
+  }
+
+  public double getAveragePrice(TradeableProduct product) {
+    return this.average.get(product.ignoreLevel());
+  }
+
+  public int getSoldQuantity(TradeableProduct product) {
+    return this.quantities.get(product.ignoreLevel());
+  }
+
   @Override
   public String toString() {
-    return "DayLog{" +
+    return "\nDayLog{" +
             "day=" + day +
-            ", products=" + products +
-            ", max=" + max +
-            ", average=" + average +
-            ", min=" + min +
-            ", quantities=" + quantities +
+            ", \nproducts=" + products +
+            ", \nmax=" + max +
+            ", \naverage=" + average +
+            ", \nmin=" + min +
+            ", \nquantities=" + quantities +
             '}';
   }
 }

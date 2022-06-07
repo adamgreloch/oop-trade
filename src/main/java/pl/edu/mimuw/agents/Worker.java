@@ -1,6 +1,5 @@
 package pl.edu.mimuw.agents;
 
-import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.career.Career;
 import pl.edu.mimuw.agents.career.CareerStrategy;
 import pl.edu.mimuw.agents.career.Occupation;
@@ -12,6 +11,7 @@ import pl.edu.mimuw.agents.studying.StudyingStrategy;
 import pl.edu.mimuw.bag.WorkerBag;
 import pl.edu.mimuw.products.*;
 import pl.edu.mimuw.stock.Offer;
+import pl.edu.mimuw.stock.Simulation;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -86,7 +86,7 @@ public class Worker extends Agent {
 
   private void die() {
     workerBag.clear();
-    simulation.moveToDead(this);
+    isAlive = false;
   }
 
   public void makeOffers() {
@@ -109,14 +109,6 @@ public class Worker extends Agent {
       starve();
   }
 
-  public void giveStartingResources(int food, int clothes, int tools, int diamonds, int programs) {
-    workerBag.storeFood(food);
-    workerBag.storeDiamonds(diamonds);
-    workerBag.storeNewProducts(new Clothes(1), clothes);
-    workerBag.storeNewProducts(new Tool(1), tools);
-    workerBag.storeNewProducts(new Program(1), programs);
-  }
-
   public int starvationLevel() {
     return hunger;
   }
@@ -135,8 +127,17 @@ public class Worker extends Agent {
     productivity.updateBuffs();
   }
 
+  public void giveStartingResources(int food, int clothes, int tools, double diamonds, int programs) {
+    storageBag.storeFood(food);
+    storageBag.storeDiamonds(diamonds);
+    storageBag.storeNewProducts(new Clothes(1), clothes);
+    storageBag.storeNewProducts(new Tool(1), tools);
+    storageBag.storeNewProducts(new Program(1), programs);
+  }
+
   @Override
   public String toString() {
-    return "Worker " + id() + " (Food: " + workerBag.countFood() + ", diamonds: " + workerBag.countDiamonds() + ")";
+    return "Worker (Agent " + id() + ", Food: " + workerBag.countFood() + ", diamonds: " + workerBag.countDiamonds() +
+            ")";
   }
 }

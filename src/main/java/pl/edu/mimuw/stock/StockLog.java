@@ -1,19 +1,18 @@
 package pl.edu.mimuw.stock;
 
-import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.products.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Log {
+public class StockLog {
 
   private final List<DayLog> days;
   private final DayLog fallBack;
   private DayLog previous;
   private DayLog current;
 
-  public Log() {
+  public StockLog() {
     this.days = new LinkedList<>();
     this.current = new DayLog(1);
     this.fallBack = new DayLog(0);
@@ -44,6 +43,16 @@ public class Log {
       previous = current;
       current = new DayLog(Simulation.day());
     }
+  }
+
+  public double getAveragePrice(int day, TradeableProduct product) {
+    if (days.isEmpty() || day == 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getAveragePrice(product);
+    return days.get(day - 1).getAveragePrice(product);
+  }
+
+  public int getSoldQuantity(int day, TradeableProduct product) {
+    if (days.isEmpty() || day == 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getSoldQuantity(product);
+    return days.get(day - 1).getSoldQuantity(product);
   }
 
   public String printCurrent() {

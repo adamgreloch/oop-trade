@@ -35,19 +35,21 @@ public class Product {
     return productName.equals(that.productName);
   }
 
+  public boolean productEquals(Product product) {
+    return this.productName.equals(product.productName);
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(productName);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder res = new StringBuilder(productName);
-    if (level > 0) res.append(" (level ").append(level).append("), ").append(info());
-    return res.toString();
-  }
-
   public String info() {
     return "";
+  }
+
+  @Override
+  public String toString() {
+    return productName;
   }
 }

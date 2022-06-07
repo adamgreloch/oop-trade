@@ -48,6 +48,17 @@ public class Bag {
     return diamondsLeft;
   }
 
+  public int quantity(TradeableProduct product) {
+    if (product instanceof Food) return countFood();
+    if (product instanceof Clothes && clothes.containsKey(product.level()))
+      return clothes.get(product.level()).size();
+    if (product instanceof Tool && tools.containsKey(product.level()))
+      return tools.get(product.level()).size();
+    if (product instanceof Program && programs.containsKey(product.level()))
+      return programs.get(product.level()).size();
+    return 0;
+  }
+
   public void storeNewProducts(Product product, int quantity) {
     if (quantity < 0) throw new IllegalArgumentException();
     if (product instanceof Food) storeFood(quantity);

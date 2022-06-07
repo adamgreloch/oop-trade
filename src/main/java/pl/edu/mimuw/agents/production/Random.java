@@ -1,11 +1,11 @@
 package pl.edu.mimuw.agents.production;
 
-import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.Worker;
 import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.bag.Bag;
 import pl.edu.mimuw.products.Product;
 import pl.edu.mimuw.products.ProductFactory;
+import pl.edu.mimuw.stock.Simulation;
 
 public class Random implements ProductionStrategy {
   public Random() {

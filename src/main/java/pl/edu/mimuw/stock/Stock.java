@@ -1,6 +1,5 @@
 package pl.edu.mimuw.stock;
 
-import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.Agent;
 import pl.edu.mimuw.agents.Bank;
 import pl.edu.mimuw.agents.Worker;
@@ -11,14 +10,14 @@ import java.util.*;
 public class Stock {
 
   private final Bank bank;
-  private final Log log;
+  private final StockLog log;
   private final StockStrategy stockStrategy;
   private final Set<OfferQueue> workerOfferQueues;
   private final SortedSet<Offer> speculatorOffers;
 
   public Stock(Simulation simulation, StockStrategy stockStrategy) {
     this.bank = new Bank(simulation);
-    this.log = new Log();
+    this.log = new StockLog();
     this.stockStrategy = stockStrategy;
     this.workerOfferQueues = new HashSet<>();
     this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
@@ -42,7 +41,7 @@ public class Stock {
     else speculatorOffers.addAll(offers);
   }
 
-  public void processTransactions() {
+  void processTransactions() {
     List<OfferQueue> sorted = stockStrategy.sortWorkerOffers(workerOfferQueues);
     Offer found;
     for (OfferQueue workerOfferQueue : sorted) {
@@ -52,7 +51,7 @@ public class Stock {
         if (workerOffer == null || workerOffer.isCompleted())
           workerOffer = workerOfferQueueIterator.next();
 
-        found = findBestSpeculatorOffer(workerOffer.product());
+        found = findBestSpeculatorOffer(workerOffer);
         if (found == null) {
           if (workerOffer.offerType == OfferType.SELL)
             found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product()));
@@ -63,15 +62,16 @@ public class Stock {
         }
 
         workerOffer.transaction(found, log);
+        if (found.isCompleted()) speculatorOffers.remove(found);
       }
     }
     speculatorOffers.clear();
     workerOfferQueues.clear();
   }
 
-  private Offer findBestSpeculatorOffer(TradeableProduct interest) {
+  private Offer findBestSpeculatorOffer(Offer workerOffer) {
     for (Offer offer : speculatorOffers) {
-      if (offer.product().equals(interest))
+      if (offer.matches(workerOffer))
         return offer;
     }
     return null;
@@ -81,8 +81,16 @@ public class Stock {
     log.setFallBackPrices(food, clothes, tools, programs);
   }
 
-  public void newDay() {
+  void newDay() {
     log.newDay();
+  }
+
+  public double getAveragePrice(int day, TradeableProduct product) {
+    return log.getAveragePrice(day, product);
+  }
+
+  public int getSoldQuantity(int day, TradeableProduct product) {
+    return log.getSoldQuantity(day, product);
   }
 
   public String getDayLog() {

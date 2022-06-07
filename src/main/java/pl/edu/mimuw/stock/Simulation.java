@@ -1,8 +1,6 @@
-package pl.edu.mimuw;
+package pl.edu.mimuw.stock;
 
 import pl.edu.mimuw.agents.Agent;
-import pl.edu.mimuw.stock.Stock;
-import pl.edu.mimuw.stock.StockStrategy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,16 +41,22 @@ public class Simulation {
 
       active.forEach(Agent::finishDay);
 
+      checkForDeaths();
       System.out.println(stock.getDayLog());
       day++;
       stock.newDay();
     }
   }
 
-  public void moveToDead(Agent agent) {
-    active.remove(agent);
-    dead.add(agent);
-    System.out.println(agent + " died on day " + day);
+  public void checkForDeaths() {
+    for (Agent agent : active)
+      if (agent.isDead()) {
+        dead.add(agent);
+        System.out.println(agent + " died on day " + day);
+      }
+
+    for (Agent deadAgent : dead)
+      active.remove(deadAgent);
   }
 
   public Stock stock() {

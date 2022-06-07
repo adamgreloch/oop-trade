@@ -32,6 +32,8 @@ public class Offer implements Comparable<Offer> {
     this.price = price;
   }
 
+  // TODO offer factory
+
   /**
    * Worker's offer constructor.
    */
@@ -80,9 +82,8 @@ public class Offer implements Comparable<Offer> {
    * Assumes that buyer ({@code buy.issuer}) is financially capable of this
    * transaction.
    */
-  public void transaction(Offer other, Log log) {
-    assert this.product.equals(other.product);
-    assert this.offerType != other.offerType;
+  public void transaction(Offer other, StockLog log) {
+    assert this.matches(other);
     Offer buy = this.offerType == BUY ? this : other;
     Offer sell = this.offerType == BUY ? other : this;
 
@@ -105,6 +106,13 @@ public class Offer implements Comparable<Offer> {
     int res = this.quantity - other.quantity;
     if (res <= 0) this.isCompleted = true;
     if (res >= 0) other.isCompleted = true;
+  }
+
+  public boolean matches(Offer other) {
+    if (this.offerType == other.offerType) return false;
+    if (this.isWorkerOffer == other.isWorkerOffer) return false;
+    if (this.product.level() != other.product.level()) return false;
+    return this.product.productEquals(other.product);
   }
 
   public boolean isCompleted() {

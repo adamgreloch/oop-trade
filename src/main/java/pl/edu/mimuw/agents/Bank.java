@@ -1,7 +1,7 @@
 package pl.edu.mimuw.agents;
 
-import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.stock.Offer;
+import pl.edu.mimuw.stock.Simulation;
 
 import static java.lang.Double.MAX_VALUE;
 

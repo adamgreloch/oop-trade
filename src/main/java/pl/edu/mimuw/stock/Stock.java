@@ -46,16 +46,22 @@ public class Stock {
     List<OfferQueue> sorted = stockStrategy.sortWorkerOffers(workerOfferQueues);
     Offer found;
     for (OfferQueue workerOfferQueue : sorted) {
-      for (Offer workerOffer : workerOfferQueue) {
+      Iterator<Offer> workerOfferQueueIterator = workerOfferQueue.iterator();
+      Offer workerOffer = workerOfferQueueIterator.next();
+      while (workerOfferQueueIterator.hasNext()) {
+        if (workerOffer.isCompleted())
+          workerOffer = workerOfferQueueIterator.next();
+
         found = findBestSpeculatorOffer(workerOffer.product());
         if (found == null) {
-          if (!workerOffer.isPurchaseOffer)
+          if (workerOffer.offerType == OfferType.SELL)
             found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product()));
           else {
             workerOfferQueues.remove(workerOfferQueue);
             break;
           }
         }
+
         workerOffer.transaction(found, log);
       }
     }

@@ -34,6 +34,10 @@ public class OfferQueue implements Iterable<Offer> {
     return offers.spliterator();
   }
 
+  public boolean isEmpty() {
+    return offers.isEmpty();
+  }
+
   public Agent issuer() {
     return issuer;
   }

@@ -3,40 +3,45 @@ package pl.edu.mimuw.stock;
 import pl.edu.mimuw.agents.Agent;
 import pl.edu.mimuw.products.TradeableProduct;
 
+import static pl.edu.mimuw.stock.OfferType.BUY;
+import static pl.edu.mimuw.stock.OfferType.SELL;
+
 /**
  * Oferty kupna i sprzedaży, które będą następnie dopasowywane przez Giełdę.
  */
 public class Offer implements Comparable<Offer> {
+
   private final double price; // price per one
   private final TradeableProduct product;
-  boolean isPurchaseOffer;
+  final OfferType offerType;
   boolean isWorkerOffer = false;
   private final Agent issuer; // possibly redund
   private int quantity;
-  private boolean highestLevelPossible = false;
+  private boolean isCompleted = false;
+
+
+  private Offer(Agent issuer, TradeableProduct product, int quantity, double price,
+                boolean isWorkerOffer, boolean isPurchaseOffer) {
+    this.issuer = issuer;
+    this.offerType = isPurchaseOffer ? BUY : SELL;
+    this.isWorkerOffer = isWorkerOffer;
+    this.product = product;
+    this.quantity = quantity;
+    this.price = price;
+  }
 
   /**
    * Worker's offer constructor.
    */
   public Offer(Agent issuer, TradeableProduct product, int quantity, boolean isPurchaseOffer) {
-    this.issuer = issuer;
-    this.isWorkerOffer = true;
-    this.highestLevelPossible = true;
-    this.isPurchaseOffer = isPurchaseOffer;
-    this.product = product;
-    this.quantity = quantity;
-    this.price = 0;
+    this(issuer, product, quantity, 0, true, isPurchaseOffer);
   }
 
   /**
    * Speculator's offer constructor.
    */
   public Offer(Agent issuer, TradeableProduct product, int quantity, double price, boolean isPurchaseOffer) {
-    this.issuer = issuer;
-    this.isPurchaseOffer = isPurchaseOffer;
-    this.product = product;
-    this.quantity = quantity;
-    this.price = price;
+    this(issuer, product, quantity, price, false, isPurchaseOffer);
   }
 
   /**
@@ -44,7 +49,7 @@ public class Offer implements Comparable<Offer> {
    */
   public Offer(Agent issuer, Offer offer, double price) {
     this(issuer, offer.product, offer.quantity, price, true);
-    assert !offer.isPurchaseOffer;
+    assert offer.offerType == SELL;
   }
 
   TradeableProduct product() {
@@ -61,38 +66,43 @@ public class Offer implements Comparable<Offer> {
 
   @Override
   public int compareTo(Offer offer) {
-    if (this.isPurchaseOffer && !offer.isPurchaseOffer) return 1;
-    if (!this.isPurchaseOffer && offer.isPurchaseOffer) return -1;
-    return this.product.tradePriority() - offer.product.tradePriority();
+    int cmp = this.offerType.compareTo(offer.offerType);
+    if (cmp == 0)
+      return this.product.tradePriority() - offer.product.tradePriority();
+    else
+      return cmp;
   }
 
   /**
    * Perform transaction between two offers if they match.
    * Assumes that buyer ({@code buy.issuer}) is financially capable of this
    * transaction.
-   *
-   * @return Negative integer if this offer has been completed,
-   * zero if both have been completed, positive integer if other
-   * has been completed.
    */
-  public int transaction(Offer other, Log log) {
+  public void transaction(Offer other, Log log) {
     assert this.product.equals(other.product);
-    assert this.isPurchaseOffer != other.isPurchaseOffer;
-    Offer buy = this.isPurchaseOffer ? this : other;
-    Offer sell = this.isPurchaseOffer ? other : this;
+    assert this.offerType != other.offerType;
+    Offer buy = this.offerType == BUY ? this : other;
+    Offer sell = this.offerType == BUY ? other : this;
 
     int soldQuantity = Math.min(buy.quantity, sell.quantity);
 
     sell.quantity -= soldQuantity;
     buy.quantity -= soldQuantity;
 
-    double sellPrice = soldQuantity * (buy.isWorkerOffer ? sell.price : buy.price);
-    sell.issuer.earnDiamonds(sellPrice);
-    buy.issuer.spendDiamonds(sellPrice);
+    double sellPrice = buy.isWorkerOffer ? sell.price : buy.price;
+    double total = sellPrice * soldQuantity;
+    sell.issuer.earnDiamonds(total);
+    buy.issuer.spendDiamonds(total);
     buy.issuer.acquireProduct(this.product, soldQuantity);
 
     log.log(this.product, sellPrice, soldQuantity);
 
-    return this.quantity - other.quantity;
+    int res = this.quantity - other.quantity;
+    if (res <= 0) this.isCompleted = true;
+    if (res >= 0) other.isCompleted = true;
+  }
+
+  public boolean isCompleted() {
+    return isCompleted;
   }
 }

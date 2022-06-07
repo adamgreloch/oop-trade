@@ -1,7 +1,6 @@
 package pl.edu.mimuw.stock;
 
 import pl.edu.mimuw.products.Product;
-import pl.edu.mimuw.products.Program;
 import pl.edu.mimuw.products.TradeableProduct;
 
 import java.util.HashMap;
@@ -29,7 +28,9 @@ public class DayLog {
     this.quantities = new HashMap<>();
   }
 
-  public void log(TradeableProduct product, double sellPrice, int soldQuantity) {
+  public void log(TradeableProduct levelled, double sellPrice, int soldQuantity) {
+    Product product = levelled.ignoreLevel();
+
     this.products.add(product);
     this.max.put(product, Math.max(this.max.getOrDefault(product, 0.0), sellPrice));
     this.min.put(product, Math.min(this.min.getOrDefault(product, MAX_VALUE), sellPrice));
@@ -38,7 +39,9 @@ public class DayLog {
     this.quantities.put(product, this.quantities.getOrDefault(product, 0) + soldQuantity);
   }
 
-  public double min(Product product, DayLog fallBack) {
+  public double min(TradeableProduct levelled, DayLog fallBack) {
+    Product product = levelled.ignoreLevel();
+
     return this.min.getOrDefault(product, fallBack.min.get(product));
   }
 

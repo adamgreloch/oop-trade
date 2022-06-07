@@ -2,7 +2,7 @@ package pl.edu.mimuw.products;
 
 import java.util.Objects;
 
-public abstract class Product {
+public class Product {
   protected final String productName;
   protected final int level;
 
@@ -18,13 +18,15 @@ public abstract class Product {
   /**
    * @ Note: two Product objects are considered equal,
    * iff their product type (clothes, tools, programs etc.) is equal.
-   * This means that objects of the same product type are not
-   * distinguishable by this definition.
+   * This means that objects of this class are not
+   * distinguishable by this definition, but subclasses can be.
    * @see DistinguishableProduct
    */
 
-  // TODO this is actually overridden in most cases in subclasses and does not work
-  // as intended
+  public Product ignoreLevel() {
+    return new Product(this.level, this.productName);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

@@ -6,7 +6,6 @@ import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.products.Clothes;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class WorkerBag extends Bag implements ProductivityBuff {
@@ -40,7 +39,7 @@ public class WorkerBag extends Bag implements ProductivityBuff {
       return;
     }
 
-    List<Clothes> notWorn = new LinkedList<>(this.clothes);
+    List<Clothes> notWorn = listClothes();
     Collections.shuffle(notWorn);
     for (Clothes clothes : notWorn) {
       if (toWear == 0) break;

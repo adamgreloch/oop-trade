@@ -21,17 +21,24 @@ public class Productivity {
     this.totalBuff = new ProductivityVector();
   }
 
+  public void clearBuffs() {
+    this.buffs.clear();
+  }
+
   public void addBuff(ProductivityBuff buff) {
     this.buffs.add(buff);
   }
 
+  public void updateBuffs() {
+    totalBuff.clear();
+    for (ProductivityBuff buff : buffs)
+      totalBuff = totalBuff.add(buff.getBuffValue());
+    lastUpdated = Simulation.day();
+  }
+
   private ProductivityVector getTotalBuff() {
-    if (lastUpdated < Simulation.day()) {
-      totalBuff.clear();
-      for (ProductivityBuff buff : buffs)
-        totalBuff = totalBuff.add(buff.getBuffValue());
-      lastUpdated = Simulation.day();
-    }
+    if (lastUpdated < Simulation.day())
+      updateBuffs();
     return totalBuff;
   }
 

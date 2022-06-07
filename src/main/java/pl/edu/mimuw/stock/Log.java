@@ -35,12 +35,18 @@ public class Log {
   }
 
   public void log(TradeableProduct product, double sellPrice, int soldQuantity) {
+    current.log(product, sellPrice, soldQuantity);
+  }
+
+  void newDay() {
     if (current.day < Simulation.day()) {
       days.add(current);
-      System.out.println(current);
       previous = current;
       current = new DayLog(Simulation.day());
     }
-    current.log(product, sellPrice, soldQuantity);
+  }
+
+  public String printCurrent() {
+    return current.toString();
   }
 }

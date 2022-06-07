@@ -14,6 +14,12 @@ public class Bank extends Agent {
   public void act() {
   }
 
+  public void makeOffers() {
+  }
+
+  public void finishDay() {
+  }
+
   @Override
   public double diamonds() {
     return MAX_VALUE;
@@ -21,6 +27,10 @@ public class Bank extends Agent {
 
   @Override
   public void earnDiamonds(double amount) {
+  }
+
+  @Override
+  public void spendDiamonds(double amount) {
   }
 
   public Offer buyAll(Offer unmetOffer, double price) {

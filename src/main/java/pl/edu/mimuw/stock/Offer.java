@@ -3,6 +3,8 @@ package pl.edu.mimuw.stock;
 import pl.edu.mimuw.agents.Agent;
 import pl.edu.mimuw.products.TradeableProduct;
 
+import java.util.Set;
+
 import static pl.edu.mimuw.stock.OfferType.BUY;
 import static pl.edu.mimuw.stock.OfferType.SELL;
 
@@ -93,7 +95,10 @@ public class Offer implements Comparable<Offer> {
     double total = sellPrice * soldQuantity;
     sell.issuer.earnDiamonds(total);
     buy.issuer.spendDiamonds(total);
-    buy.issuer.acquireProduct(this.product, soldQuantity);
+    Set<TradeableProduct> soldProducts = sell.issuer.takeProducts(this.product, soldQuantity);
+
+    for (TradeableProduct sold : soldProducts)
+      buy.issuer.acquireProducts(sold, soldQuantity);
 
     log.log(this.product, sellPrice, soldQuantity);
 

@@ -47,9 +47,9 @@ public class Stock {
     Offer found;
     for (OfferQueue workerOfferQueue : sorted) {
       Iterator<Offer> workerOfferQueueIterator = workerOfferQueue.iterator();
-      Offer workerOffer = workerOfferQueueIterator.next();
+      Offer workerOffer = null;
       while (workerOfferQueueIterator.hasNext()) {
-        if (workerOffer.isCompleted())
+        if (workerOffer == null || workerOffer.isCompleted())
           workerOffer = workerOfferQueueIterator.next();
 
         found = findBestSpeculatorOffer(workerOffer.product());
@@ -79,5 +79,13 @@ public class Stock {
 
   public void setFallBackPrices(double food, double clothes, double tools, double programs) {
     log.setFallBackPrices(food, clothes, tools, programs);
+  }
+
+  public void newDay() {
+    log.newDay();
+  }
+
+  public String getDayLog() {
+    return log.printCurrent();
   }
 }

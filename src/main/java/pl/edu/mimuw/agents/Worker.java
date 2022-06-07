@@ -14,6 +14,7 @@ import pl.edu.mimuw.products.*;
 import pl.edu.mimuw.stock.Offer;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Worker extends Agent {
@@ -58,13 +59,15 @@ public class Worker extends Agent {
   }
 
   private void work() {
+    activateBuffs();
     productionStrategy.produce(this, saleBag);
-    offerSale();
+  }
+
+  public void finishDay() {
     eat();
     workerBag.useAllTools();
     workerBag.wearClothes();
     // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
-    offerPurchase();
   }
 
   private void study() {
@@ -86,19 +89,19 @@ public class Worker extends Agent {
     simulation.moveToDead(this);
   }
 
-  private void offerSale() {
+  public void makeOffers() {
     Set<Offer> offers = new HashSet<>();
     TradeableProduct toSell;
-    for (Product p : saleBag)
+    Iterator<Product> productsToSell = saleBag.iterateThroughLevels();
+    while (productsToSell.hasNext()) {
+      Product p = productsToSell.next();
       if (p instanceof TradeableProduct) {
         toSell = (TradeableProduct) p;
         offers.add(new Offer(this, toSell, saleBag.countTradeable(toSell), false));
       }
+    }
+    offers.addAll(purchaseStrategy.purchasesToOffer(this));
     simulation.stock().addOffer(offers, this);
-  }
-
-  private void offerPurchase() {
-    simulation.stock().addOffer(purchaseStrategy.purchasesToOffer(this), this);
   }
 
   private void eat() {
@@ -109,9 +112,9 @@ public class Worker extends Agent {
   public void giveStartingResources(int food, int clothes, int tools, int diamonds, int programs) {
     workerBag.storeFood(food);
     workerBag.storeDiamonds(diamonds);
-    workerBag.storeProduct(new Clothes(1), clothes);
-    workerBag.storeProduct(new Tool(1), tools);
-    workerBag.storeProduct(new Program(1), programs);
+    workerBag.storeNewProducts(new Clothes(1), clothes);
+    workerBag.storeNewProducts(new Tool(1), tools);
+    workerBag.storeNewProducts(new Program(1), programs);
   }
 
   public int starvationLevel() {
@@ -126,8 +129,14 @@ public class Worker extends Agent {
     return career;
   }
 
+  private void activateBuffs() {
+    productivity.clearBuffs();
+    workerBag.listBuffableProducts().forEach(productivity::addBuff);
+    productivity.updateBuffs();
+  }
+
   @Override
   public String toString() {
-    return "Worker " + id();
+    return "Worker " + id() + " (Food: " + workerBag.countFood() + ", diamonds: " + workerBag.countDiamonds() + ")";
   }
 }

@@ -4,7 +4,8 @@ import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.agents.Worker;
 import pl.edu.mimuw.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.bag.Bag;
-import pl.edu.mimuw.products.*;
+import pl.edu.mimuw.products.Product;
+import pl.edu.mimuw.products.ProductFactory;
 
 public class Random implements ProductionStrategy {
   public Random() {
@@ -18,6 +19,6 @@ public class Random implements ProductionStrategy {
 
     if (picked.equals(buffed))
       picked = buffed;
-    destination.storeProduct(picked, ProductivityVector.find(worker.getProductivity(), picked));
+    destination.storeNewProducts(picked, ProductivityVector.find(worker.getProductivity(), picked));
   }
 }

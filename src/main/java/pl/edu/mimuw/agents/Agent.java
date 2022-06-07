@@ -4,6 +4,8 @@ import pl.edu.mimuw.Simulation;
 import pl.edu.mimuw.bag.Bag;
 import pl.edu.mimuw.products.TradeableProduct;
 
+import java.util.Set;
+
 public abstract class Agent {
   private final int id;
   protected Simulation simulation;
@@ -23,6 +25,10 @@ public abstract class Agent {
    */
   public abstract void act();
 
+  public abstract void makeOffers();
+
+  public abstract void finishDay();
+
   public int id() {
     return id;
   }
@@ -39,7 +45,11 @@ public abstract class Agent {
     storageBag.takeDiamonds(amount);
   }
 
-  public void acquireProduct(TradeableProduct product, int quantity) {
-    storageBag.storeProduct(product, quantity);
+  public void acquireProducts(TradeableProduct product, int quantity) {
+    storageBag.storePurchasedProducts(product, quantity);
+  }
+
+  public Set<TradeableProduct> takeProducts(TradeableProduct product, int quantity) {
+    return saleBag.takeProducts(product, quantity);
   }
 }

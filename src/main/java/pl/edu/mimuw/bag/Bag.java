@@ -1,20 +1,21 @@
 package pl.edu.mimuw.bag;
 
+import pl.edu.mimuw.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.products.*;
 
 import java.util.*;
 
-public class Bag implements Iterable<Product> {
-  protected Set<Clothes> clothes;
-  protected Set<Tool> tools;
-  protected Set<Program> programs;
+public class Bag {
+  protected Map<Integer, LinkedList<Clothes>> clothes;
+  protected Map<Integer, LinkedList<Tool>> tools;
+  protected Map<Integer, LinkedList<Program>> programs;
   private int foodAmount = 0;
   private double diamondsAmount = 0;
 
   public Bag() {
-    this.clothes = new HashSet<>();
-    this.tools = new HashSet<>();
-    this.programs = new HashSet<>();
+    this.clothes = new HashMap<>();
+    this.tools = new HashMap<>();
+    this.programs = new HashMap<>();
   }
 
   public void storeFood(int amount) {
@@ -47,7 +48,7 @@ public class Bag implements Iterable<Product> {
     return diamondsLeft;
   }
 
-  public void storeProduct(Product product, int quantity) {
+  public void storeNewProducts(Product product, int quantity) {
     if (quantity < 0) throw new IllegalArgumentException();
     if (product instanceof Food) storeFood(quantity);
     if (product instanceof Diamond) storeDiamonds(quantity);
@@ -56,31 +57,77 @@ public class Bag implements Iterable<Product> {
     if (product instanceof Program) storePrograms(product.level(), quantity);
   }
 
+  public void storePurchasedProducts(TradeableProduct product, int quantity) {
+    if (quantity < 0) throw new IllegalArgumentException();
+    if (product instanceof Food) storeFood(quantity);
+    if (product instanceof Clothes) addClothes(product);
+    if (product instanceof Tool) addTool(product);
+    if (product instanceof Program) addProgram(product);
+  }
+
+  public Set<TradeableProduct> takeProducts(TradeableProduct product, int quantity) {
+    if (quantity < 0) throw new IllegalArgumentException();
+    Set<TradeableProduct> res = new HashSet<>();
+
+    if (product instanceof Food) {
+      takeFood(quantity);
+      res.add(new Food());
+    }
+
+    // TODO deredund
+    if (product instanceof Clothes)
+      for (int i = 0; i < quantity; i++)
+        res.add(this.clothes.get(product.level()).pop());
+
+    if (product instanceof Tool)
+      for (int i = 0; i < quantity; i++)
+        res.add(this.tools.get(product.level()).pop());
+
+    if (product instanceof Program)
+      for (int i = 0; i < quantity; i++)
+        res.add(this.programs.get(product.level()).pop());
+
+    return res;
+  }
+
+  private void addClothes(TradeableProduct product) {
+    if (!this.clothes.containsKey(product.level()))
+      this.clothes.put(product.level(), new LinkedList<>());
+    this.clothes.get(product.level()).add((Clothes) product);
+  }
+
+  private void addTool(TradeableProduct product) {
+    if (!this.tools.containsKey(product.level()))
+      this.tools.put(product.level(), new LinkedList<>());
+    this.tools.get(product.level()).add((Tool) product);
+  }
+
+  private void addProgram(TradeableProduct product) {
+    if (!this.programs.containsKey(product.level()))
+      this.programs.put(product.level(), new LinkedList<>());
+    this.programs.get(product.level()).add((Program) product);
+  }
+
+  // TODO deredund these setters
   private void storeClothes(int level, int quantity) {
+    if (!this.clothes.containsKey(level))
+      this.clothes.put(level, new LinkedList<>());
     for (int i = 0; i < quantity; i++)
-      this.clothes.add(new Clothes(level));
+      this.clothes.get(level).add(new Clothes(level));
   }
 
   private void storeTools(int level, int quantity) {
+    if (!this.tools.containsKey(level))
+      this.tools.put(level, new LinkedList<>());
     for (int i = 0; i < quantity; i++)
-      this.tools.add(new Tool(level));
+      this.tools.get(level).add(new Tool(level));
   }
 
   private void storePrograms(int level, int quantity) {
+    if (!this.programs.containsKey(level))
+      this.programs.put(level, new LinkedList<>());
     for (int i = 0; i < quantity; i++)
-      this.programs.add(new Program(level));
-  }
-
-  public Set<Clothes> getClothes() {
-    return new HashSet<>(clothes);
-  }
-
-  public Set<Tool> getTools() {
-    return new HashSet<>(tools);
-  }
-
-  public Set<Program> getPrograms() {
-    return new HashSet<>(programs);
+      this.programs.get(level).add(new Program(level));
   }
 
   public int countFood() {
@@ -99,21 +146,48 @@ public class Bag implements Iterable<Product> {
     programs.clear();
   }
 
-  public Iterator<Product> iterator() {
+  protected List<Clothes> listClothes() {
+    List<Clothes> res = new LinkedList<>();
+    for (Integer level : this.clothes.keySet())
+      res.addAll(this.clothes.get(level));
+    return res;
+  }
+
+  public Iterator<Product> iterateThroughLevels() {
     List<Product> res = new LinkedList<>();
+
     if (foodAmount > 0) res.add(new Food());
     if (diamondsAmount > 0) res.add(new Diamond());
-    res.addAll(this.clothes);
-    res.addAll(this.tools);
-    res.addAll(this.programs);
+
+    // TODO deredund
+    for (Integer level : this.clothes.keySet())
+      res.add(this.clothes.get(level).peek());
+    for (Integer level : this.tools.keySet())
+      res.add(this.tools.get(level).peek());
+    for (Integer level : this.programs.keySet())
+      res.add(this.programs.get(level).peek());
+
     return res.iterator();
+  }
+
+  public List<ProductivityBuff> listBuffableProducts() {
+    List<ProductivityBuff> res = new LinkedList<>();
+
+    // TODO deredund
+    for (Integer level : this.clothes.keySet())
+      res.addAll(this.clothes.get(level));
+    for (Integer level : this.tools.keySet())
+      res.addAll(this.tools.get(level));
+    for (Integer level : this.programs.keySet())
+      res.addAll(this.programs.get(level));
+    return res;
   }
 
   public int countTradeable(TradeableProduct product) {
     if (product instanceof Food) return foodAmount;
-    if (product instanceof Clothes) return this.clothes.size();
-    if (product instanceof Tool) return this.tools.size();
-    if (product instanceof Program) return this.programs.size();
+    if (product instanceof Clothes) return this.clothes.get(product.level()).size();
+    if (product instanceof Tool) return this.tools.get(product.level()).size();
+    if (product instanceof Program) return this.programs.get(product.level()).size();
     throw new IllegalArgumentException("Argument product out of simulation scope");
   }
 }

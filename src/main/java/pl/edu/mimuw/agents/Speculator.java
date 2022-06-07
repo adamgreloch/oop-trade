@@ -15,6 +15,12 @@ public class Speculator extends Agent {
   public void act() {
   }
 
+  public void makeOffers() {
+  }
+
+  public void finishDay() {
+  }
+
   @Override
   public String toString() {
     return "Speculator " + id();

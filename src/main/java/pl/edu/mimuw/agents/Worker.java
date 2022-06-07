@@ -58,9 +58,19 @@ public class Worker extends Agent {
       this.work();
   }
 
-  private void work() {
-    activateBuffs();
-    productionStrategy.produce(this, saleBag);
+  public void makeOffers() {
+    Set<Offer> offers = new HashSet<>();
+    TradeableProduct toSell;
+    Iterator<Product> productsToSell = saleBag.iterateThroughLevels();
+    while (productsToSell.hasNext()) {
+      Product p = productsToSell.next();
+      if (p instanceof TradeableProduct) {
+        toSell = (TradeableProduct) p;
+        offers.add(new Offer(this, toSell, saleBag.countTradeable(toSell), false));
+      }
+    }
+    offers.addAll(purchaseStrategy.purchasesToOffer(this));
+    simulation.stock().addOffer(offers, this);
   }
 
   public void finishDay() {
@@ -68,6 +78,19 @@ public class Worker extends Agent {
     workerBag.useAllTools();
     workerBag.wearClothes();
     // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
+  }
+
+  public void giveStartingResources(int food, int clothes, int tools, double diamonds, int programs) {
+    storageBag.storeFood(food);
+    storageBag.storeDiamonds(diamonds);
+    storageBag.storeNewProducts(new Clothes(1), clothes);
+    storageBag.storeNewProducts(new Tool(1), tools);
+    storageBag.storeNewProducts(new Program(1), programs);
+  }
+
+  private void work() {
+    activateBuffs();
+    productionStrategy.produce(this, saleBag);
   }
 
   private void study() {
@@ -87,21 +110,6 @@ public class Worker extends Agent {
   private void die() {
     workerBag.clear();
     isAlive = false;
-  }
-
-  public void makeOffers() {
-    Set<Offer> offers = new HashSet<>();
-    TradeableProduct toSell;
-    Iterator<Product> productsToSell = saleBag.iterateThroughLevels();
-    while (productsToSell.hasNext()) {
-      Product p = productsToSell.next();
-      if (p instanceof TradeableProduct) {
-        toSell = (TradeableProduct) p;
-        offers.add(new Offer(this, toSell, saleBag.countTradeable(toSell), false));
-      }
-    }
-    offers.addAll(purchaseStrategy.purchasesToOffer(this));
-    simulation.stock().addOffer(offers, this);
   }
 
   private void eat() {
@@ -125,14 +133,6 @@ public class Worker extends Agent {
     productivity.clearBuffs();
     workerBag.listBuffableProducts().forEach(productivity::addBuff);
     productivity.updateBuffs();
-  }
-
-  public void giveStartingResources(int food, int clothes, int tools, double diamonds, int programs) {
-    storageBag.storeFood(food);
-    storageBag.storeDiamonds(diamonds);
-    storageBag.storeNewProducts(new Clothes(1), clothes);
-    storageBag.storeNewProducts(new Tool(1), tools);
-    storageBag.storeNewProducts(new Program(1), programs);
   }
 
   @Override

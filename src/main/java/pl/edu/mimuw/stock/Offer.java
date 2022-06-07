@@ -13,11 +13,11 @@ import static pl.edu.mimuw.stock.OfferType.SELL;
  */
 public class Offer implements Comparable<Offer> {
 
+  final OfferType offerType;
   private final double price; // price per one
   private final TradeableProduct product;
-  final OfferType offerType;
-  boolean isWorkerOffer = false;
   private final Agent issuer; // possibly redund
+  boolean isWorkerOffer;
   private int quantity;
   private boolean isCompleted = false;
 

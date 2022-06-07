@@ -27,14 +27,6 @@ public class Product {
     return new Product(this.level, this.productName);
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Product that = (Product) o;
-    return productName.equals(that.productName);
-  }
-
   public boolean productEquals(Product product) {
     return this.productName.equals(product.productName);
   }
@@ -44,12 +36,20 @@ public class Product {
     return Objects.hash(productName);
   }
 
-  public String info() {
-    return "";
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Product that = (Product) o;
+    return productName.equals(that.productName);
   }
 
   @Override
   public String toString() {
     return productName;
+  }
+
+  public String info() {
+    return "";
   }
 }

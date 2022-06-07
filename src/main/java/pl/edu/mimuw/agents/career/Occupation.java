@@ -33,16 +33,16 @@ public abstract class Occupation {
   public abstract Product produceBuffedProduct(int level);
 
   @Override
+  public int hashCode() {
+    return Objects.hash(name);
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Occupation that = (Occupation) o;
     return name.equals(that.name);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(name);
   }
 
 }

@@ -22,18 +22,18 @@ public class StockLog {
   /**
    * @return Price of the lowest product purchase price the day before or price from zero-day.
    */
-  public double previousLowest(TradeableProduct product) {
+  public double previousLowest(Tradeable product) {
     return previous.min(product, fallBack);
   }
 
   public void setFallBackPrices(double food, double clothes, double tools, double programs) {
-    fallBack.log(new Food(), food, 1);
+    fallBack.log(new Food(1), food, 1);
     fallBack.log(new Clothes(1), clothes, 1);
     fallBack.log(new Tool(1), tools, 1);
     fallBack.log(new Program(1), programs, 1);
   }
 
-  public void log(TradeableProduct product, double sellPrice, int soldQuantity) {
+  public void log(Tradeable product, double sellPrice, int soldQuantity) {
     current.log(product, sellPrice, soldQuantity);
   }
 
@@ -45,12 +45,12 @@ public class StockLog {
     }
   }
 
-  public double getAveragePrice(int day, TradeableProduct product) {
+  public double getAveragePrice(int day, Tradeable product) {
     if (days.isEmpty() || day == 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getAveragePrice(product);
     return days.get(day - 1).getAveragePrice(product);
   }
 
-  public int getSoldQuantity(int day, TradeableProduct product) {
+  public int getSoldQuantity(int day, Tradeable product) {
     if (days.isEmpty() || day == 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getSoldQuantity(product);
     return days.get(day - 1).getSoldQuantity(product);
   }

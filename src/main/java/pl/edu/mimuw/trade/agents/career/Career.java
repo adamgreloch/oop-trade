@@ -24,6 +24,12 @@ public class Career implements ProductivityBuff {
     current = next;
   }
 
+  public int productionLevel(Product product) {
+    Product current = currentProduct();
+    if (product.generalize().equals(current)) return current.level();
+    else return 1;
+  }
+
   public int occupationLevel() {
     return careers.get(current);
   }

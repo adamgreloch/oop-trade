@@ -20,15 +20,11 @@ public class Product {
    * iff their product type (clothes, tools, programs etc.) is equal.
    * This means that objects of this class are not
    * distinguishable by this definition, but subclasses can be.
-   * @see DistinguishableProduct
+   * @see DistinguishableTradeable
    */
 
-  public Product ignoreLevel() {
+  public Product generalize() {
     return new Product(this.level, this.productName);
-  }
-
-  public boolean productEquals(Product product) {
-    return this.productName.equals(product.productName);
   }
 
   @Override
@@ -46,7 +42,9 @@ public class Product {
 
   @Override
   public String toString() {
-    return productName;
+    StringBuilder res = new StringBuilder(productName);
+    if (level > 0) res.append(" (level ").append(level).append("), ").append(info());
+    return res.toString();
   }
 
   public String info() {

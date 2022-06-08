@@ -1,7 +1,9 @@
 package pl.edu.mimuw.trade.agents.production;
 
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.bag.Bag;
+import pl.edu.mimuw.trade.products.Product;
+
+import java.util.Set;
 
 public class Prospective implements ProductionStrategy {
   private final int reachPast;
@@ -10,6 +12,7 @@ public class Prospective implements ProductionStrategy {
     this.reachPast = reachPast;
   }
 
-  public void produce(Worker worker, Bag destination) {
+  public Set<Product> produce(Worker worker) {
+    return null;
   }
 }

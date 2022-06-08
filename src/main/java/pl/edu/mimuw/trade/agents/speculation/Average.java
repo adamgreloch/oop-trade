@@ -2,7 +2,7 @@ package pl.edu.mimuw.trade.agents.speculation;
 
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.products.ProductFactory;
-import pl.edu.mimuw.trade.products.TradeableProduct;
+import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.stock.Offer;
 import pl.edu.mimuw.trade.stock.Simulation;
 import pl.edu.mimuw.trade.stock.Stock;
@@ -25,12 +25,12 @@ public class Average implements SpeculationStrategy {
 
   public Set<Offer> makeOffers(Speculator speculator) {
     Set<Offer> offers = new HashSet<>();
-    for (TradeableProduct product : ProductFactory.previewTradeable())
+    for (Tradeable product : ProductFactory.previewTradeable())
       offers.addAll(constructOffers(speculator, product));
     return offers;
   }
 
-  private Set<Offer> constructOffers(Speculator speculator, TradeableProduct product) {
+  private Set<Offer> constructOffers(Speculator speculator, Tradeable product) {
     Set<Offer> offers = new HashSet<>();
     double avg = calculateAverage(product);
     int quantity = speculator.hasQuantity(product);
@@ -45,7 +45,7 @@ public class Average implements SpeculationStrategy {
     return offers;
   }
 
-  private double calculateAverage(TradeableProduct product) {
+  private double calculateAverage(Tradeable product) {
     double sum = 0;
     int sold = 0;
     int reached;

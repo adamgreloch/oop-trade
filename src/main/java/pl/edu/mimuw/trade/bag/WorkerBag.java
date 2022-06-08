@@ -4,6 +4,8 @@ import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Clothes;
+import pl.edu.mimuw.trade.products.Product;
+import pl.edu.mimuw.trade.products.Tool;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,12 +36,12 @@ public class WorkerBag extends Bag implements ProductivityBuff {
 
   public void wearClothes() {
     int toWear = Worker.DAILY_CLOTHES_CONSUMPTION;
-    if (this.clothes.size() <= toWear) {
-      this.clothes.clear();
+    List<Clothes> notWorn = listClothes();
+    if (notWorn == null) return;
+    if (notWorn.size() <= toWear) {
+      findProduct(new Clothes(1)).clear();
       return;
     }
-
-    List<Clothes> notWorn = listClothes();
     Collections.shuffle(notWorn);
     for (Clothes clothes : notWorn) {
       if (toWear == 0) break;
@@ -49,10 +51,12 @@ public class WorkerBag extends Bag implements ProductivityBuff {
   }
 
   private void wearWhileCheckingCondition(Clothes toWear) {
-    if (toWear.wearOnce() == 0) this.clothes.remove(toWear);
+    if (toWear.wearOnce() == 0) this.remove(toWear);
   }
 
   public void useAllTools() {
-    tools.clear();
+    Product key = new Tool(1);
+    if (contains(key))
+      findProduct(key).clear();
   }
 }

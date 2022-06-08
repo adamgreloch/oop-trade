@@ -3,7 +3,7 @@ package pl.edu.mimuw.trade.stock;
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Bank;
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.products.TradeableProduct;
+import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.stock.strategy.StockStrategy;
 
 import java.util.*;
@@ -70,6 +70,7 @@ public class Stock {
     workerOfferQueues.clear();
   }
 
+  // TODO uwzgledniac zdolnosc finansowa robotnika!!
   private Offer findBestSpeculatorOffer(Offer workerOffer) {
     for (Offer offer : speculatorOffers) {
       if (offer.matches(workerOffer))
@@ -86,11 +87,11 @@ public class Stock {
     log.newDay();
   }
 
-  public double getAveragePrice(int day, TradeableProduct product) {
+  public double getAveragePrice(int day, Tradeable product) {
     return log.getAveragePrice(day, product);
   }
 
-  public int getSoldQuantity(int day, TradeableProduct product) {
+  public int getSoldQuantity(int day, Tradeable product) {
     return log.getSoldQuantity(day, product);
   }
 

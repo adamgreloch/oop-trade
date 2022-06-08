@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.stock;
 
 import pl.edu.mimuw.trade.products.Product;
-import pl.edu.mimuw.trade.products.TradeableProduct;
+import pl.edu.mimuw.trade.products.Tradeable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,8 +28,8 @@ public class DayLog {
     this.quantities = new HashMap<>();
   }
 
-  public void log(TradeableProduct levelled, double sellPrice, int soldQuantity) {
-    Product product = levelled.ignoreLevel();
+  public void log(Tradeable levelled, double sellPrice, int soldQuantity) {
+    Product product = levelled.generalize();
 
     this.products.add(product);
     this.max.put(product, Math.max(this.max.getOrDefault(product, 0.0), sellPrice));
@@ -39,22 +39,22 @@ public class DayLog {
     this.quantities.put(product, this.quantities.getOrDefault(product, 0) + soldQuantity);
   }
 
-  public double min(TradeableProduct levelled, DayLog fallBack) {
-    Product product = levelled.ignoreLevel();
+  public double min(Tradeable levelled, DayLog fallBack) {
+    Product product = levelled.generalize();
 
     return this.min.getOrDefault(product, fallBack.min.get(product));
   }
 
-  public boolean soldThatDay(TradeableProduct product) {
-    return this.products.contains(product.ignoreLevel());
+  public boolean soldThatDay(Tradeable product) {
+    return this.products.contains(product.generalize());
   }
 
-  public double getAveragePrice(TradeableProduct product) {
-    return this.average.get(product.ignoreLevel());
+  public double getAveragePrice(Tradeable product) {
+    return this.average.get(product.generalize());
   }
 
-  public int getSoldQuantity(TradeableProduct product) {
-    return this.quantities.get(product.ignoreLevel());
+  public int getSoldQuantity(Tradeable product) {
+    return this.quantities.get(product.generalize());
   }
 
   @Override

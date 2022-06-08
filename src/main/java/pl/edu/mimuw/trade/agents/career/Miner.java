@@ -5,6 +5,8 @@ import pl.edu.mimuw.trade.products.Diamond;
 import pl.edu.mimuw.trade.products.Product;
 
 public class Miner extends Occupation {
+
+  // TODO Worker can't become a Miner
   public Miner() {
     super("miner");
   }
@@ -14,6 +16,6 @@ public class Miner extends Occupation {
   }
 
   public Product produceBuffedProduct(int level) {
-    return new Diamond();
+    return new Diamond(1);
   }
 }

@@ -1,12 +1,15 @@
 package pl.edu.mimuw.trade.agents.production;
 
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.bag.Bag;
+import pl.edu.mimuw.trade.products.Product;
+
+import java.util.Set;
 
 public class Greedy implements ProductionStrategy {
   public Greedy() {
   }
 
-  public void produce(Worker worker, Bag destination) {
+  public Set<Product> produce(Worker worker) {
+    return null;
   }
 }

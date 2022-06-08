@@ -9,7 +9,8 @@ import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.agents.purchase.PurchaseStrategy;
 import pl.edu.mimuw.trade.agents.studying.StudyingStrategy;
 import pl.edu.mimuw.trade.bag.WorkerBag;
-import pl.edu.mimuw.trade.products.*;
+import pl.edu.mimuw.trade.products.Product;
+import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.stock.Offer;
 import pl.edu.mimuw.trade.stock.Simulation;
 
@@ -57,14 +58,11 @@ public class Worker extends Agent {
 
   public void makeOffers() {
     Set<Offer> offers = new HashSet<>();
-    TradeableProduct toSell;
     Iterator<Product> productsToSell = saleBag.iterateThroughLevels();
     while (productsToSell.hasNext()) {
-      Product p = productsToSell.next();
-      if (p instanceof TradeableProduct) {
-        toSell = (TradeableProduct) p;
-        offers.add(new Offer(this, toSell, saleBag.countTradeable(toSell), false));
-      }
+      Tradeable p = (Tradeable) productsToSell.next();
+      if (saleBag.quantity(p) > 0)
+        offers.add(new Offer(this, p, saleBag.quantity(p), false));
     }
     offers.addAll(purchaseStrategy.purchasesToOffer(this));
     simulation.stock().addOffer(offers, this);
@@ -77,17 +75,9 @@ public class Worker extends Agent {
     // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
   }
 
-  public void giveStartingResources(int food, int clothes, int tools, double diamonds, int programs) {
-    storageBag.storeFood(food);
-    storageBag.storeDiamonds(diamonds);
-    storageBag.storeNewProducts(new Clothes(1), clothes);
-    storageBag.storeNewProducts(new Tool(1), tools);
-    storageBag.storeNewProducts(new Program(1), programs);
-  }
-
   private void work() {
     activateBuffs();
-    productionStrategy.produce(this, saleBag);
+    saleBag.storeProducts(productionStrategy.produce(this));
   }
 
   private void study() {
@@ -130,6 +120,10 @@ public class Worker extends Agent {
     productivity.clearBuffs();
     workerBag.listBuffableProducts().forEach(productivity::addBuff);
     productivity.updateBuffs();
+  }
+
+  public int productionLevel(Product product) {
+    return career.productionLevel(product);
   }
 
   @Override

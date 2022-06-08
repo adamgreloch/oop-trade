@@ -1,10 +1,9 @@
 package pl.edu.mimuw.trade.agents;
 
 import pl.edu.mimuw.trade.bag.Bag;
-import pl.edu.mimuw.trade.products.Clothes;
-import pl.edu.mimuw.trade.products.Program;
-import pl.edu.mimuw.trade.products.Tool;
-import pl.edu.mimuw.trade.products.TradeableProduct;
+import pl.edu.mimuw.trade.products.Product;
+import pl.edu.mimuw.trade.products.ProductFactory;
+import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.stock.Simulation;
 
 import java.util.Set;
@@ -55,24 +54,25 @@ public abstract class Agent {
     storageBag.takeDiamonds(amount);
   }
 
-  public void acquireProducts(TradeableProduct product, int quantity) {
-    storageBag.storePurchasedProducts(product, quantity);
+  public void acquireProducts(Set<Product> products) {
+    storageBag.storeProducts(products);
   }
 
-  public Set<TradeableProduct> takeProducts(TradeableProduct product, int quantity) {
+  public Set<Product> takeProducts(Product product, int quantity) {
     return saleBag.takeProducts(product, quantity);
   }
 
-  public int hasQuantity(TradeableProduct product) {
+  public int hasQuantity(Tradeable product) {
     return storageBag.quantity(product);
   }
 
   public void giveStartingResources(int food, int clothes, int tools, double diamonds, int programs) {
     storageBag.storeFood(food);
     storageBag.storeDiamonds(diamonds);
-    storageBag.storeNewProducts(new Clothes(1), clothes);
-    storageBag.storeNewProducts(new Tool(1), tools);
-    storageBag.storeNewProducts(new Program(1), programs);
+    storageBag.storeProducts(ProductFactory.newClothes(clothes, 1));
+    storageBag.storeProducts(ProductFactory.newTools(tools, 1));
+    storageBag.storeProducts(ProductFactory.newPrograms(programs, 1));
   }
+
 
 }

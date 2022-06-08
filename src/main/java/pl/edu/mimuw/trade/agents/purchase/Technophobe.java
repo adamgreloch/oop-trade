@@ -14,7 +14,7 @@ public class Technophobe implements PurchaseStrategy {
   }
 
   public Set<Offer> purchasesToOffer(Worker worker) {
-    Offer buyFood = new Offer(worker, new Food(), FOOD_QUANTITY, true);
+    Offer buyFood = new Offer(worker, new Food(1), FOOD_QUANTITY, true);
     return Collections.singleton(buyFood);
   }
 }

@@ -3,11 +3,11 @@ package pl.edu.mimuw.trade.products;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 
-public class Clothes extends DistinguishableProduct implements ProductivityBuff {
+public class Clothes extends DistinguishableTradeable implements ProductivityBuff {
   private int daysLeft;
 
   public Clothes(int level) {
-    super(level, "clothes", 1);
+    super(level, "clothes");
     this.daysLeft = level * level;
   }
 
@@ -23,5 +23,9 @@ public class Clothes extends DistinguishableProduct implements ProductivityBuff 
   @Override
   public ProductivityVector getBuffValue() {
     return new ProductivityVector();
+  }
+
+  public int tradePriority() {
+    return 1;
   }
 }

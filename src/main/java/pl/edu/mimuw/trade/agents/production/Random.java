@@ -2,16 +2,17 @@ package pl.edu.mimuw.trade.agents.production;
 
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.stock.Simulation;
+
+import java.util.Set;
 
 public class Random implements ProductionStrategy {
   public Random() {
   }
 
-  public void produce(Worker worker, Bag destination) {
+  public Set<Product> produce(Worker worker) {
     Product[] products = ProductFactory.previewProducts();
 
     Product buffed = worker.getCareer().currentProduct();
@@ -19,6 +20,7 @@ public class Random implements ProductionStrategy {
 
     if (picked.equals(buffed))
       picked = buffed;
-    destination.storeNewProducts(picked, ProductivityVector.find(worker.getProductivity(), picked));
+    int quantity = ProductivityVector.find(worker.getProductivity(), picked);
+    return ProductFactory.produceAlike(picked, quantity, worker.productionLevel(picked));
   }
 }

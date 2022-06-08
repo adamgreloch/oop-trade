@@ -14,6 +14,6 @@ public class Farmer extends Occupation {
   }
 
   public Product produceBuffedProduct(int level) {
-    return new Food();
+    return new Food(1);
   }
 }

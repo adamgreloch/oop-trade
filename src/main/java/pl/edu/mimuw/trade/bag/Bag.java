@@ -7,7 +7,7 @@ import pl.edu.mimuw.trade.products.*;
 
 import java.util.*;
 
-public class Bag {
+public class Bag implements ProductivityBuff {
   private static final int MINOR_STARVATION_PENALTY = -100;
   private static final int MAJOR_STARVATION_PENALTY = -300;
   /**
@@ -191,6 +191,7 @@ public class Bag {
       for (LinkedList<Product> productList : findProduct(buffable).values())
         productList.forEach(e -> res.add((ProductivityBuff) e));
 
+    res.add(this);
     return res;
   }
 

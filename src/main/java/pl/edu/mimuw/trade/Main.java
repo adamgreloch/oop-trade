@@ -9,7 +9,6 @@ import pl.edu.mimuw.trade.agents.career.*;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.stock.Simulation;
-import pl.edu.mimuw.trade.strategy.Strategy;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.career.Conservative;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
@@ -104,8 +103,7 @@ public class Main {
 
     GsonBuilder gsonBuilder = new GsonBuilder();
 
-    gsonBuilder.registerTypeAdapter(Strategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(CareerStrategy.class, new StrategyAdapter<>())
+    Gson gson = gsonBuilder.registerTypeAdapter(CareerStrategy.class, new StrategyAdapter<>())
             .registerTypeAdapter(ProductionStrategy.class, new StrategyAdapter<>())
             .registerTypeAdapter(PurchaseStrategy.class, new StrategyAdapter<>())
             .registerTypeAdapter(SpeculationStrategy.class, new StrategyAdapter<>())
@@ -115,8 +113,7 @@ public class Main {
             .registerTypeAdapter(Career.class, new CareerAdapter())
             .registerTypeAdapter(Bag.class, new BagAdapter())
             .registerTypeAdapter(Productivity.class, new ProductivityAdapter())
-            .setPrettyPrinting();
-    Gson gson = gsonBuilder.create();
+            .setPrettyPrinting().create();
 
     String json = gson.toJson(w1);
     System.out.println(json);

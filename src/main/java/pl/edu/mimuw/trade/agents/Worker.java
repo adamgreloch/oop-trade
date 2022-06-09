@@ -5,7 +5,7 @@ import pl.edu.mimuw.trade.agents.career.Career;
 import pl.edu.mimuw.trade.agents.career.Occupation;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-import pl.edu.mimuw.trade.bag.WorkerBag;
+import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.stock.Offer;
@@ -26,10 +26,6 @@ public class Worker extends Agent {
 
   @SerializedName("produktywnosc")
   private final Productivity productivity;
-
-  @SerializedName("zasoby")
-  private final WorkerBag workerBag;
-
   @SerializedName(value = "kariera")
   private final Career career;
 
@@ -55,10 +51,9 @@ public class Worker extends Agent {
     this.productivity = productivity;
     this.career = new Career(occupation, occupationLevel);
 
-    this.workerBag = new WorkerBag();
-    this.workerBag.setOwner(this);
+    this.storageBag = new Bag();
+    this.storageBag.setOwner(this);
 
-    this.storageBag = workerBag;
     this.careerStrategy = careerStrategy;
     this.purchaseStrategy = purchaseStrategy;
     this.productionStrategy = productionStrategy;
@@ -86,8 +81,8 @@ public class Worker extends Agent {
 
   public void finishDay() {
     eat();
-    workerBag.useAllTools();
-    workerBag.wearClothes();
+    storageBag.useAllTools();
+    storageBag.wearClothes();
     // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
   }
 
@@ -111,14 +106,14 @@ public class Worker extends Agent {
   }
 
   private void die() {
-    workerBag.clear();
+    storageBag.clear();
     isAlive = false;
   }
 
   private void eat() {
-    if (workerBag.countFood() < DAILY_FOOD_CONSUMPTION)
+    if (storageBag.countFood() < DAILY_FOOD_CONSUMPTION)
       starve();
-    workerBag.takeFood(DAILY_FOOD_CONSUMPTION);
+    storageBag.takeFood(DAILY_FOOD_CONSUMPTION);
   }
 
   public int starvationLevel() {
@@ -135,7 +130,7 @@ public class Worker extends Agent {
 
   private void activateBuffs() {
     productivity.clearBuffs();
-    workerBag.listBuffableProducts().forEach(productivity::addBuff);
+    storageBag.listBuffableProducts().forEach(productivity::addBuff);
     productivity.updateBuffs();
   }
 
@@ -145,7 +140,7 @@ public class Worker extends Agent {
 
   @Override
   public String toString() {
-    return "Worker (Agent " + id() + ", Food: " + workerBag.countFood() + ", diamonds: " + workerBag.countDiamonds() +
+    return "Worker (Agent " + id() + ", Food: " + storageBag.countFood() + ", diamonds: " + storageBag.countDiamonds() +
             ")";
   }
 }

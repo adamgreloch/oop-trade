@@ -3,10 +3,11 @@ package pl.edu.mimuw.trade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import pl.edu.mimuw.trade.adapter.*;
+import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.agents.career.*;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
-import pl.edu.mimuw.trade.bag.WorkerBag;
+import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.stock.Simulation;
 import pl.edu.mimuw.trade.strategy.Strategy;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
@@ -16,6 +17,7 @@ import pl.edu.mimuw.trade.strategy.production.Random;
 import pl.edu.mimuw.trade.strategy.production.Shortsighted;
 import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
 import pl.edu.mimuw.trade.strategy.purchase.Technophobe;
+import pl.edu.mimuw.trade.strategy.speculation.AverageSpeculation;
 import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
 import pl.edu.mimuw.trade.strategy.stock.Capitalist;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
@@ -111,7 +113,7 @@ public class Main {
             .registerTypeAdapter(StudyingStrategy.class, new StrategyAdapter<>())
             .registerTypeAdapter(Occupation.class, new OccupationAdapter())
             .registerTypeAdapter(Career.class, new CareerAdapter())
-            .registerTypeAdapter(WorkerBag.class, new WorkerBagAdapter())
+            .registerTypeAdapter(Bag.class, new BagAdapter())
             .registerTypeAdapter(Productivity.class, new ProductivityAdapter())
             .setPrettyPrinting();
     Gson gson = gsonBuilder.create();
@@ -121,6 +123,19 @@ public class Main {
 
     Worker w2 = gson.fromJson(json, Worker.class);
     System.out.println(w2);
+
+    SpeculationStrategy average = new AverageSpeculation(simulation, 3);
+
+    Speculator s1 = new Speculator(69, simulation, average);
+    Speculator s2 = new Speculator(420, simulation, average);
+    Speculator s3 = new Speculator(1337, simulation, average);
+
+    simulation.addWorkers(w1);
+    simulation.addSpeculators(s1, s2, s3);
+    String json2 = gson.toJson(simulation);
+    System.out.println(json2);
+
+    Simulation xd = gson.fromJson(json2, Simulation.class);
   }
 }
 

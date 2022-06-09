@@ -1,5 +1,6 @@
 package pl.edu.mimuw.trade.strategy.speculation;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
@@ -10,16 +11,19 @@ import pl.edu.mimuw.trade.stock.Stock;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AverageSpeculation implements SpeculationStrategy {
+public class AverageSpeculation extends SpeculationStrategy {
   private static final int PURCHASE_QUANTITY = 100;
   private static final double FRESH_PURCHASE_FACTOR = 0.95;
   private static final double PURCHASE_FACTOR = 0.9;
   private static final double SELL_FACTOR = 1.1;
+
+  @SerializedName("historia_spekulanta_sredniego")
   private final int reachPast;
 
   private transient final Stock stock;
 
   public AverageSpeculation(Simulation simulation, int reachPast) {
+    super("sredni");
     this.reachPast = reachPast;
     this.stock = simulation.stock();
   }

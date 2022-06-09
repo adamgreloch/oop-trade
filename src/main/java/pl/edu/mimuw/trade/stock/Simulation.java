@@ -8,6 +8,7 @@ import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -17,6 +18,10 @@ public class Simulation {
 
   public static Random RANDOM = new Random();
   private static int day = 1;
+  @SerializedName("dlugosc")
+  private final int SIMULATION_LENGTH = 5;
+  @SerializedName("kara_za_brak_ubran")
+  private final int NO_CLOTHES_PENALTY = 2;
   private transient final LinkedList<Agent> agents;
   @SerializedName("robotnicy")
   private final LinkedList<Worker> workers;
@@ -24,7 +29,6 @@ public class Simulation {
   private final LinkedList<Speculator> speculators;
   private transient final LinkedList<Worker> deadWorkers;
   private final Stock stock;
-  private transient int lastId = 0;
 
   public Simulation(StockStrategy stockStrategy) {
     this.agents = new LinkedList<>();
@@ -43,9 +47,17 @@ public class Simulation {
     this.agents.addAll(workers);
   }
 
+  public void addWorkers(Worker... workers) {
+    addWorkers(List.of(workers));
+  }
+
   public void addSpeculators(Collection<Speculator> speculators) {
     this.speculators.addAll(speculators);
     this.agents.addAll(speculators);
+  }
+
+  public void addSpeculators(Speculator... speculators) {
+    addSpeculators(List.of(speculators));
   }
 
   public void run(int duration) {
@@ -79,9 +91,5 @@ public class Simulation {
 
   public Stock stock() {
     return stock;
-  }
-
-  public int assignId() {
-    return lastId++;
   }
 }

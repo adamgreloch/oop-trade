@@ -5,7 +5,12 @@ import pl.edu.mimuw.trade.stock.OfferQueue;
 import java.util.List;
 import java.util.Set;
 
-public class Socialist implements StockStrategy {
+public class Socialist extends StockStrategy {
+
+  public Socialist() {
+    super("socjalistyczna");
+  }
+
   public List<OfferQueue> sortWorkerOffers(Set<OfferQueue> workerOffers) {
     throw new IllegalArgumentException("TODO");
   }

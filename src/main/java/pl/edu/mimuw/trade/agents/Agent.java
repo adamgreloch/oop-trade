@@ -16,7 +16,9 @@ public abstract class Agent {
 
   protected transient Simulation simulation;
   protected transient Bag saleBag;
-  protected transient Bag storageBag;
+
+  @SerializedName("zasoby")
+  protected Bag storageBag;
 
   protected transient boolean isAlive = true;
 

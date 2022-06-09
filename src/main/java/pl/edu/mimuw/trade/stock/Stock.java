@@ -1,20 +1,22 @@
 package pl.edu.mimuw.trade.stock;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Bank;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.Tradeable;
-import pl.edu.mimuw.trade.stock.strategy.StockStrategy;
+import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.*;
 
 public class Stock {
 
-  private final Bank bank;
+  private transient final Bank bank;
   private final StockLog log;
+  @SerializedName("giełda")
   private final StockStrategy stockStrategy;
-  private final Set<OfferQueue> workerOfferQueues;
-  private final SortedSet<Offer> speculatorOffers;
+  private transient final Set<OfferQueue> workerOfferQueues;
+  private transient final SortedSet<Offer> speculatorOffers;
 
   public Stock(Simulation simulation, StockStrategy stockStrategy) {
     this.bank = new Bank(simulation);

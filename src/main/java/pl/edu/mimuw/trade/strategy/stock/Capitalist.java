@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Capitalist implements StockStrategy {
+public class Capitalist extends StockStrategy {
+
+  public Capitalist() {
+    super("kapitalistyczna");
+  }
 
   private static int compare(OfferQueue a, OfferQueue b) {
     double cmp = b.issuer().diamonds() - a.issuer().diamonds();

@@ -1,14 +1,14 @@
 package pl.edu.mimuw.trade.adapter;
 
 import com.google.gson.*;
-import pl.edu.mimuw.trade.bag.WorkerBag;
+import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.products.ProductFactory;
 
 import java.lang.reflect.Type;
 
-public class WorkerBagAdapter implements JsonSerializer<WorkerBag>, JsonDeserializer<WorkerBag> {
+public class BagAdapter implements JsonSerializer<Bag>, JsonDeserializer<Bag> {
   @Override
-  public JsonElement serialize(WorkerBag bag, Type typeOfSrc,
+  public JsonElement serialize(Bag bag, Type typeOfSrc,
                                JsonSerializationContext context) {
     if (bag == null) return null;
     JsonObject je = new JsonObject();
@@ -22,10 +22,10 @@ public class WorkerBagAdapter implements JsonSerializer<WorkerBag>, JsonDeserial
   }
 
   @Override
-  public WorkerBag deserialize(JsonElement json, Type typeOfT,
-                               JsonDeserializationContext context) throws JsonParseException {
+  public Bag deserialize(JsonElement json, Type typeOfT,
+                         JsonDeserializationContext context) throws JsonParseException {
     JsonObject jo = (JsonObject) json;
-    WorkerBag bag = new WorkerBag();
+    Bag bag = new Bag();
 
     bag.storeFood(getInt(jo, "jedzenie"));
     bag.storeDiamonds(getInt(jo, "diamenty"));

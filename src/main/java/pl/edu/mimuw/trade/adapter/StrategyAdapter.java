@@ -10,6 +10,9 @@ import pl.edu.mimuw.trade.strategy.purchase.Mechanized;
 import pl.edu.mimuw.trade.strategy.purchase.Stickler;
 import pl.edu.mimuw.trade.strategy.purchase.Technophobe;
 import pl.edu.mimuw.trade.strategy.speculation.AverageSpeculation;
+import pl.edu.mimuw.trade.strategy.stock.Balanced;
+import pl.edu.mimuw.trade.strategy.stock.Capitalist;
+import pl.edu.mimuw.trade.strategy.stock.Socialist;
 import pl.edu.mimuw.trade.strategy.studying.*;
 
 import java.lang.reflect.Type;
@@ -42,6 +45,10 @@ public class StrategyAdapter<T extends Strategy> implements JsonSerializer<T>, J
     map.put("krotkowzroczny", Shortsighted.class);
 
     map.put("sredni", AverageSpeculation.class);
+
+    map.put("kapitalistyczna", Capitalist.class);
+    map.put("socjalistyczna", Socialist.class);
+    map.put("zrownowazona", Balanced.class);
   }
 
   @Override

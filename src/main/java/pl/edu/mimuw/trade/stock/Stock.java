@@ -70,12 +70,10 @@ public class Stock {
     workerOfferQueues.clear();
   }
 
-  // TODO uwzgledniac zdolnosc finansowa robotnika!!
   private Offer findBestSpeculatorOffer(Offer workerOffer) {
-    for (Offer offer : speculatorOffers) {
+    for (Offer offer : speculatorOffers)
       if (offer.matches(workerOffer))
         return offer;
-    }
     return null;
   }
 

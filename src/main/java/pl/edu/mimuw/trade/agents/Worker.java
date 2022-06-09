@@ -100,8 +100,9 @@ public class Worker extends Agent {
   }
 
   private void eat() {
-    if (workerBag.takeFood(DAILY_FOOD_CONSUMPTION) < 0)
+    if (workerBag.countFood() < DAILY_FOOD_CONSUMPTION)
       starve();
+    workerBag.takeFood(DAILY_FOOD_CONSUMPTION);
   }
 
   public int starvationLevel() {

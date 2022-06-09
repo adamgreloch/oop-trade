@@ -23,8 +23,8 @@ public class Offer implements Comparable<Offer> {
   private boolean isCompleted = false;
 
 
-  private Offer(Agent issuer, Tradeable product, int quantity, double price,
-                boolean isWorkerOffer, boolean isPurchaseOffer) {
+  private Offer(Agent issuer, Tradeable product, int quantity,
+                double price, boolean isWorkerOffer, boolean isPurchaseOffer) {
     this.issuer = issuer;
     this.offerType = isPurchaseOffer ? BUY : SELL;
     this.isWorkerOffer = isWorkerOffer;
@@ -110,7 +110,8 @@ public class Offer implements Comparable<Offer> {
   }
 
   public boolean matches(Offer other) {
-    if (this.offerType == other.offerType) return false;
+    if (this.offerType == BUY && this.issuer.diamonds() < other.price) return false;
+    if (other.offerType == BUY && other.issuer.diamonds() < this.price) return false;
     if (this.isWorkerOffer == other.isWorkerOffer) return false;
     if (this.product.level() != other.product.level()) return false;
     return this.product.generalize().equals(other.product);

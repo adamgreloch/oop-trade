@@ -31,32 +31,32 @@ public class Bag {
    * @param amount amount of food to be taken
    * @return how much food left in a Bag
    */
-  public int takeFood(int amount) {
+  public Set<Product> takeFood(int amount) {
     if (amount < 0) throw new IllegalArgumentException();
     Product key = new Food(1);
     int toTake = amount;
     while (toTake > 0) {
-      if (findAlike(key).isEmpty()) return 0;
+      if (findAlike(key).isEmpty()) return null;
       Food taken = (Food) findAlike(key).pop();
       toTake -= taken.quantity();
       if (toTake < 0)
         this.storeProduct(new Food(-toTake));
     }
-    return countFood();
+    return Collections.singleton(new Food(amount));
   }
 
-  public double takeDiamonds(double amount) {
+  public Set<Product> takeDiamonds(double amount) {
     if (amount < 0) throw new IllegalArgumentException();
     Product key = new Diamond(1);
     double toTake = amount;
     while (toTake > 0) {
-      if (findAlike(key).isEmpty()) return 0;
+      if (findAlike(key).isEmpty()) return null;
       Diamond taken = (Diamond) findAlike(key).pop();
       toTake -= taken.value();
       if (toTake < 0)
         this.storeProduct(new Diamond(-toTake));
     }
-    return countDiamonds();
+    return Collections.singleton(new Diamond(amount));
   }
 
   public void storeProducts(Set<? extends Product> products) {
@@ -87,7 +87,7 @@ public class Bag {
    */
   public Set<Product> takeProducts(Product product, int quantity) {
     if (quantity < 0) throw new IllegalArgumentException();
-    if (product instanceof Food) takeFood(quantity);
+    if (product instanceof Food) return takeFood(quantity);
 
     if (!this.contains(product)) return null;
     Set<Product> res = new HashSet<>();
@@ -105,6 +105,7 @@ public class Bag {
   }
 
   protected LinkedList<Product> findAlike(Product product) {
+    if (findProduct(product) == null) return new LinkedList<>();
     return findProduct(product).get(product.level());
   }
 

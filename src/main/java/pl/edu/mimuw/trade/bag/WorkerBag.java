@@ -14,10 +14,13 @@ public class WorkerBag extends Bag implements ProductivityBuff {
   private static final int MINOR_STARVATION_PENALTY = -100;
   private static final int MAJOR_STARVATION_PENALTY = -300;
 
-  private final Worker owner;
+  private Worker owner;
 
-  public WorkerBag(Worker owner) {
+  public WorkerBag() {
     super();
+  }
+
+  public void setOwner(Worker owner) {
     this.owner = owner;
   }
 

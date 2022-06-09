@@ -65,4 +65,24 @@ public class Productivity {
   public int programs() {
     return base.programs() * (1 + getTotalBuff().programs() / 100);
   }
+
+  public int foodBase() {
+    return base.food();
+  }
+
+  public int clothesBase() {
+    return base.clothes();
+  }
+
+  public int toolsBase() {
+    return base.tools();
+  }
+
+  public int diamondsBase() {
+    return base.diamonds();
+  }
+
+  public int programsBase() {
+    return base.programs();
+  }
 }

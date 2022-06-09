@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Career implements ProductivityBuff {
-  private final Map<Occupation, Integer> careers; // Value indicates advancement level
+  private transient Map<Occupation, Integer> careers = null; // Value indicates advancement level
+
   private Occupation current;
 
   public Career(Occupation current, int currentLevel) {
@@ -17,7 +18,14 @@ public class Career implements ProductivityBuff {
     this.careers.put(current, currentLevel);
   }
 
+  public String current() {
+    return this.current.name;
+  }
+
   public void changeOccupation(Occupation next) {
+    if (careers == null)
+      careers = new HashMap<>();
+
     if (!careers.containsKey(next))
       careers.put(next, 1);
 

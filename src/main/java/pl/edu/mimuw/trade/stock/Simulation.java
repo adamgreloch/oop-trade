@@ -1,7 +1,10 @@
 package pl.edu.mimuw.trade.stock;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Agent;
-import pl.edu.mimuw.trade.stock.strategy.StockStrategy;
+import pl.edu.mimuw.trade.agents.Speculator;
+import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,14 +17,20 @@ public class Simulation {
 
   public static Random RANDOM = new Random();
   private static int day = 1;
-  private final LinkedList<Agent> active;
-  private final LinkedList<Agent> dead;
+  private transient final LinkedList<Agent> agents;
+  @SerializedName("robotnicy")
+  private final LinkedList<Worker> workers;
+  @SerializedName("spekulanci")
+  private final LinkedList<Speculator> speculators;
+  private transient final LinkedList<Worker> deadWorkers;
   private final Stock stock;
-  private int lastId = 0;
+  private transient int lastId = 0;
 
   public Simulation(StockStrategy stockStrategy) {
-    this.active = new LinkedList<>();
-    this.dead = new LinkedList<>();
+    this.agents = new LinkedList<>();
+    this.workers = new LinkedList<>();
+    this.speculators = new LinkedList<>();
+    this.deadWorkers = new LinkedList<>();
     this.stock = new Stock(this, stockStrategy);
   }
 
@@ -29,18 +38,24 @@ public class Simulation {
     return day;
   }
 
-  public void addAgents(Collection<Agent> agents) {
-    active.addAll(agents);
+  public void addWorkers(Collection<Worker> workers) {
+    this.workers.addAll(workers);
+    this.agents.addAll(workers);
+  }
+
+  public void addSpeculators(Collection<Speculator> speculators) {
+    this.speculators.addAll(speculators);
+    this.agents.addAll(speculators);
   }
 
   public void run(int duration) {
     while (day <= duration) {
-      active.forEach(Agent::act);
+      agents.forEach(Agent::act);
 
-      active.forEach(Agent::makeOffers);
+      agents.forEach(Agent::makeOffers);
       stock.processTransactions();
 
-      active.forEach(Agent::finishDay);
+      agents.forEach(Agent::finishDay);
 
       checkForDeaths();
       System.out.println(stock.getDayLog());
@@ -50,14 +65,16 @@ public class Simulation {
   }
 
   public void checkForDeaths() {
-    for (Agent agent : active)
-      if (agent.isDead()) {
-        dead.add(agent);
-        System.out.println(agent + " died on day " + day);
+    for (Worker worker : workers)
+      if (worker.isDead()) {
+        deadWorkers.add(worker);
+        System.out.println(worker + " died on day " + day);
       }
 
-    for (Agent deadAgent : dead)
-      active.remove(deadAgent);
+    for (Worker deadWorker : deadWorkers) {
+      agents.remove(deadWorker);
+      workers.remove(deadWorker);
+    }
   }
 
   public Stock stock() {

@@ -6,7 +6,7 @@ import pl.edu.mimuw.trade.products.Product;
 
 public class Craftsman extends Occupation {
   public Craftsman() {
-    super("craftsman");
+    super("rzemieslnik");
   }
 
   protected ProductivityVector makeBuff(int buffValue) {

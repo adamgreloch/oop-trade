@@ -10,7 +10,7 @@ public abstract class Occupation {
   public static final int CUMULATIVE_THRESHOLD = 4;
   public static final int BASE_BUFF_AFTER_THRESHOLD = 300;
   public static final int CUMULATIVE_BUFF = 25;
-  private final String name;
+  public final String name;
 
   public Occupation(String name) {
     this.name = name;

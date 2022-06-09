@@ -1,6 +1,27 @@
 package pl.edu.mimuw.trade;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import pl.edu.mimuw.trade.adapter.*;
+import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.agents.career.*;
+import pl.edu.mimuw.trade.agents.productivity.Productivity;
+import pl.edu.mimuw.trade.bag.WorkerBag;
 import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.strategy.Strategy;
+import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
+import pl.edu.mimuw.trade.strategy.career.Conservative;
+import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
+import pl.edu.mimuw.trade.strategy.production.Random;
+import pl.edu.mimuw.trade.strategy.production.Shortsighted;
+import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
+import pl.edu.mimuw.trade.strategy.purchase.Technophobe;
+import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
+import pl.edu.mimuw.trade.strategy.stock.Capitalist;
+import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
+import pl.edu.mimuw.trade.strategy.studying.Economical;
+import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
+import pl.edu.mimuw.trade.strategy.studying.Workaholic;
 
 import java.io.IOException;
 
@@ -50,9 +71,56 @@ public class Main {
     simulation.run(15);
 
 */
-    Adapter adapter = new Adapter("in.json");
-    Simulation simulation = adapter.readSimulationProperties();
-    simulation.run(adapter.simulationDuration());
+
+//    Adapter adapter = new Adapter("in.json");
+//    Simulation simulation = adapter.readSimulationProperties();
+//    simulation.run(adapter.simulationDuration());
+
+    StockStrategy capitalist = new Capitalist();
+
+    Simulation simulation = new Simulation(capitalist);
+
+    CareerStrategy conservative = new Conservative();
+
+    StudyingStrategy workaholic = new Workaholic();
+    StudyingStrategy economical = new Economical(500);
+
+    PurchaseStrategy technophobe = new Technophobe();
+    Occupation farmer = new Farmer();
+    Occupation engineer = new Engineer();
+    Occupation craftsman = new Craftsman();
+
+    ProductionStrategy random = new Random();
+    ProductionStrategy shortsighted = new Shortsighted(simulation.stock());
+
+    Productivity productivity = new Productivity(100, 100,
+            100, 100, 100);
+
+    Worker w1 = new Worker(42, simulation, productivity,
+            farmer, 1, conservative, technophobe, shortsighted, economical);
+    w1.giveStartingResources(100, 100, 100, 100, 100);
+
+    GsonBuilder gsonBuilder = new GsonBuilder();
+
+    gsonBuilder.registerTypeAdapter(Strategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(CareerStrategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(ProductionStrategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(PurchaseStrategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(SpeculationStrategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(StockStrategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(StudyingStrategy.class, new StrategyAdapter<>())
+            .registerTypeAdapter(Occupation.class, new OccupationAdapter())
+            .registerTypeAdapter(Career.class, new CareerAdapter())
+            .registerTypeAdapter(WorkerBag.class, new WorkerBagAdapter())
+            .registerTypeAdapter(Productivity.class, new ProductivityAdapter())
+            .setPrettyPrinting();
+    Gson gson = gsonBuilder.create();
+
+    String json = gson.toJson(w1);
+    System.out.println(json);
+
+    Worker w2 = gson.fromJson(json, Worker.class);
+    System.out.println(w2);
   }
 }
 

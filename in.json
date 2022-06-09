@@ -16,10 +16,7 @@
       "kariera": "rolnik",
       "kupowanie": "technofob",
       "produkcja": "krotkowzroczny",
-      "uczenie": {
-        "typ": "oszczedny",
-        "limit_diamentow": 10000
-      },
+      "uczenie": "pracus",
       "zmiana": "konserwatysta",
       "produktywnosc": {
         "programy": 100,

@@ -6,7 +6,7 @@ import pl.edu.mimuw.trade.products.Tool;
 
 public class Engineer extends Occupation {
   public Engineer() {
-    super("engineer");
+    super("inzynier");
   }
 
   protected ProductivityVector makeBuff(int buffValue) {

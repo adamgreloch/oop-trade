@@ -1,18 +1,19 @@
 package pl.edu.mimuw.trade.agents;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.career.Career;
-import pl.edu.mimuw.trade.agents.career.CareerStrategy;
 import pl.edu.mimuw.trade.agents.career.Occupation;
-import pl.edu.mimuw.trade.agents.production.ProductionStrategy;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-import pl.edu.mimuw.trade.agents.purchase.PurchaseStrategy;
-import pl.edu.mimuw.trade.agents.studying.StudyingStrategy;
 import pl.edu.mimuw.trade.bag.WorkerBag;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.stock.Offer;
 import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
+import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
+import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
+import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,14 +23,26 @@ public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
   public static final int DAILY_CLOTHES_CONSUMPTION = 100;
   public static final int DAILY_FOOD_CONSUMPTION = 100;
+
+  @SerializedName("produktywnosc")
   private final Productivity productivity;
+
+  @SerializedName("zasoby")
   private final WorkerBag workerBag;
+
+  @SerializedName(value = "kariera")
   private final Career career;
+
+  @SerializedName("zmiana")
   private final CareerStrategy careerStrategy;
+  @SerializedName("kupowanie")
   private final PurchaseStrategy purchaseStrategy;
+  @SerializedName("produkcja")
   private final ProductionStrategy productionStrategy;
+  @SerializedName("uczenie")
   private final StudyingStrategy studyingStrategy;
-  private int hunger = 0;
+
+  private transient int hunger = 0;
 
   public Worker(int id, Simulation simulation, Productivity productivity,
                 Occupation occupation,
@@ -41,7 +54,10 @@ public class Worker extends Agent {
     super(id, simulation);
     this.productivity = productivity;
     this.career = new Career(occupation, occupationLevel);
-    this.workerBag = new WorkerBag(this);
+
+    this.workerBag = new WorkerBag();
+    this.workerBag.setOwner(this);
+
     this.storageBag = workerBag;
     this.careerStrategy = careerStrategy;
     this.purchaseStrategy = purchaseStrategy;

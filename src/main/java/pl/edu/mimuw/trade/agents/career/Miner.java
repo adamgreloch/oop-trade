@@ -8,7 +8,7 @@ public class Miner extends Occupation {
 
   // TODO Worker can't become a Miner
   public Miner() {
-    super("miner");
+    super("gornik");
   }
 
   protected ProductivityVector makeBuff(int buffValue) {

@@ -6,7 +6,7 @@ import pl.edu.mimuw.trade.products.Product;
 
 public class Farmer extends Occupation {
   public Farmer() {
-    super("farmer");
+    super("rolnik");
   }
 
   protected ProductivityVector makeBuff(int buffValue) {

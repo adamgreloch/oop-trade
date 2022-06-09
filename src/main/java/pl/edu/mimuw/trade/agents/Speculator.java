@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.agents;
 
-import pl.edu.mimuw.trade.agents.speculation.SpeculationStrategy;
 import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
 
 public class Speculator extends Agent {
 

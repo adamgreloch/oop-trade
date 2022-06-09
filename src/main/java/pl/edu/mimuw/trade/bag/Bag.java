@@ -119,6 +119,26 @@ public class Bag {
     findProduct(product).get(product.level()).remove(product);
   }
 
+  public int countAll(Product product) {
+    if (!this.contains(product)) return 0;
+    int quantity = 0;
+    for (LinkedList<Product> products : findProduct(product).values())
+      quantity += products.size();
+    return quantity;
+  }
+
+  public int countClothes() {
+    return countAll(new Clothes(1));
+  }
+
+  public int countPrograms() {
+    return countAll(new Program(1));
+  }
+
+  public int countTools() {
+    return countAll(new Tool(1));
+  }
+
   public int countFood() {
     Product key = new Food(1);
     if (!this.contains(key)) return 0;

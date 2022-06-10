@@ -22,6 +22,7 @@ public class CareerAdapter implements JsonSerializer<Career>, JsonDeserializer<C
     }
   }
 
+  @SuppressWarnings("unchecked")
   public Career deserialize(JsonElement json, Type typeOfT,
                             JsonDeserializationContext context) throws JsonParseException {
     String type = json.getAsString();

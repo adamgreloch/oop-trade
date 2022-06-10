@@ -1,14 +1,14 @@
 package pl.edu.mimuw.trade.agents;
 
-import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.simulation.Stock;
 import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
 
 public class Speculator extends Agent {
 
   SpeculationStrategy speculationStrategy;
 
-  public Speculator(int id, Simulation simulation, SpeculationStrategy speculationStrategy) {
-    super(id, simulation);
+  public Speculator(int id, Stock stock, SpeculationStrategy speculationStrategy) {
+    super(id, stock);
     this.speculationStrategy = speculationStrategy;
   }
 
@@ -16,7 +16,7 @@ public class Speculator extends Agent {
   }
 
   public void makeOffers() {
-    simulation.stock().addOffer(speculationStrategy.makeOffers(this), this);
+    stock.addOffer(speculationStrategy.makeOffers(this), this);
   }
 
   public void finishDay() {

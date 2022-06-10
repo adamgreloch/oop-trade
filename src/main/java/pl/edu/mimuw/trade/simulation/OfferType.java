@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.stock;
+package pl.edu.mimuw.trade.simulation;
 
 public enum OfferType {
   SELL,

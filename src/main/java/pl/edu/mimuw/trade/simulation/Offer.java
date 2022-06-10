@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.stock;
+package pl.edu.mimuw.trade.simulation;
 
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.products.Product;
@@ -6,8 +6,8 @@ import pl.edu.mimuw.trade.products.Tradeable;
 
 import java.util.Set;
 
-import static pl.edu.mimuw.trade.stock.OfferType.BUY;
-import static pl.edu.mimuw.trade.stock.OfferType.SELL;
+import static pl.edu.mimuw.trade.simulation.OfferType.BUY;
+import static pl.edu.mimuw.trade.simulation.OfferType.SELL;
 
 /**
  * Oferty kupna i sprzedaży, które będą następnie dopasowywane przez Giełdę.

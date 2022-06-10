@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.strategy.speculation;
 
 import pl.edu.mimuw.trade.agents.Speculator;
-import pl.edu.mimuw.trade.stock.Offer;
+import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.strategy.Strategy;
 
 import java.util.Set;

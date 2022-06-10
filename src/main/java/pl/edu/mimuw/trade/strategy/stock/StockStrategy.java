@@ -1,6 +1,6 @@
 package pl.edu.mimuw.trade.strategy.stock;
 
-import pl.edu.mimuw.trade.stock.OfferQueue;
+import pl.edu.mimuw.trade.simulation.OfferQueue;
 import pl.edu.mimuw.trade.strategy.Strategy;
 
 import java.util.List;

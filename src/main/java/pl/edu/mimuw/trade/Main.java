@@ -1,14 +1,14 @@
 package pl.edu.mimuw.trade;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import pl.edu.mimuw.trade.adapter.*;
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.agents.career.*;
+import pl.edu.mimuw.trade.agents.career.Craftsman;
+import pl.edu.mimuw.trade.agents.career.Engineer;
+import pl.edu.mimuw.trade.agents.career.Farmer;
+import pl.edu.mimuw.trade.agents.career.Occupation;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
-import pl.edu.mimuw.trade.bag.Bag;
-import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.simulation.Simulation;
+import pl.edu.mimuw.trade.simulation.SimulationWrapper;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.career.Conservative;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
@@ -79,7 +79,7 @@ public class Main {
 
     StockStrategy capitalist = new Capitalist();
 
-    Simulation simulation = new Simulation(capitalist);
+    SimulationWrapper wrapper = new SimulationWrapper(capitalist);
 
     CareerStrategy conservative = new Conservative();
 
@@ -92,47 +92,33 @@ public class Main {
     Occupation craftsman = new Craftsman();
 
     ProductionStrategy random = new Random();
-    ProductionStrategy shortsighted = new Shortsighted(simulation.stock());
+    ProductionStrategy shortsighted = new Shortsighted(wrapper.stock());
 
     Productivity productivity = new Productivity(100, 100,
             100, 100, 100);
 
-    Worker w1 = new Worker(42, simulation, productivity,
+    Worker w1 = new Worker(42, wrapper.stock(), productivity,
             farmer, 1, conservative, technophobe, shortsighted, economical);
     w1.giveStartingResources(100, 100, 100, 100, 100);
 
-    GsonBuilder gsonBuilder = new GsonBuilder();
-
-    Gson gson = gsonBuilder.registerTypeAdapter(CareerStrategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(ProductionStrategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(PurchaseStrategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(SpeculationStrategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(StockStrategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(StudyingStrategy.class, new StrategyAdapter<>())
-            .registerTypeAdapter(Occupation.class, new OccupationAdapter())
-            .registerTypeAdapter(Career.class, new CareerAdapter())
-            .registerTypeAdapter(Bag.class, new BagAdapter())
-            .registerTypeAdapter(Productivity.class, new ProductivityAdapter())
-            .setPrettyPrinting().create();
-
-    String json = gson.toJson(w1);
+    String json = GsonWrapper.toJson(w1);
     System.out.println(json);
 
-    Worker w2 = gson.fromJson(json, Worker.class);
+    Worker w2 = GsonWrapper.fromJson(json, Worker.class);
     System.out.println(w2);
 
-    SpeculationStrategy average = new AverageSpeculation(simulation, 3);
+    SpeculationStrategy average = new AverageSpeculation(wrapper.stock(), 3);
 
-    Speculator s1 = new Speculator(69, simulation, average);
-    Speculator s2 = new Speculator(420, simulation, average);
-    Speculator s3 = new Speculator(1337, simulation, average);
+    Speculator s1 = new Speculator(69, wrapper.stock(), average);
+    Speculator s2 = new Speculator(420, wrapper.stock(), average);
+    Speculator s3 = new Speculator(1337, wrapper.stock(), average);
 
-    simulation.addWorkers(w1);
-    simulation.addSpeculators(s1, s2, s3);
-    String json2 = gson.toJson(simulation);
+    wrapper.addWorkers(w1);
+    wrapper.addSpeculators(s1, s2, s3);
+    String json2 = GsonWrapper.toJson(wrapper);
     System.out.println(json2);
 
-    Simulation xd = gson.fromJson(json2, Simulation.class);
+    Simulation xd = GsonWrapper.fromJson(json2, Simulation.class);
   }
 }
 

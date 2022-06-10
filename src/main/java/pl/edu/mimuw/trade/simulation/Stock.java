@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.stock;
+package pl.edu.mimuw.trade.simulation;
 
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Agent;
@@ -18,9 +18,9 @@ public class Stock {
   private transient final Set<OfferQueue> workerOfferQueues;
   private transient final SortedSet<Offer> speculatorOffers;
 
-  public Stock(Simulation simulation, StockStrategy stockStrategy) {
-    this.bank = new Bank(simulation);
-    this.log = new StockLog();
+  public Stock(StockStrategy stockStrategy, StockLog log) {
+    this.bank = new Bank(this);
+    this.log = log;
     this.stockStrategy = stockStrategy;
     this.workerOfferQueues = new HashSet<>();
     this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
@@ -40,8 +40,7 @@ public class Stock {
       OfferQueue queue = new OfferQueue(issuer);
       queue.addAll(offers);
       workerOfferQueues.add(queue);
-    }
-    else speculatorOffers.addAll(offers);
+    } else speculatorOffers.addAll(offers);
   }
 
   void processTransactions() {

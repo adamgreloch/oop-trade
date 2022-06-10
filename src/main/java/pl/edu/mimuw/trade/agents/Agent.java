@@ -1,11 +1,10 @@
 package pl.edu.mimuw.trade.agents;
 
 import com.google.gson.annotations.SerializedName;
-import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
-import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.simulation.Stock;
 
 import java.util.Set;
 
@@ -14,7 +13,7 @@ public abstract class Agent {
   @SerializedName("id")
   private final int id;
 
-  protected transient Simulation simulation;
+  protected transient Stock stock;
   protected transient Bag saleBag;
 
   @SerializedName("zasoby")
@@ -22,10 +21,8 @@ public abstract class Agent {
 
   protected transient boolean isAlive = true;
 
-
-  // TODO is simulation needed?
-  public Agent(int id, Simulation simulation) {
-    this.simulation = simulation;
+  public Agent(int id, Stock stock) {
+    this.stock = stock;
     this.id = id;
     this.saleBag = new Bag();
     this.storageBag = saleBag;

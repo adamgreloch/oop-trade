@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.adapter;
 
 import com.google.gson.*;
-import pl.edu.mimuw.trade.bag.Bag;
+import pl.edu.mimuw.trade.agents.Bag;
 import pl.edu.mimuw.trade.products.ProductFactory;
 
 import java.lang.reflect.Type;

@@ -4,7 +4,7 @@ import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
-import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.simulation.Simulation;
 
 import java.util.Set;
 

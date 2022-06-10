@@ -1,6 +1,6 @@
 package pl.edu.mimuw.trade.agents.productivity;
 
-import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.simulation.Simulation;
 
 import java.util.HashSet;
 import java.util.Set;

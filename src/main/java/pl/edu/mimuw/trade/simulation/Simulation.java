@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.stock;
+package pl.edu.mimuw.trade.simulation;
 
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Agent;
@@ -6,9 +6,7 @@ import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
-import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,50 +16,42 @@ public class Simulation {
 
   public static Random RANDOM = new Random();
   private static int day = 1;
+  @SerializedName("gielda")
+  private final StockStrategy stockStrategy;
   @SerializedName("dlugosc")
   private final int SIMULATION_LENGTH = 5;
   @SerializedName("kara_za_brak_ubran")
   private final int NO_CLOTHES_PENALTY = 2;
-  private transient final LinkedList<Agent> agents;
-  @SerializedName("robotnicy")
-  private final LinkedList<Worker> workers;
-  @SerializedName("spekulanci")
-  private final LinkedList<Speculator> speculators;
-  private transient final LinkedList<Worker> deadWorkers;
-  private final Stock stock;
 
-  public Simulation(StockStrategy stockStrategy) {
+  @SerializedName("przebieg")
+  private final StockLog log;
+
+  private transient final LinkedList<Agent> agents;
+  private transient final LinkedList<Worker> workers;
+  private transient final LinkedList<Speculator> speculators;
+  private transient final LinkedList<Worker> deadWorkers;
+  private transient final Stock stock;
+
+  public Simulation(StockStrategy stockStrategy, LinkedList<Worker> workers, LinkedList<Speculator> speculators) {
+    this.workers = workers;
+    this.speculators = speculators;
+
     this.agents = new LinkedList<>();
-    this.workers = new LinkedList<>();
-    this.speculators = new LinkedList<>();
+    this.agents.addAll(workers);
+    this.agents.addAll(speculators);
+
+    this.stockStrategy = stockStrategy;
     this.deadWorkers = new LinkedList<>();
-    this.stock = new Stock(this, stockStrategy);
+    this.log = new StockLog();
+    this.stock = new Stock(stockStrategy, this.log);
   }
 
   public static int day() {
     return day;
   }
 
-  public void addWorkers(Collection<Worker> workers) {
-    this.workers.addAll(workers);
-    this.agents.addAll(workers);
-  }
-
-  public void addWorkers(Worker... workers) {
-    addWorkers(List.of(workers));
-  }
-
-  public void addSpeculators(Collection<Speculator> speculators) {
-    this.speculators.addAll(speculators);
-    this.agents.addAll(speculators);
-  }
-
-  public void addSpeculators(Speculator... speculators) {
-    addSpeculators(List.of(speculators));
-  }
-
-  public void run(int duration) {
-    while (day <= duration) {
+  public void run() {
+    while (day <= SIMULATION_LENGTH) {
       agents.forEach(Agent::act);
 
       agents.forEach(Agent::makeOffers);

@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.stock;
+package pl.edu.mimuw.trade.simulation;
 
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;

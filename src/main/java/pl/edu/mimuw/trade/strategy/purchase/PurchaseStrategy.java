@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.strategy.purchase;
 
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.stock.Offer;
+import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.strategy.Strategy;
 
 import java.util.Set;

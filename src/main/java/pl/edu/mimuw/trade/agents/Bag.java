@@ -1,6 +1,5 @@
-package pl.edu.mimuw.trade.bag;
+package pl.edu.mimuw.trade.agents;
 
-import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.*;
@@ -83,8 +82,7 @@ public class Bag implements ProductivityBuff {
   public boolean contains(Product product) {
     if (product == null) return false;
     if (!this.contents.containsKey(product.generalize())) return false;
-    if (!this.contents.get(product.generalize()).containsKey(product.level())) return false;
-    return true;
+    return this.contents.get(product.generalize()).containsKey(product.level());
   }
 
   /**

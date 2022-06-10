@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
-import pl.edu.mimuw.trade.stock.Offer;
-import pl.edu.mimuw.trade.stock.Simulation;
-import pl.edu.mimuw.trade.stock.Stock;
+import pl.edu.mimuw.trade.simulation.Offer;
+import pl.edu.mimuw.trade.simulation.Simulation;
+import pl.edu.mimuw.trade.simulation.Stock;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,10 +22,10 @@ public class AverageSpeculation extends SpeculationStrategy {
 
   private transient final Stock stock;
 
-  public AverageSpeculation(Simulation simulation, int reachPast) {
+  public AverageSpeculation(Stock stock, int reachPast) {
     super("sredni");
     this.reachPast = reachPast;
-    this.stock = simulation.stock();
+    this.stock = stock;
   }
 
   public Set<Offer> makeOffers(Speculator speculator) {
@@ -43,8 +43,7 @@ public class AverageSpeculation extends SpeculationStrategy {
     if (quantity > 0) {
       offers.add(new Offer(speculator, product, PURCHASE_QUANTITY, avg * PURCHASE_FACTOR, true));
       offers.add(new Offer(speculator, product, quantity, avg * SELL_FACTOR, false));
-    }
-    else
+    } else
       offers.add(new Offer(speculator, product, PURCHASE_QUANTITY, avg * FRESH_PURCHASE_FACTOR, true));
 
     return offers;

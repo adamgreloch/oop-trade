@@ -5,11 +5,10 @@ import pl.edu.mimuw.trade.agents.career.Career;
 import pl.edu.mimuw.trade.agents.career.Occupation;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-import pl.edu.mimuw.trade.bag.Bag;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
-import pl.edu.mimuw.trade.stock.Offer;
-import pl.edu.mimuw.trade.stock.Simulation;
+import pl.edu.mimuw.trade.simulation.Offer;
+import pl.edu.mimuw.trade.simulation.Stock;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
 import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
@@ -40,14 +39,14 @@ public class Worker extends Agent {
 
   private transient int hunger = 0;
 
-  public Worker(int id, Simulation simulation, Productivity productivity,
+  public Worker(int id, Stock stock, Productivity productivity,
                 Occupation occupation,
                 int occupationLevel,
                 CareerStrategy careerStrategy,
                 PurchaseStrategy purchaseStrategy,
                 ProductionStrategy productionStrategy,
                 StudyingStrategy studyingStrategy) {
-    super(id, simulation);
+    super(id, stock);
     this.productivity = productivity;
     this.career = new Career(occupation, occupationLevel);
 
@@ -76,7 +75,7 @@ public class Worker extends Agent {
         offers.add(new Offer(this, p, saleBag.quantity(p), false));
     }
     offers.addAll(purchaseStrategy.purchasesToOffer(this));
-    simulation.stock().addOffer(offers, this);
+    stock.addOffer(offers, this);
   }
 
   public void finishDay() {

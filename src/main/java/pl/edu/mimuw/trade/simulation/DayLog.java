@@ -12,13 +12,21 @@ import static java.lang.Double.MAX_VALUE;
 
 public class DayLog {
 
-  final int day;
+  int day;
   private final Set<Product> products;
   private final Map<Product, Double> max;
   private final Map<Product, Double> average;
   private final Map<Product, Double> min;
   private final Map<Product, Integer> quantities;
-  private final DayLog fallBack;
+  private DayLog fallBack;
+
+  public DayLog() {
+    this.products = new HashSet<>();
+    this.max = new HashMap<>();
+    this.average = new HashMap<>();
+    this.min = new HashMap<>();
+    this.quantities = new HashMap<>();
+  }
 
   public DayLog(int day, DayLog fallBack) {
     this.day = day;

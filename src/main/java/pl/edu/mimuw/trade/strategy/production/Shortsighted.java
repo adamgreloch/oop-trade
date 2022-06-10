@@ -6,16 +6,13 @@ import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Simulation;
-import pl.edu.mimuw.trade.simulation.Stock;
 
 import java.util.Set;
 
 public class Shortsighted extends ProductionStrategy {
-  private transient final Stock stock;
 
-  public Shortsighted(Stock stock) {
+  public Shortsighted() {
     super("krotkowzroczny");
-    this.stock = stock;
   }
 
   public Set<Product> produce(Worker worker) {
@@ -29,7 +26,7 @@ public class Shortsighted extends ProductionStrategy {
     int yesterday = Math.max(Simulation.day() - 1, 0);
     Tradeable pick = null;
     for (Tradeable product : ProductFactory.previewTradeable()) {
-      avg = stock.getAveragePrice(yesterday, product);
+      avg = Simulation.stock.getAveragePrice(yesterday, product);
       if (avg > maxAvg) {
         pick = product;
         maxAvg = avg;

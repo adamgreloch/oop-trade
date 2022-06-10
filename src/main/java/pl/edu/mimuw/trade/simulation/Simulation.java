@@ -15,26 +15,22 @@ import java.util.Random;
  * Centrum symulacji. Przeprowadza rundy przez kolejne etapy, przeprowadza symulację przez kolejne rundy
  */
 public class Simulation {
-
   public static Random RANDOM = new Random();
 
-  @Expose(serialize = true, deserialize = false)
+  @Expose(deserialize = false)
   private static int day = 1;
   @SerializedName("gielda")
-  private final StockStrategy stockStrategy;
+  private StockStrategy stockStrategy;
   @SerializedName("dlugosc")
   @Expose(serialize = false)
   private final int SIMULATION_LENGTH = 5;
   @SerializedName("kara_za_brak_ubran")
   private final int NO_CLOTHES_PENALTY = 2;
 
-  private transient final LinkedList<Agent> agents;
-  private transient final LinkedList<Worker> workers;
-  private transient final LinkedList<Speculator> speculators;
-  private transient final LinkedList<Agent> dead;
+  private transient LinkedList<Agent> agents;
+  private transient LinkedList<Agent> dead;
 
-  private transient final Stock stock;
-  private transient final StockLog log;
+  public static transient Stock stock;
 
   @SerializedName("ceny_srednie")
   private Map<String, Double> lastDayAvgPrices;
@@ -43,18 +39,23 @@ public class Simulation {
   @SerializedName("ceny_min")
   private Map<String, Double> lastDayMinPrices;
   @SerializedName("ceny")
-  @Expose(serialize = false)
   private DayLog fallBack;
 
-  public Simulation(StockStrategy stockStrategy, LinkedList<Worker> workers, LinkedList<Speculator> speculators) {
+  public Simulation(StockStrategy stockStrategy) {
     this.agents = new LinkedList<>();
-    this.workers = workers;
-    this.speculators = speculators;
-
     this.stockStrategy = stockStrategy;
     this.dead = new LinkedList<>();
-    this.log = new StockLog();
-    this.stock = new Stock(stockStrategy, this.log);
+  }
+
+  public Simulation() {
+    this.agents = new LinkedList<>();
+    this.dead = new LinkedList<>();
+  }
+
+  public void init(LinkedList<Worker> workers, LinkedList<Speculator> speculators) {
+    Simulation.stock = new Stock(stockStrategy, fallBack);
+    this.agents.addAll(workers);
+    this.agents.addAll(speculators);
   }
 
   public static int day() {
@@ -62,11 +63,6 @@ public class Simulation {
   }
 
   public void runDay() {
-    if (day == 1) {
-      this.agents.addAll(workers);
-      this.agents.addAll(speculators);
-    }
-
     agents.forEach(Agent::act);
 
     agents.forEach(Agent::makeOffers);
@@ -75,9 +71,9 @@ public class Simulation {
     agents.forEach(Agent::finishDay);
 
     checkForDeaths();
-    lastDayMaxPrices = log.mapLastMaxPrices();
-    lastDayMinPrices = log.mapLastMinPrices();
-    lastDayAvgPrices = log.mapLastAvgPrices();
+    lastDayMaxPrices = stock.log.mapLastMaxPrices();
+    lastDayMinPrices = stock.log.mapLastMinPrices();
+    lastDayAvgPrices = stock.log.mapLastAvgPrices();
     day++;
     stock.newDay();
   }
@@ -93,6 +89,10 @@ public class Simulation {
       agents.remove(deadAgent);
   }
 
+  public void addAgents(LinkedList<? extends Agent> agents) {
+    this.agents.addAll(agents);
+  }
+
   public int simulationLength() {
     return SIMULATION_LENGTH;
   }
@@ -102,6 +102,6 @@ public class Simulation {
   }
 
   public DayLog getCurrent() {
-    return log.getCurrent();
+    return stock.log.getCurrent();
   }
 }

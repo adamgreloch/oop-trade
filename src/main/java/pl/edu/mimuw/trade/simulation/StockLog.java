@@ -20,6 +20,13 @@ public class StockLog {
     this.previous = fallBack;
   }
 
+  public StockLog(DayLog fallBack) {
+    this.days = new LinkedList<>();
+    this.fallBack = fallBack;
+    this.current = new DayLog(1, this.fallBack);
+    this.previous = fallBack;
+  }
+
   /**
    * @return Price of the lowest product purchase price the day before or price from zero-day.
    */

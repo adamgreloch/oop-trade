@@ -8,6 +8,7 @@ import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Offer;
+import pl.edu.mimuw.trade.simulation.Simulation;
 import pl.edu.mimuw.trade.simulation.Stock;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
@@ -24,20 +25,24 @@ public class Worker extends Agent {
   public static final int DAILY_FOOD_CONSUMPTION = 100;
 
   @SerializedName("produktywnosc")
-  private final Productivity productivity;
+  private Productivity productivity;
   @SerializedName(value = "kariera")
-  private final Career career;
+  private Career career;
 
   @SerializedName("zmiana")
-  private final CareerStrategy careerStrategy;
+  private CareerStrategy careerStrategy;
   @SerializedName("kupowanie")
-  private final PurchaseStrategy purchaseStrategy;
+  private PurchaseStrategy purchaseStrategy;
   @SerializedName("produkcja")
-  private final ProductionStrategy productionStrategy;
+  private ProductionStrategy productionStrategy;
   @SerializedName("uczenie")
-  private final StudyingStrategy studyingStrategy;
+  private StudyingStrategy studyingStrategy;
 
   private transient int hunger = 0;
+
+  public Worker() {
+    super();
+  }
 
   public Worker(int id, Stock stock, Productivity productivity,
                 Occupation occupation,
@@ -75,7 +80,7 @@ public class Worker extends Agent {
         offers.add(new Offer(this, p, saleBag.quantity(p), false));
     }
     offers.addAll(purchaseStrategy.purchasesToOffer(this));
-    stock.addOffer(offers, this);
+    Simulation.stock.addOffer(offers, this);
   }
 
   public void finishDay() {
@@ -129,6 +134,7 @@ public class Worker extends Agent {
 
   private void activateBuffs() {
     productivity.clearBuffs();
+    storageBag.setOwner(this);
     storageBag.listBuffableProducts().forEach(productivity::addBuff);
     productivity.updateBuffs();
   }

@@ -1,6 +1,5 @@
 package pl.edu.mimuw.trade.simulation;
 
-import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Bank;
 import pl.edu.mimuw.trade.agents.Worker;
@@ -12,11 +11,18 @@ import java.util.*;
 public class Stock {
 
   private transient final Bank bank;
-  private final StockLog log;
-  @SerializedName("giełda")
-  private final StockStrategy stockStrategy;
+  final StockLog log;
+  private transient StockStrategy stockStrategy;
   private transient final Set<OfferQueue> workerOfferQueues;
   private transient final SortedSet<Offer> speculatorOffers;
+
+  public Stock(StockStrategy stockStrategy, DayLog fallBack) {
+    this.stockStrategy = stockStrategy;
+    this.bank = new Bank(this);
+    this.log = new StockLog(fallBack);
+    this.workerOfferQueues = new HashSet<>();
+    this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
+  }
 
   public Stock(StockStrategy stockStrategy, StockLog log) {
     this.bank = new Bank(this);
@@ -96,5 +102,9 @@ public class Stock {
 
   public String getDayLog() {
     return log.printCurrent();
+  }
+
+  public void setStrategy(StockStrategy strategy) {
+    this.stockStrategy = strategy;
   }
 }

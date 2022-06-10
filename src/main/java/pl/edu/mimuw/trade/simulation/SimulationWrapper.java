@@ -6,41 +6,28 @@ import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class SimulationWrapper {
   @SerializedName("info")
-  private final Simulation simulation;
+  private Simulation simulation;
   @SerializedName("robotnicy")
   private final LinkedList<Worker> workers;
   @SerializedName("spekulanci")
   private final LinkedList<Speculator> speculators;
-  @SerializedName("ceny")
-  private DayLog current;
+
+  private transient DayLog current; // TODO do outputu
 
   public SimulationWrapper(StockStrategy stockStrategy) {
     this.workers = new LinkedList<>();
     this.speculators = new LinkedList<>();
-    this.simulation = new Simulation(stockStrategy, workers, speculators);
-  }
-
-  public void addWorkers(Worker... workers) {
-    this.workers.addAll(List.of(workers));
-  }
-
-  public void addSpeculators(Speculator... speculators) {
-    this.speculators.addAll(List.of(speculators));
-  }
-
-  public Stock stock() {
-    return simulation.stock();
+    this.simulation = new Simulation(stockStrategy);
   }
 
   public void runSimulation() {
+    simulation.init(workers, speculators);
     while (Simulation.day() <= simulation.simulationLength()) {
       simulation.runDay();
       current = simulation.getCurrent();
-//      System.out.println(GsonWrapper.toJson(this));
     }
   }
 }

@@ -6,7 +6,6 @@ import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.simulation.Simulation;
-import pl.edu.mimuw.trade.simulation.Stock;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,12 +19,9 @@ public class AverageSpeculation extends SpeculationStrategy {
   @SerializedName("historia_spekulanta_sredniego")
   private final int reachPast;
 
-  private transient final Stock stock;
-
-  public AverageSpeculation(Stock stock, int reachPast) {
+  public AverageSpeculation(int reachPast) {
     super("sredni");
     this.reachPast = reachPast;
-    this.stock = stock;
   }
 
   public Set<Offer> makeOffers(Speculator speculator) {
@@ -55,8 +51,8 @@ public class AverageSpeculation extends SpeculationStrategy {
     int reached;
     for (int day = 1; day <= reachPast; day++) {
       reached = Math.max(Simulation.day() - day, 0);
-      sum += stock.getAveragePrice(reached, product);
-      sold += stock.getSoldQuantity(reached, product);
+      sum += Simulation.stock.getAveragePrice(reached, product);
+      sold += Simulation.stock.getSoldQuantity(reached, product);
     }
     return sum / sold;
   }

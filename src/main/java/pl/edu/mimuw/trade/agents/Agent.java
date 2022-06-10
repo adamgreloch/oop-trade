@@ -11,9 +11,8 @@ import java.util.Set;
 public abstract class Agent {
 
   @SerializedName("id")
-  private final int id;
+  private int id;
 
-  protected transient Stock stock;
   protected transient Bag saleBag;
 
   @SerializedName("zasoby")
@@ -21,8 +20,11 @@ public abstract class Agent {
 
   protected transient boolean isAlive = true;
 
+  public Agent() {
+    this.saleBag = new Bag();
+  }
+
   public Agent(int id, Stock stock) {
-    this.stock = stock;
     this.id = id;
     this.saleBag = new Bag();
     this.storageBag = saleBag;

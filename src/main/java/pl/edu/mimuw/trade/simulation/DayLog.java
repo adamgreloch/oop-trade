@@ -18,17 +18,20 @@ public class DayLog {
   private final Map<Product, Double> average;
   private final Map<Product, Double> min;
   private final Map<Product, Integer> quantities;
+  private final DayLog fallBack;
 
-  public DayLog(int day) {
+  public DayLog(int day, DayLog fallBack) {
     this.day = day;
     this.products = new HashSet<>();
     this.max = new HashMap<>();
     this.average = new HashMap<>();
     this.min = new HashMap<>();
     this.quantities = new HashMap<>();
+    this.fallBack = fallBack;
   }
 
-  public void log(Tradeable levelled, double sellPrice, int soldQuantity) {
+  public void log(Product levelled, double sellPrice, int soldQuantity) {
+    assert levelled instanceof Tradeable;
     Product product = levelled.generalize();
 
     this.products.add(product);
@@ -43,6 +46,25 @@ public class DayLog {
     Product product = levelled.generalize();
 
     return this.min.getOrDefault(product, fallBack.min.get(product));
+  }
+
+  public Map<String, Double> mapAvgPrices() {
+    return mapPrices(this.average);
+  }
+
+  public Map<String, Double> mapMaxPrices() {
+    return mapPrices(this.max);
+  }
+
+  public Map<String, Double> mapMinPrices() {
+    return mapPrices(this.min);
+  }
+
+  private Map<String, Double> mapPrices(Map<Product, Double> prices) {
+    Map<String, Double> res = new HashMap<>();
+    for (Product product : prices.keySet())
+      res.put(product.productName(), prices.get(product));
+    return res;
   }
 
   public boolean soldThatDay(Tradeable product) {

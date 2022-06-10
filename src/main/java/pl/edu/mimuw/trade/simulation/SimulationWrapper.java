@@ -1,7 +1,6 @@
 package pl.edu.mimuw.trade.simulation;
 
 import com.google.gson.annotations.SerializedName;
-import pl.edu.mimuw.trade.GsonWrapper;
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
@@ -16,6 +15,8 @@ public class SimulationWrapper {
   private final LinkedList<Worker> workers;
   @SerializedName("spekulanci")
   private final LinkedList<Speculator> speculators;
+  @SerializedName("ceny")
+  private DayLog current;
 
   public SimulationWrapper(StockStrategy stockStrategy) {
     this.workers = new LinkedList<>();
@@ -36,9 +37,10 @@ public class SimulationWrapper {
   }
 
   public void runSimulation() {
-    simulation.addWorkers(workers);
-    simulation.addSpeculators(speculators);
-    simulation.run();
-    System.out.println(GsonWrapper.toJson(simulation));
+    while (Simulation.day() <= simulation.simulationLength()) {
+      simulation.runDay();
+      current = simulation.getCurrent();
+//      System.out.println(GsonWrapper.toJson(this));
+    }
   }
 }

@@ -1,10 +1,12 @@
 package pl.edu.mimuw.trade.agents;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.simulation.Stock;
 import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
 
 public class Speculator extends Agent {
 
+  @SerializedName("kariera")
   SpeculationStrategy speculationStrategy;
 
   public Speculator(int id, Stock stock, SpeculationStrategy speculationStrategy) {

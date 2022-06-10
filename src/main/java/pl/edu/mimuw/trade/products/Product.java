@@ -47,6 +47,10 @@ public class Product {
     return res.toString();
   }
 
+  public String productName() {
+    return productName;
+  }
+
   public String info() {
     return "";
   }

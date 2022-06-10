@@ -67,7 +67,15 @@ public class StrategyAdapter<T extends Strategy> implements JsonSerializer<T>, J
   @Override
   public T deserialize(JsonElement json, Type typeOfT,
                        JsonDeserializationContext context) throws JsonParseException {
-    String type = json.getAsJsonObject().get("typ").getAsString();
+    String type;
+    if (json.isJsonObject())
+      type = json.getAsJsonObject().get("typ").getAsString();
+    else {
+      type = json.getAsString();
+      JsonObject jsonObj = new JsonObject();
+      jsonObj.addProperty("typ", type);
+      json = jsonObj;
+    }
     Type c = map.get(type);
     if (c == null)
       throw new RuntimeException("Unknown class: " + type);

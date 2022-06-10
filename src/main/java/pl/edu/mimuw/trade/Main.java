@@ -7,7 +7,6 @@ import pl.edu.mimuw.trade.agents.career.Engineer;
 import pl.edu.mimuw.trade.agents.career.Farmer;
 import pl.edu.mimuw.trade.agents.career.Occupation;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
-import pl.edu.mimuw.trade.simulation.Simulation;
 import pl.edu.mimuw.trade.simulation.SimulationWrapper;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.career.Conservative;
@@ -24,6 +23,7 @@ import pl.edu.mimuw.trade.strategy.studying.Economical;
 import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
 import pl.edu.mimuw.trade.strategy.studying.Workaholic;
 
+import java.io.FileReader;
 import java.io.IOException;
 
 public class Main {
@@ -102,10 +102,10 @@ public class Main {
     w1.giveStartingResources(100, 100, 100, 100, 100);
 
     String json = GsonWrapper.toJson(w1);
-    System.out.println(json);
+//    System.out.println(json);
 
     Worker w2 = GsonWrapper.fromJson(json, Worker.class);
-    System.out.println(w2);
+//    System.out.println(w2);
 
     SpeculationStrategy average = new AverageSpeculation(wrapper.stock(), 3);
 
@@ -115,10 +115,16 @@ public class Main {
 
     wrapper.addWorkers(w1);
     wrapper.addSpeculators(s1, s2, s3);
-    String json2 = GsonWrapper.toJson(wrapper);
-    System.out.println(json2);
+    wrapper.stock().setFallBackPrices(12.0, 10.0, 105.0, 10.0);
+//    String json2 = GsonWrapper.toJson(wrapper);
+//    System.out.println(json2);
 
-    Simulation xd = GsonWrapper.fromJson(json2, Simulation.class);
+    wrapper.runSimulation();
+
+    FileReader reader = new FileReader("in.json");
+
+    SimulationWrapper xd = GsonWrapper.fromJson(reader, SimulationWrapper.class);
+    System.out.println("magic");
   }
 }
 

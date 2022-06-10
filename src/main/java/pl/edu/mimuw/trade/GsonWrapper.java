@@ -7,12 +7,15 @@ import pl.edu.mimuw.trade.agents.Bag;
 import pl.edu.mimuw.trade.agents.career.Career;
 import pl.edu.mimuw.trade.agents.career.Occupation;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
+import pl.edu.mimuw.trade.simulation.DayLog;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
 import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
 import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
+
+import java.io.Reader;
 
 public class GsonWrapper {
   private static final GsonBuilder gsonBuilder = new GsonBuilder();
@@ -27,6 +30,7 @@ public class GsonWrapper {
           .registerTypeAdapter(Career.class, new CareerAdapter())
           .registerTypeAdapter(Bag.class, new BagAdapter())
           .registerTypeAdapter(Productivity.class, new ProductivityAdapter())
+          .registerTypeAdapter(DayLog.class, new DayLogAdapter())
           .setPrettyPrinting().create();
 
   public static String toJson(Object src) {
@@ -34,6 +38,10 @@ public class GsonWrapper {
   }
 
   public static <T> T fromJson(String json, Class<T> classOfT) {
+    return gson.fromJson(json, classOfT);
+  }
+
+  public static <T> T fromJson(Reader json, Class<T> classOfT) {
     return gson.fromJson(json, classOfT);
   }
 

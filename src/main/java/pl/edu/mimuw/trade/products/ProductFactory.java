@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ProductFactory {
-  private static final Food food = new Food(1);
-  private static final Clothes clothes = new Clothes(1);
-  private static final Tool tool = new Tool(1);
-  private static final Program program = new Program(1);
-  private static final Diamond diamond = new Diamond(1);
+  public static final Food food = new Food(1);
+  public static final Clothes clothes = new Clothes(1);
+  public static final Tool tool = new Tool(1);
+  public static final Program program = new Program(1);
+  public static final Diamond diamond = new Diamond(1);
 
   private static final Product[] buffable = {clothes, tool, program};
   private static final Tradeable[] tradeable = {food, clothes, tool, program};

@@ -4,18 +4,19 @@ import pl.edu.mimuw.trade.products.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class StockLog {
 
   private final List<DayLog> days;
-  private final DayLog fallBack;
-  private DayLog previous;
-  private DayLog current;
+  private transient final DayLog fallBack;
+  private transient DayLog previous;
+  private transient DayLog current;
 
   public StockLog() {
     this.days = new LinkedList<>();
-    this.current = new DayLog(1);
-    this.fallBack = new DayLog(0);
+    this.fallBack = new DayLog(0, null);
+    this.current = new DayLog(1, this.fallBack);
     this.previous = fallBack;
   }
 
@@ -41,8 +42,24 @@ public class StockLog {
     if (current.day < Simulation.day()) {
       days.add(current);
       previous = current;
-      current = new DayLog(Simulation.day());
+      current = new DayLog(Simulation.day(), this.fallBack);
     }
+  }
+
+  public DayLog getCurrent() {
+    return current;
+  }
+
+  public Map<String, Double> mapLastAvgPrices() {
+    return current.mapAvgPrices();
+  }
+
+  public Map<String, Double> mapLastMaxPrices() {
+    return current.mapMaxPrices();
+  }
+
+  public Map<String, Double> mapLastMinPrices() {
+    return current.mapMinPrices();
   }
 
   public double getAveragePrice(int day, Tradeable product) {

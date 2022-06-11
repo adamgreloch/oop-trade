@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.io.SkipSerialization;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.LinkedList;
@@ -17,13 +18,28 @@ import java.util.Random;
 public class Simulation {
   public static Random RANDOM = new Random();
 
+  @SerializedName("dzien")
+  @Expose(deserialize = false)
+  private int lastDay;
+  @SerializedName("ceny_srednie")
+  @Expose(deserialize = false)
+  private Map<String, Double> lastDayAvgPrices;
+  @SerializedName("ceny_max")
+  @Expose(deserialize = false)
+  private Map<String, Double> lastDayMaxPrices;
+  @SerializedName("ceny_min")
+  @Expose(deserialize = false)
+  private Map<String, Double> lastDayMinPrices;
+
   private static int day = 1;
   @SerializedName("gielda")
+  @SkipSerialization
   private StockStrategy stockStrategy;
   @SerializedName("dlugosc")
-  @Expose(serialize = false)
+  @SkipSerialization
   private final int SIMULATION_LENGTH = 5;
   @SerializedName("kara_za_brak_ubran")
+  @SkipSerialization
   private final int NO_CLOTHES_PENALTY = 2;
 
   private transient LinkedList<Agent> agents;
@@ -31,16 +47,8 @@ public class Simulation {
 
   public static Stock stock;
 
-  @SerializedName("dzien")
-  @Expose(deserialize = false)
-  private int lastDay;
-  @SerializedName("ceny_srednie")
-  private Map<String, Double> lastDayAvgPrices;
-  @SerializedName("ceny_max")
-  private Map<String, Double> lastDayMaxPrices;
-  @SerializedName("ceny_min")
-  private Map<String, Double> lastDayMinPrices;
   @SerializedName("ceny")
+  @SkipSerialization
   private DayLog fallBack;
 
   public Simulation(StockStrategy stockStrategy) {

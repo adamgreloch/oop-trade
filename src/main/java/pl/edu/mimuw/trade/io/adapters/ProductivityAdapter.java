@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.adapter;
+package pl.edu.mimuw.trade.io.adapters;
 
 import com.google.gson.*;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;

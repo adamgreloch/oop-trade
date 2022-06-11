@@ -6,7 +6,7 @@ import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 public class Tool extends DistinguishableTradeable implements ProductivityBuff {
 
   public Tool(int level) {
-    super(level, "tool");
+    super(level, "narzedzia");
   }
 
   @Override

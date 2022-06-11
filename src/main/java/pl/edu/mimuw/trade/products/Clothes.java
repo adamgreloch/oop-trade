@@ -7,7 +7,7 @@ public class Clothes extends DistinguishableTradeable implements ProductivityBuf
   private int daysLeft;
 
   public Clothes(int level) {
-    super(level, "clothes");
+    super(level, "ubrania");
     this.daysLeft = level * level;
   }
 

@@ -2,7 +2,7 @@ package pl.edu.mimuw.trade.products;
 
 public class Food extends StackedTradeable {
   public Food(int quantity) {
-    super(0, "food", quantity);
+    super(0, "jedzenie", quantity);
   }
 
   public Food add(int amount) {

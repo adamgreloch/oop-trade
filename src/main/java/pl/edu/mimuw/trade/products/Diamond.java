@@ -4,7 +4,7 @@ public class Diamond extends Product {
   private final double value;
 
   public Diamond(double value) {
-    super(0, "diamond");
+    super(0, "diamenty");
     this.value = value;
   }
 

@@ -6,7 +6,7 @@ import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 public class Program extends DistinguishableTradeable implements ProductivityBuff {
 
   public Program(int level) {
-    super(level, "program");
+    super(level, "programy");
   }
 
   @Override

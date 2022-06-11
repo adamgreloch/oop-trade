@@ -42,7 +42,6 @@ public class Simulation {
   private static int day = 1;
   private static int noClothesPenalty;
 
-
   private transient SortedSet<Agent> agents;
   private transient LinkedList<Agent> dead;
 
@@ -104,10 +103,6 @@ public class Simulation {
 
     for (Agent deadAgent : dead)
       agents.remove(deadAgent);
-  }
-
-  public void addAgents(LinkedList<? extends Agent> agents) {
-    this.agents.addAll(agents);
   }
 
   public int simulationLength() {

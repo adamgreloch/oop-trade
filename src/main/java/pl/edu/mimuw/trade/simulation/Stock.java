@@ -43,6 +43,7 @@ public class Stock {
   }
 
   public void addOffer(Set<Offer> offers, Agent issuer) {
+    offers.forEach(e -> log.logOfferedQuantities(e.product, e.quantity()));
     if (issuer instanceof Worker) {
       OfferQueue queue = new OfferQueue(issuer);
       for (Offer offer : offers) {
@@ -94,6 +95,14 @@ public class Stock {
 
   void newDay() {
     log.newDay();
+  }
+
+  public void logOfferedQuantities(Product levelled, int quantity) {
+    log.logOfferedQuantities(levelled, quantity);
+  }
+
+  public int getOfferedQuantities(Product levelled, int day) {
+    return log.getOfferedQuantities(levelled, day);
   }
 
   public double getAveragePrice(int day, Tradeable product) {

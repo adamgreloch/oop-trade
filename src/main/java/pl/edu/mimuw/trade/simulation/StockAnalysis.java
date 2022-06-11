@@ -16,4 +16,12 @@ public class StockAnalysis {
     }
     return sum / soldTotal;
   }
+
+  public static int mentionsInOffers(Tradeable product, int inLastDays) {
+    int totalMentions = 0;
+    int today = Simulation.day();
+    for (int i = 1; i <= inLastDays; i++)
+      totalMentions += Simulation.stock.getOfferedQuantities(product, today - i);
+    return totalMentions;
+  }
 }

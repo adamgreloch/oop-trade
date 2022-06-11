@@ -18,7 +18,8 @@ public class DayLog {
   private final Map<Product, Double> average;
   private final Map<Product, Double> min;
   private final Map<Product, Integer> quantitiesSold;
-  private final Map<Product, Integer> quantitiesOffered;
+  private final Map<Product, Integer> quantitiesOfferedByWorkers;
+  private final Map<Product, Integer> quantitiesInOffers;
   private DayLog fallBack;
 
   public DayLog() {
@@ -27,7 +28,8 @@ public class DayLog {
     this.average = new HashMap<>();
     this.min = new HashMap<>();
     this.quantitiesSold = new HashMap<>();
-    this.quantitiesOffered = new HashMap<>();
+    this.quantitiesOfferedByWorkers = new HashMap<>();
+    this.quantitiesInOffers = new HashMap<>();
   }
 
   public DayLog(int day, DayLog fallBack) {
@@ -53,16 +55,25 @@ public class DayLog {
   public void logWorkerSellOffered(Product levelled, int quantity) {
     assert levelled instanceof Tradeable;
     Product product = levelled.generalize();
-    this.quantitiesOffered.put(product, this.quantitiesSold.getOrDefault(product, 0) + quantity);
+    this.quantitiesOfferedByWorkers.put(product, this.quantitiesSold.getOrDefault(product, 0) + quantity);
+  }
+
+  public void logOfferedQuantities(Product levelled, int quantity) {
+    assert levelled instanceof Tradeable;
+    Product product = levelled.generalize();
+    this.quantitiesInOffers.put(product, this.quantitiesInOffers.getOrDefault(product, 0) + quantity);
+  }
+
+  public int getOfferedQuantities(Product product) {
+    return this.quantitiesInOffers.get(product.generalize());
   }
 
   public int getWorkerSellOffered(Product product) {
-    return this.quantitiesOffered.get(product.generalize());
+    return this.quantitiesOfferedByWorkers.get(product.generalize());
   }
 
   public double min(Tradeable levelled, DayLog fallBack) {
     Product product = levelled.generalize();
-
     return this.min.getOrDefault(product, fallBack.min.get(product));
   }
 

@@ -41,12 +41,23 @@ public class StockLog {
     fallBack.logTransaction(new Program(1), programs, 1);
   }
 
+  // TODO maybe deredund some day?
+
   public void logTransaction(Tradeable product, double sellPrice, int soldQuantity) {
     current.logTransaction(product, sellPrice, soldQuantity);
   }
 
   public void logWorkerSellOffered(Product levelled, int quantity) {
     current.logWorkerSellOffered(levelled, quantity);
+  }
+
+  public void logOfferedQuantities(Product levelled, int quantity) {
+    current.logOfferedQuantities(levelled, quantity);
+  }
+
+  public int getOfferedQuantities(Product levelled, int day) {
+    if (days.isEmpty() || day == 0 || !days.contains(day - 1)) return 0;
+    return days.get(day - 1).getOfferedQuantities(levelled);
   }
 
   public int getWorkerSellOffered(Product levelled, int day) {

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Career implements ProductivityBuff {
-  private transient Map<Occupation, Integer> careers = null; // Value indicates advancement level
+  private transient Map<Occupation, Integer> careers; // Value indicates advancement level
 
   private Occupation current;
 

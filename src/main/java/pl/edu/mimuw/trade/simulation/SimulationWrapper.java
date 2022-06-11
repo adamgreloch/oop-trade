@@ -35,6 +35,7 @@ public class SimulationWrapper {
     while (Simulation.day() <= simulation.simulationLength()) {
       simulation.runDay();
       dailyOutputs.add(GsonWrapper.toJsonTree(this));
+      System.out.println(simulation.getCurrent());
     }
   }
 

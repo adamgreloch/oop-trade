@@ -37,7 +37,10 @@
   "spekulanci": [
     {
       "id": 12,
-      "kariera": "sredni",
+      "kariera": {
+        "typ": "sredni",
+        "historia_spekulanta_sredniego": 2
+      },
       "zasoby": {
         "diamenty": 101,
         "ubrania": 100,

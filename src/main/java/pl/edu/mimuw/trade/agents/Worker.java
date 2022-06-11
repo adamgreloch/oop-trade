@@ -42,28 +42,6 @@ public class Worker extends Agent {
     super();
   }
 
-/*
-  public Worker(int id, Stock stock, Productivity productivity,
-                Occupation occupation,
-                int occupationLevel,
-                CareerStrategy careerStrategy,
-                PurchaseStrategy purchaseStrategy,
-                ProductionStrategy productionStrategy,
-                StudyingStrategy studyingStrategy) {
-    super(id);
-    this.productivity = productivity;
-    this.career = new Career(occupation, occupationLevel);
-
-    this.storageBag = new Bag();
-    this.storageBag.setWorkerOwner(this);
-
-    this.careerStrategy = careerStrategy;
-    this.purchaseStrategy = purchaseStrategy;
-    this.productionStrategy = productionStrategy;
-    this.studyingStrategy = studyingStrategy;
-  }
-*/
-
   public void act() {
     if (studyingStrategy.isStudyDay(this))
       this.study();
@@ -145,7 +123,8 @@ public class Worker extends Agent {
 
   @Override
   public String toString() {
-    return "Worker (Agent " + id() + ", Food: " + storageBag.countFood() + ", diamonds: " + storageBag.countDiamonds() +
-            ")";
+    return "Worker (Agent " + id()
+            + ", Food: " + storageBag.countFood()
+            + ", diamonds: " + storageBag.countDiamonds() + ")";
   }
 }

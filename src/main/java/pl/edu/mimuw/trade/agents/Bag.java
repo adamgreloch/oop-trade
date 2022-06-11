@@ -235,4 +235,13 @@ public class Bag implements ProductivityBuff {
     if (contains(key))
       findProduct(key).clear();
   }
+
+  @Override
+  public String toString() {
+    return "food: " + countFood()
+            + ", clothes: " + countClothes()
+            + ", tools:" + countTools()
+            + ", diamonds: " + countDiamonds()
+            + ", programs: " + countPrograms();
+  }
 }

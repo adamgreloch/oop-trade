@@ -4,6 +4,8 @@ import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 
 public class Clothes extends DistinguishableTradeable implements ProductivityBuff {
+  public static final int NO_CLOTHES_THRESHOLD = 100;
+
   private int daysLeft;
 
   public Clothes(int level) {

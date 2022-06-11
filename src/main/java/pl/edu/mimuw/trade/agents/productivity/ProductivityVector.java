@@ -53,6 +53,13 @@ public class ProductivityVector {
     return res;
   }
 
+  public ProductivityVector add(int scalar) {
+    ProductivityVector res = new ProductivityVector();
+    for (int i = 0; i < PRODUCT_COUNT; i++)
+      res.data[i] = this.data[i] + scalar;
+    return res;
+  }
+
   public int food() {
     return data[0];
   }

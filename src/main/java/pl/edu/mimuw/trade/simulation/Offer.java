@@ -15,16 +15,16 @@ import static pl.edu.mimuw.trade.simulation.OfferType.SELL;
 public class Offer implements Comparable<Offer> {
 
   final OfferType offerType;
-  private final double price; // price per one
-  private final Tradeable product;
-  private final Agent issuer; // possibly redund
+  final double price;
+  final Tradeable product;
+  private final Agent issuer;
   boolean isWorkerOffer;
   private int quantity;
   private boolean isCompleted = false;
 
 
-  private Offer(Agent issuer, Tradeable product, int quantity,
-                double price, boolean isWorkerOffer, boolean isPurchaseOffer) {
+  public Offer(Agent issuer, Tradeable product, int quantity,
+               double price, boolean isWorkerOffer, boolean isPurchaseOffer) {
     this.issuer = issuer;
     this.offerType = isPurchaseOffer ? BUY : SELL;
     this.isWorkerOffer = isWorkerOffer;
@@ -33,34 +33,11 @@ public class Offer implements Comparable<Offer> {
     this.price = price;
   }
 
-  // TODO offer factory
-
-  // TODO uwzgledniac zdolnosc finansowa robotnika!!
-
-  /**
-   * Worker's offer constructor.
-   */
-  public Offer(Agent issuer, Tradeable product, int quantity, boolean isPurchaseOffer) {
-    this(issuer, product, quantity, 0, true, isPurchaseOffer);
-  }
-
-  /**
-   * Speculator's offer constructor.
-   */
-  public Offer(Agent issuer, Tradeable product, int quantity, double price, boolean isPurchaseOffer) {
-    this(issuer, product, quantity, price, false, isPurchaseOffer);
-  }
-
   /**
    * Construct offer that fully completes provided offer.
    */
-  public Offer(Agent issuer, Offer offer, double price) {
-    this(issuer, offer.product, offer.quantity, price, true);
-    assert offer.offerType == SELL;
-  }
-
-  Tradeable product() {
-    return product;
+  Offer(Agent issuer, Offer offer, double price) {
+    this(issuer, offer.product, offer.quantity, price, false, true);
   }
 
   public int level() {
@@ -90,7 +67,7 @@ public class Offer implements Comparable<Offer> {
     Offer buy = this.offerType == BUY ? this : other;
     Offer sell = this.offerType == BUY ? other : this;
 
-    int soldQuantity = Math.min(buy.quantity, sell.quantity);
+    int soldQuantity = Math.min(Math.min(buy.quantity, sell.quantity), (int) (buy.issuer.diamonds() / price));
 
     sell.quantity -= soldQuantity;
     buy.quantity -= soldQuantity;
@@ -105,19 +82,25 @@ public class Offer implements Comparable<Offer> {
     log.log(this.product, sellPrice, soldQuantity);
 
     int res = this.quantity - other.quantity;
+    System.out.println(sell.issuer + " sold " + soldQuantity + " x " + product + " to " + buy.issuer);
     if (res <= 0) this.isCompleted = true;
     if (res >= 0) other.isCompleted = true;
   }
 
   public boolean matches(Offer other) {
+    if (this.offerType == other.offerType) return false;
     if (this.offerType == BUY && this.issuer.diamonds() < other.price) return false;
     if (other.offerType == BUY && other.issuer.diamonds() < this.price) return false;
     if (this.isWorkerOffer == other.isWorkerOffer) return false;
     if (this.product.level() != other.product.level()) return false;
-    return this.product.generalize().equals(other.product);
+    return this.product.generalize().equals(other.product.generalize());
   }
 
   public boolean isCompleted() {
     return isCompleted;
+  }
+
+  public String toString() {
+    return issuer + " wants to " + offerType + " " + quantity + "x" + product + " (level: " + product.level() + ") for " + price + " diamonds";
   }
 }

@@ -1,18 +1,23 @@
 package pl.edu.mimuw.trade.strategy.studying;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.products.ProductFactory;
+import pl.edu.mimuw.trade.simulation.StockAnalysis;
 
 public class Student extends StudyingStrategy {
-  private final int margin;
-  private final int period;
+  private static final int FOOD_AMOUNT = 100;
 
-  public Student(int margin, int period) {
+  @SerializedName("zapas")
+  private int margin;
+  @SerializedName("okres")
+  private int period;
+
+  public Student() {
     super("student");
-    this.margin = margin;
-    this.period = period;
   }
 
   public boolean isStudyDay(Worker worker) {
-    return false;
+    return FOOD_AMOUNT * margin * StockAnalysis.avgPrice(ProductFactory.food, period) >= worker.diamonds();
   }
 }

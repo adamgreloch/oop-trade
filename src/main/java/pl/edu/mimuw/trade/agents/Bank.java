@@ -1,6 +1,7 @@
 package pl.edu.mimuw.trade.agents;
 
 import pl.edu.mimuw.trade.simulation.Offer;
+import pl.edu.mimuw.trade.simulation.OfferFactory;
 
 import static java.lang.Double.MAX_VALUE;
 
@@ -33,7 +34,7 @@ public class Bank extends Agent {
   }
 
   public Offer buyAll(Offer unmetOffer, double price) {
-    return new Offer(this, unmetOffer, price);
+    return OfferFactory.completingBuyOffer(this, unmetOffer, price);
   }
 
   @Override

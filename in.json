@@ -32,6 +32,52 @@
         "ubrania": 100,
         "narzedzia": 100
       }
+    },
+    {
+      "id": 2,
+      "poziom": 1,
+      "kariera": "rzemieslnik",
+      "kupowanie": "technofob",
+      "produkcja": "krotkowzroczny",
+      "uczenie": "pracus",
+      "zmiana": "konserwatysta",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 1000,
+        "narzedzia": 100
+      }
+    },
+    {
+      "id": 3,
+      "poziom": 1,
+      "kariera": "rzemieslnik",
+      "kupowanie": "technofob",
+      "produkcja": "losowy",
+      "uczenie": "pracus",
+      "zmiana": "konserwatysta",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 1000,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 1000,
+        "narzedzia": 100
+      }
     }
   ],
   "spekulanci": [

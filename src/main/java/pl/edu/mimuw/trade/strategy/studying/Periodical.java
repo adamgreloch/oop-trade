@@ -1,16 +1,19 @@
 package pl.edu.mimuw.trade.strategy.studying;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.simulation.Simulation;
 
 public class Periodical extends StudyingStrategy {
-  private final int period;
 
-  public Periodical(int period) {
+  @SerializedName("okresowosc_nauki")
+  private int period;
+
+  public Periodical() {
     super("okresowy");
-    this.period = period;
   }
 
   public boolean isStudyDay(Worker worker) {
-    return false;
+    return Simulation.day() % period == 0;
   }
 }

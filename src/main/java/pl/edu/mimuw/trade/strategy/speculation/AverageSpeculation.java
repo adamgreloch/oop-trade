@@ -5,7 +5,8 @@ import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Offer;
-import pl.edu.mimuw.trade.simulation.Simulation;
+import pl.edu.mimuw.trade.simulation.OfferFactory;
+import pl.edu.mimuw.trade.simulation.StockAnalysis;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -33,27 +34,15 @@ public class AverageSpeculation extends SpeculationStrategy {
 
   private Set<Offer> constructOffers(Speculator speculator, Tradeable product) {
     Set<Offer> offers = new HashSet<>();
-    double avg = calculateAverage(product);
+    double avg = StockAnalysis.avgPrice(product, reachPast);
     int quantity = speculator.hasQuantity(product);
 
     if (quantity > 0) {
-      offers.add(new Offer(speculator, product, PURCHASE_QUANTITY, avg * PURCHASE_FACTOR, true));
-      offers.add(new Offer(speculator, product, quantity, avg * SELL_FACTOR, false));
+      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product, PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
+      offers.add(OfferFactory.speculatorSellOffer(speculator, product, quantity, avg * SELL_FACTOR));
     } else
-      offers.add(new Offer(speculator, product, PURCHASE_QUANTITY, avg * FRESH_PURCHASE_FACTOR, true));
+      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product, PURCHASE_QUANTITY, avg * FRESH_PURCHASE_FACTOR));
 
     return offers;
-  }
-
-  private double calculateAverage(Tradeable product) {
-    double sum = 0;
-    int sold = 0;
-    int reached;
-    for (int day = 1; day <= reachPast; day++) {
-      reached = Math.max(Simulation.day() - day, 0);
-      sum += Simulation.stock.getAveragePrice(reached, product);
-      sold += Simulation.stock.getSoldQuantity(reached, product);
-    }
-    return sum / sold;
   }
 }

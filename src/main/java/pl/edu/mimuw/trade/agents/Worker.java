@@ -7,6 +7,7 @@ import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Offer;
+import pl.edu.mimuw.trade.simulation.OfferFactory;
 import pl.edu.mimuw.trade.simulation.Simulation;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
@@ -55,7 +56,7 @@ public class Worker extends Agent {
     while (productsToSell.hasNext()) {
       Tradeable p = (Tradeable) productsToSell.next();
       if (saleBag.quantity(p) > 0)
-        offers.add(new Offer(this, p, saleBag.quantity(p), false));
+        offers.add(OfferFactory.workerSellOffer(this, p, saleBag.quantity(p)));
     }
     offers.addAll(purchaseStrategy.purchasesToOffer(this));
     Simulation.stock.addOffer(offers, this);

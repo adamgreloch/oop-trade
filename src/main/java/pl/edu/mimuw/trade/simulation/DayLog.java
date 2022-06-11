@@ -29,12 +29,8 @@ public class DayLog {
   }
 
   public DayLog(int day, DayLog fallBack) {
+    this();
     this.day = day;
-    this.products = new HashSet<>();
-    this.max = new HashMap<>();
-    this.average = new HashMap<>();
-    this.min = new HashMap<>();
-    this.quantities = new HashMap<>();
     this.fallBack = fallBack;
   }
 
@@ -45,8 +41,10 @@ public class DayLog {
     this.products.add(product);
     this.max.put(product, Math.max(this.max.getOrDefault(product, 0.0), sellPrice));
     this.min.put(product, Math.min(this.min.getOrDefault(product, MAX_VALUE), sellPrice));
-    this.average.put(product, (this.average.getOrDefault(product, 0.0)
-            * this.quantities.getOrDefault(product, 0)) / soldQuantity + sellPrice);
+    double prevAvg = this.average.getOrDefault(product, 0.0);
+    int prevTotalQuantity = this.quantities.getOrDefault(product, 0);
+    this.average.put(product, (prevAvg * prevTotalQuantity + soldQuantity * sellPrice)
+            / (prevTotalQuantity + soldQuantity));
     this.quantities.put(product, this.quantities.getOrDefault(product, 0) + soldQuantity);
   }
 

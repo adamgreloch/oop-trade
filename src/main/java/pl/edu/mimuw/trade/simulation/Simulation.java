@@ -31,7 +31,6 @@ public class Simulation {
   @Expose(deserialize = false)
   private Map<String, Double> lastDayMinPrices;
 
-  private static int day = 1;
   @SerializedName("gielda")
   @SkipSerialization
   private StockStrategy stockStrategy;
@@ -41,6 +40,10 @@ public class Simulation {
   @SerializedName("kara_za_brak_ubran")
   @SkipSerialization
   private int NO_CLOTHES_PENALTY;
+
+  private static int day = 1;
+  private static int noClothesPenalty;
+
 
   private transient LinkedList<Agent> agents;
   private transient LinkedList<Agent> dead;
@@ -66,10 +69,15 @@ public class Simulation {
     Simulation.stock = new Stock(stockStrategy, fallBack);
     this.agents.addAll(workers);
     this.agents.addAll(speculators);
+    this.noClothesPenalty = NO_CLOTHES_PENALTY;
   }
 
   public static int day() {
     return day;
+  }
+
+  public static int noClothesPenalty() {
+    return noClothesPenalty;
   }
 
   public void runDay() {
@@ -85,6 +93,7 @@ public class Simulation {
     lastDayMinPrices = stock.log.mapLastMinPrices();
     lastDayAvgPrices = stock.log.mapLastAvgPrices();
     lastDay = day;
+    System.out.println(getCurrent());
     day++;
     stock.newDay();
   }

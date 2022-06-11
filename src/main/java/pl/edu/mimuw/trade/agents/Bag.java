@@ -4,12 +4,11 @@ import com.google.gson.JsonArray;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.*;
+import pl.edu.mimuw.trade.simulation.Simulation;
 
 import java.util.*;
 
 public class Bag implements ProductivityBuff {
-  private static final int MINOR_STARVATION_PENALTY = -100;
-  private static final int MAJOR_STARVATION_PENALTY = -300;
   /**
    * Stores distinguishable products such as clothes, tools and programs.
    */
@@ -231,14 +230,21 @@ public class Bag implements ProductivityBuff {
   public ProductivityVector getBuffValue() {
     assert workerOwner.starvationLevel() < Worker.DEATH_THRESHOLD;
 
+    ProductivityVector buff = new ProductivityVector();
+
+    if (this.countClothes() < Clothes.NO_CLOTHES_THRESHOLD)
+      buff = buff.add(Simulation.noClothesPenalty());
+
     switch (workerOwner.starvationLevel()) {
       case 1:
-        return new ProductivityVector(MINOR_STARVATION_PENALTY);
+        buff = buff.add(Food.MINOR_STARVATION_PENALTY);
+        break;
       case 2:
-        return new ProductivityVector(MAJOR_STARVATION_PENALTY);
-      default:
-        return new ProductivityVector();
+        buff = buff.add(Food.MAJOR_STARVATION_PENALTY);
+        break;
     }
+
+    return buff;
   }
 
   public void wearClothes() {
@@ -271,7 +277,7 @@ public class Bag implements ProductivityBuff {
   public String toString() {
     return "food: " + countFood()
             + ", clothes: " + countClothes()
-            + ", tools:" + countTools()
+            + ", tools: " + countTools()
             + ", diamonds: " + countDiamonds()
             + ", programs: " + countPrograms();
   }

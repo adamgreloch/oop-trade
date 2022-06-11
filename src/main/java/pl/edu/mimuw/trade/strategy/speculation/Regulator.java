@@ -1,0 +1,40 @@
+package pl.edu.mimuw.trade.strategy.speculation;
+
+import pl.edu.mimuw.trade.agents.Speculator;
+import pl.edu.mimuw.trade.products.ProductFactory;
+import pl.edu.mimuw.trade.products.Tradeable;
+import pl.edu.mimuw.trade.simulation.Offer;
+import pl.edu.mimuw.trade.simulation.OfferFactory;
+import pl.edu.mimuw.trade.simulation.Simulation;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class Regulator extends SpeculationStrategy {
+
+  public Regulator() {
+    super("regulujacy");
+  }
+
+  public Set<Offer> makeOffers(Speculator speculator) {
+    Set<Offer> offers = new HashSet<>();
+    int today = Simulation.day();
+    double factor, avg;
+
+    for (Tradeable product : ProductFactory.previewTradeable()) {
+      avg = Simulation.stock.getAveragePrice(today - 1, product);
+      factor = calculateFactor(product, today);
+      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
+              PURCHASE_QUANTITY, avg * factor * PURCHASE_FACTOR));
+      offers.add(OfferFactory.speculatorSellOffer(speculator, product,
+              speculator.quantityOf(product), avg * factor * SELL_FACTOR));
+    }
+    return offers;
+  }
+
+  private double calculateFactor(Tradeable product, int today) {
+    double todays = Simulation.stock.getWorkerSellOffered(product, today);
+    double yesterdays = Simulation.stock.getWorkerSellOffered(product, today - 1);
+    return todays / Math.max(yesterdays, 1);
+  }
+}

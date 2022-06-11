@@ -35,14 +35,23 @@ public class StockLog {
   }
 
   public void setFallBackPrices(double food, double clothes, double tools, double programs) {
-    fallBack.log(new Food(1), food, 1);
-    fallBack.log(new Clothes(1), clothes, 1);
-    fallBack.log(new Tool(1), tools, 1);
-    fallBack.log(new Program(1), programs, 1);
+    fallBack.logTransaction(new Food(1), food, 1);
+    fallBack.logTransaction(new Clothes(1), clothes, 1);
+    fallBack.logTransaction(new Tool(1), tools, 1);
+    fallBack.logTransaction(new Program(1), programs, 1);
   }
 
-  public void log(Tradeable product, double sellPrice, int soldQuantity) {
-    current.log(product, sellPrice, soldQuantity);
+  public void logTransaction(Tradeable product, double sellPrice, int soldQuantity) {
+    current.logTransaction(product, sellPrice, soldQuantity);
+  }
+
+  public void logWorkerSellOffered(Product levelled, int quantity) {
+    current.logWorkerSellOffered(levelled, quantity);
+  }
+
+  public int getWorkerSellOffered(Product levelled, int day) {
+    if (days.isEmpty() || day == 0) return 0;
+    return days.get(day - 1).getWorkerSellOffered(levelled);
   }
 
   void newDay() {

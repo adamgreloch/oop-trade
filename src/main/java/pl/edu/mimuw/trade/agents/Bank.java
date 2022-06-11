@@ -9,6 +9,7 @@ public class Bank extends Agent {
 
   public Bank() {
     super(Integer.MAX_VALUE);
+    this.actionPriority = Integer.MAX_VALUE;
   }
 
   public void act() {

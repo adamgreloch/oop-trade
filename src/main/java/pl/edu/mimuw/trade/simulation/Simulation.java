@@ -8,9 +8,7 @@ import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.io.SkipSerialization;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Centrum symulacji. Przeprowadza rundy przez kolejne etapy, przeprowadza symulację przez kolejne rundy
@@ -45,7 +43,7 @@ public class Simulation {
   private static int noClothesPenalty;
 
 
-  private transient LinkedList<Agent> agents;
+  private transient SortedSet<Agent> agents;
   private transient LinkedList<Agent> dead;
 
   public static Stock stock;
@@ -55,13 +53,12 @@ public class Simulation {
   private DayLog fallBack;
 
   public Simulation(StockStrategy stockStrategy) {
-    this.agents = new LinkedList<>();
+    this();
     this.stockStrategy = stockStrategy;
-    this.dead = new LinkedList<>();
   }
 
   public Simulation() {
-    this.agents = new LinkedList<>();
+    this.agents = new TreeSet<>();
     this.dead = new LinkedList<>();
   }
 
@@ -69,7 +66,7 @@ public class Simulation {
     Simulation.stock = new Stock(stockStrategy, fallBack);
     this.agents.addAll(workers);
     this.agents.addAll(speculators);
-    this.noClothesPenalty = NO_CLOTHES_PENALTY;
+    noClothesPenalty = NO_CLOTHES_PENALTY;
   }
 
   public static int day() {

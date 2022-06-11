@@ -11,6 +11,7 @@ public class Speculator extends Agent {
   SpeculationStrategy speculationStrategy;
 
   public Speculator() {
+    this.actionPriority = 1;
   }
 
   // TODO find out why Speculator has a null storageBag

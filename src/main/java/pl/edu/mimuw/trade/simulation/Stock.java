@@ -3,6 +3,7 @@ package pl.edu.mimuw.trade.simulation;
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Bank;
 import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
@@ -44,7 +45,10 @@ public class Stock {
   public void addOffer(Set<Offer> offers, Agent issuer) {
     if (issuer instanceof Worker) {
       OfferQueue queue = new OfferQueue(issuer);
-      queue.addAll(offers);
+      for (Offer offer : offers) {
+        queue.add(offer);
+        log.logWorkerSellOffered(offer.product, offer.quantity());
+      }
       workerOfferQueues.add(queue);
     } else speculatorOffers.addAll(offers);
   }
@@ -62,7 +66,7 @@ public class Stock {
         found = findBestSpeculatorOffer(workerOffer);
         if (found == null) {
           if (workerOffer.offerType == OfferType.SELL)
-            found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product()));
+            found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product));
           else {
             workerOfferQueues.remove(workerOfferQueue);
             break;
@@ -98,6 +102,10 @@ public class Stock {
 
   public int getSoldQuantity(int day, Tradeable product) {
     return log.getSoldQuantity(day, product);
+  }
+
+  public int getWorkerSellOffered(Product product, int day) {
+    return log.getWorkerSellOffered(product, day);
   }
 
   public String getDayLog() {

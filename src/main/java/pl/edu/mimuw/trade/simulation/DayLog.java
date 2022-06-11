@@ -17,7 +17,8 @@ public class DayLog {
   private final Map<Product, Double> max;
   private final Map<Product, Double> average;
   private final Map<Product, Double> min;
-  private final Map<Product, Integer> quantities;
+  private final Map<Product, Integer> quantitiesSold;
+  private final Map<Product, Integer> quantitiesOffered;
   private DayLog fallBack;
 
   public DayLog() {
@@ -25,7 +26,8 @@ public class DayLog {
     this.max = new HashMap<>();
     this.average = new HashMap<>();
     this.min = new HashMap<>();
-    this.quantities = new HashMap<>();
+    this.quantitiesSold = new HashMap<>();
+    this.quantitiesOffered = new HashMap<>();
   }
 
   public DayLog(int day, DayLog fallBack) {
@@ -34,7 +36,7 @@ public class DayLog {
     this.fallBack = fallBack;
   }
 
-  public void log(Product levelled, double sellPrice, int soldQuantity) {
+  public void logTransaction(Product levelled, double sellPrice, int soldQuantity) {
     assert levelled instanceof Tradeable;
     Product product = levelled.generalize();
 
@@ -42,10 +44,20 @@ public class DayLog {
     this.max.put(product, Math.max(this.max.getOrDefault(product, 0.0), sellPrice));
     this.min.put(product, Math.min(this.min.getOrDefault(product, MAX_VALUE), sellPrice));
     double prevAvg = this.average.getOrDefault(product, 0.0);
-    int prevTotalQuantity = this.quantities.getOrDefault(product, 0);
+    int prevTotalQuantity = this.quantitiesSold.getOrDefault(product, 0);
     this.average.put(product, (prevAvg * prevTotalQuantity + soldQuantity * sellPrice)
             / (prevTotalQuantity + soldQuantity));
-    this.quantities.put(product, this.quantities.getOrDefault(product, 0) + soldQuantity);
+    this.quantitiesSold.put(product, this.quantitiesSold.getOrDefault(product, 0) + soldQuantity);
+  }
+
+  public void logWorkerSellOffered(Product levelled, int quantity) {
+    assert levelled instanceof Tradeable;
+    Product product = levelled.generalize();
+    this.quantitiesOffered.put(product, this.quantitiesSold.getOrDefault(product, 0) + quantity);
+  }
+
+  public int getWorkerSellOffered(Product product) {
+    return this.quantitiesOffered.get(product.generalize());
   }
 
   public double min(Tradeable levelled, DayLog fallBack) {
@@ -82,7 +94,7 @@ public class DayLog {
   }
 
   public int getSoldQuantity(Tradeable product) {
-    return this.quantities.get(product.generalize());
+    return this.quantitiesSold.get(product.generalize());
   }
 
   @Override
@@ -93,7 +105,7 @@ public class DayLog {
             ", \nmax=" + max +
             ", \naverage=" + average +
             ", \nmin=" + min +
-            ", \nquantities=" + quantities +
+            ", \nquantities=" + quantitiesSold +
             '}';
   }
 }

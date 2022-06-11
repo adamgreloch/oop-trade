@@ -41,6 +41,7 @@ public class Worker extends Agent {
 
   public Worker() {
     super();
+    this.actionPriority = 0;
   }
 
   public void act() {

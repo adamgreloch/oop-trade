@@ -7,7 +7,7 @@ import pl.edu.mimuw.trade.products.Tradeable;
 
 import java.util.Set;
 
-public abstract class Agent {
+public abstract class Agent implements Comparable<Agent> {
 
   @SerializedName("id")
   private int id;
@@ -17,6 +17,7 @@ public abstract class Agent {
   protected transient Bag saleBag;
 
   protected transient boolean isAlive = true;
+  protected transient int actionPriority;
 
   public Agent() {
     this.storageBag = new Bag();
@@ -66,7 +67,7 @@ public abstract class Agent {
     return saleBag.takeProducts(product, quantity);
   }
 
-  public int hasQuantity(Tradeable product) {
+  public int quantityOf(Tradeable product) {
     return storageBag.quantity(product);
   }
 
@@ -78,5 +79,8 @@ public abstract class Agent {
     storageBag.storeProducts(ProductFactory.newPrograms(programs, 1));
   }
 
-
+  @Override
+  public int compareTo(Agent agent) {
+    return this.actionPriority - agent.actionPriority;
+  }
 }

@@ -48,6 +48,10 @@ public class Offer implements Comparable<Offer> {
     return price;
   }
 
+  public int quantity() {
+    return quantity;
+  }
+
   @Override
   public int compareTo(Offer offer) {
     int cmp = this.offerType.compareTo(offer.offerType);
@@ -79,7 +83,7 @@ public class Offer implements Comparable<Offer> {
     Set<Product> soldProducts = sell.issuer.takeProducts(this.product, soldQuantity);
     buy.issuer.acquireProducts(soldProducts);
 
-    log.log(this.product, sellPrice, soldQuantity);
+    log.logTransaction(this.product, sellPrice, soldQuantity);
 
     int res = this.quantity - other.quantity;
     System.out.println(sell.issuer + " sold " + soldQuantity + " x " + product + " to " + buy.issuer);

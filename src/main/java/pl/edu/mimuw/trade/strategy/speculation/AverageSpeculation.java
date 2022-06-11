@@ -12,10 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AverageSpeculation extends SpeculationStrategy {
-  private static final int PURCHASE_QUANTITY = 100;
   private static final double FRESH_PURCHASE_FACTOR = 0.95;
-  private static final double PURCHASE_FACTOR = 0.9;
-  private static final double SELL_FACTOR = 1.1;
 
   @SerializedName("historia_spekulanta_sredniego")
   private final int reachPast;
@@ -35,13 +32,16 @@ public class AverageSpeculation extends SpeculationStrategy {
   private Set<Offer> constructOffers(Speculator speculator, Tradeable product) {
     Set<Offer> offers = new HashSet<>();
     double avg = StockAnalysis.avgPrice(product, reachPast);
-    int quantity = speculator.hasQuantity(product);
+    int quantity = speculator.quantityOf(product);
 
     if (quantity > 0) {
-      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product, PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
-      offers.add(OfferFactory.speculatorSellOffer(speculator, product, quantity, avg * SELL_FACTOR));
+      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
+              PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
+      offers.add(OfferFactory.speculatorSellOffer(speculator, product,
+              quantity, avg * SELL_FACTOR));
     } else
-      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product, PURCHASE_QUANTITY, avg * FRESH_PURCHASE_FACTOR));
+      offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
+              PURCHASE_QUANTITY, avg * FRESH_PURCHASE_FACTOR));
 
     return offers;
   }

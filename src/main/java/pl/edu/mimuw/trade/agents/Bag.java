@@ -1,5 +1,6 @@
 package pl.edu.mimuw.trade.agents;
 
+import com.google.gson.JsonArray;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.*;
@@ -122,6 +123,36 @@ public class Bag implements ProductivityBuff {
     findProduct(product).get(product.level()).remove(product);
   }
 
+  private JsonArray perLevelQuantities(Product product) {
+    JsonArray jsonArray = new JsonArray();
+    if (!this.contains(product)) return jsonArray;
+    Map<Integer, LinkedList<Product>> levelsMap = findProduct(product);
+    int maxLevel = 0;
+    for (Integer level : levelsMap.keySet())
+      maxLevel = Math.max(maxLevel, level);
+
+    for (int i = 1; i <= maxLevel; i++) {
+      if (levelsMap.containsKey(i))
+        jsonArray.add(levelsMap.get(i).size());
+      else
+        jsonArray.add(0);
+    }
+
+    return jsonArray;
+  }
+
+  public JsonArray perLevelTools() {
+    return perLevelQuantities(ProductFactory.tool);
+  }
+
+  public JsonArray perLevelPrograms() {
+    return perLevelQuantities(ProductFactory.program);
+  }
+
+  public JsonArray perLevelClothes() {
+    return perLevelQuantities(ProductFactory.clothes);
+  }
+
   public int countAll(Product product) {
     if (!this.contains(product)) return 0;
     int quantity = 0;
@@ -131,19 +162,19 @@ public class Bag implements ProductivityBuff {
   }
 
   public int countClothes() {
-    return countAll(new Clothes(1));
+    return countAll(ProductFactory.clothes);
   }
 
   public int countPrograms() {
-    return countAll(new Program(1));
+    return countAll(ProductFactory.program);
   }
 
   public int countTools() {
-    return countAll(new Tool(1));
+    return countAll(ProductFactory.tool);
   }
 
   public int countFood() {
-    Product key = new Food(1);
+    Product key = ProductFactory.food;
     if (!this.contains(key)) return 0;
     int count = 0;
     for (Product p : findAlike(key))
@@ -152,7 +183,7 @@ public class Bag implements ProductivityBuff {
   }
 
   public double countDiamonds() {
-    Product key = new Diamond(1);
+    Product key = ProductFactory.diamond;
     if (!this.contains(key)) return 0;
     double value = 0;
     for (Product p : findAlike(key))
@@ -165,7 +196,7 @@ public class Bag implements ProductivityBuff {
   }
 
   protected List<Clothes> listClothes() {
-    Product key = new Clothes(1);
+    Product key = ProductFactory.clothes;
     if (!contains(key)) return null;
     List<Clothes> res = new LinkedList<>();
     for (LinkedList<Product> clothes : findProduct(key).values())
@@ -215,7 +246,7 @@ public class Bag implements ProductivityBuff {
     List<Clothes> notWorn = listClothes();
     if (notWorn == null) return;
     if (notWorn.size() <= toWear) {
-      findProduct(new Clothes(1)).clear();
+      findProduct(ProductFactory.clothes).clear();
       return;
     }
     Collections.shuffle(notWorn);
@@ -231,7 +262,7 @@ public class Bag implements ProductivityBuff {
   }
 
   public void useAllTools() {
-    Product key = new Tool(1);
+    Product key = ProductFactory.tool;
     if (contains(key))
       findProduct(key).clear();
   }

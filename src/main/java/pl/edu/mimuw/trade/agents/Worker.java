@@ -78,6 +78,7 @@ public class Worker extends Agent {
       career.changeOccupation(careerStrategy.pickCareer(this));
     else
       career.advanceLevel();
+    hunger = 0;
   }
 
   private void starve() {

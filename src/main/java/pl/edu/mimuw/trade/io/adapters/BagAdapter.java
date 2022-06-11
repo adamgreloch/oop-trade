@@ -12,10 +12,10 @@ public class BagAdapter implements JsonSerializer<Bag>, JsonDeserializer<Bag> {
                                JsonSerializationContext context) {
     if (bag == null) return null;
     JsonObject je = new JsonObject();
-    je.addProperty("programy", bag.countPrograms());
+    je.add("programy", bag.perLevelPrograms());
     je.addProperty("jedzenie", bag.countFood());
-    je.addProperty("ubrania", bag.countClothes());
-    je.addProperty("narzedzia", bag.countTools());
+    je.add("ubrania", bag.perLevelClothes());
+    je.add("narzedzia", bag.perLevelTools());
     je.addProperty("diamenty", bag.countDiamonds());
 
     return je;

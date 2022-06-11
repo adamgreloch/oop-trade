@@ -37,10 +37,10 @@ public class Simulation {
   private StockStrategy stockStrategy;
   @SerializedName("dlugosc")
   @SkipSerialization
-  private final int SIMULATION_LENGTH = 5;
+  private int SIMULATION_LENGTH;
   @SerializedName("kara_za_brak_ubran")
   @SkipSerialization
-  private final int NO_CLOTHES_PENALTY = 2;
+  private int NO_CLOTHES_PENALTY;
 
   private transient LinkedList<Agent> agents;
   private transient LinkedList<Agent> dead;

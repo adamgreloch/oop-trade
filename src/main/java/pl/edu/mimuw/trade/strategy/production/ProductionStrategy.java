@@ -4,8 +4,6 @@ import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.strategy.Strategy;
 
-import java.util.Set;
-
 /**
  * Interfejs strategii produkcji Robotnika.
  */
@@ -15,5 +13,5 @@ public abstract class ProductionStrategy extends Strategy {
     super(name);
   }
 
-  public abstract Set<Product> produce(Worker worker);
+  public abstract Product pickToProduce(Worker worker);
 }

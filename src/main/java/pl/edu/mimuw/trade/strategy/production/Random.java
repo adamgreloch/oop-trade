@@ -7,14 +7,12 @@ import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.simulation.Simulation;
 
-import java.util.Set;
-
 public class Random extends ProductionStrategy {
   public Random() {
     super("losowy");
   }
 
-  public Set<Product> produce(Worker worker) {
+  public Product pickToProduce(Worker worker) {
     Product[] products = ProductFactory.previewProducts();
 
     Product buffed = worker.getCareer().currentProduct();
@@ -29,6 +27,6 @@ public class Random extends ProductionStrategy {
       worker.earnDiamonds(quantity);
       return null;
     }
-    return ProductFactory.produceAlike(picked, quantity, worker.productionLevel(picked));
+    return picked;
   }
 }

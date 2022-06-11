@@ -5,6 +5,7 @@ import pl.edu.mimuw.trade.agents.career.Career;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
+import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.simulation.OfferFactory;
@@ -75,7 +76,10 @@ public class Worker extends Agent {
 
   private void work() {
     activateBuffs();
-    saleBag.storeProducts(productionStrategy.produce(this));
+    Product picked = productionStrategy.pickToProduce(this);
+    int quantity = ProductivityVector.find(this.getProductivity(), picked);
+    Set<Product> produced = ProductFactory.produceAlike(picked, quantity, this.productionLevel(picked));
+    saleBag.storeProducts(produced);
   }
 
   private void study() {

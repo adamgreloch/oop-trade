@@ -10,6 +10,14 @@ import pl.edu.mimuw.trade.simulation.Simulation;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Is it just me, or the "regulating" formula actually deregulates the stock even more?
+ * Regulator?
+ * More like
+ * Deregulator
+ * Hahaha
+ * *exits the room*
+ */
 public class Regulator extends SpeculationStrategy {
 
   public Regulator() {

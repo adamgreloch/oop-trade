@@ -1,19 +1,30 @@
 package pl.edu.mimuw.trade.strategy.production;
 
+import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.Product;
-
-import java.util.Set;
+import pl.edu.mimuw.trade.products.ProductFactory;
+import pl.edu.mimuw.trade.products.Tradeable;
+import pl.edu.mimuw.trade.simulation.StockAnalysis;
 
 public class AverageProduction extends ProductionStrategy {
-  private final int reachPast;
+  @SerializedName("historia_sredniej_produkcji")
+  private int reachPast;
 
-  public AverageProduction(int reachPast) {
+  public AverageProduction() {
     super("sredniak");
-    this.reachPast = reachPast;
   }
 
-  public Set<Product> produce(Worker worker) {
-    return null;
+  public Product pickToProduce(Worker worker) {
+    double maxAvg = 0, avg;
+    Product picked = null;
+    for (Tradeable product : ProductFactory.previewTradeable()) {
+      avg = StockAnalysis.avgPrice(product, reachPast);
+      if (avg > maxAvg) {
+        maxAvg = avg;
+        picked = product;
+      }
+    }
+    return picked;
   }
 }

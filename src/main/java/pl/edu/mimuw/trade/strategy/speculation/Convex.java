@@ -21,15 +21,20 @@ public class Convex extends SpeculationStrategy {
 
     int today = Simulation.day();
     double shape, avg;
+    int quantity;
     for (Tradeable product : ProductFactory.previewTradeable()) {
       shape = functionShape(product, today);
       avg = Simulation.stock.getAveragePrice(today - 1, product);
       if (shape > 0) // Function is strictly convex, we buy.
         offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
                 PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
-      if (shape < 0) // Function is strictly concave, we sell.
-        offers.add(OfferFactory.speculatorSellOffer(speculator, product,
-                speculator.quantityOf(product), avg * SELL_FACTOR));
+      if (shape < 0) {
+        // Function is strictly concave, we sell.
+        quantity = speculator.quantityOf(product);
+        if (quantity > 0)
+          offers.add(OfferFactory.speculatorSellOffer(speculator, product,
+                  quantity, avg * SELL_FACTOR));
+      }
     }
     return offers;
   }

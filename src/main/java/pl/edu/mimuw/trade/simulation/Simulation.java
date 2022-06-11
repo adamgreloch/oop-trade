@@ -58,7 +58,7 @@ public class Simulation {
   }
 
   public Simulation() {
-    this.agents = new TreeSet<>();
+    this.agents = new TreeSet<>(Agent::compareTo);
     this.dead = new LinkedList<>();
   }
 

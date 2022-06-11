@@ -64,6 +64,7 @@ public class Bag implements ProductivityBuff {
   }
 
   public void storeProducts(Set<? extends Product> products) {
+    if (products == null) return;
     products.forEach(this::storeProduct);
   }
 

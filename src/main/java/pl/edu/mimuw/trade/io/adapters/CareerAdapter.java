@@ -22,11 +22,13 @@ public class CareerAdapter implements JsonSerializer<Career>, JsonDeserializer<C
     }
   }
 
+  // TODO troche straszny kod
+
   @SuppressWarnings("unchecked")
   public Career deserialize(JsonElement json, Type typeOfT,
                             JsonDeserializationContext context) throws JsonParseException {
     String type = json.getAsString();
-    Class c = Occupations.map.get(type);
+    Class c = (Class) Occupations.map.get(type);
     if (c == null)
       throw new RuntimeException("Unknown class: " + type);
     try {

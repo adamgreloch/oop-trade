@@ -81,6 +81,9 @@ public abstract class Agent implements Comparable<Agent> {
 
   @Override
   public int compareTo(Agent agent) {
-    return this.actionPriority - agent.actionPriority;
+    int cmp = this.actionPriority - agent.actionPriority;
+    if (cmp == 0)
+      return this.id - agent.id;
+    else return cmp;
   }
 }

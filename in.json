@@ -1,10 +1,10 @@
 {
   "info": {
-    "dlugosc": 10,
+    "dlugosc": 30,
     "gielda": "kapitalistyczna",
     "ceny": {
       "programy": 10,
-      "jedzenie": 125.27,
+      "jedzenie": 80.27,
       "ubrania": 10,
       "narzedzia": 105
     }
@@ -20,14 +20,14 @@
       "zmiana": "konserwatysta",
       "produktywnosc": {
         "programy": 100,
-        "jedzenie": 100,
+        "jedzenie": 1000,
         "diamenty": 100,
         "ubrania": 100,
         "narzedzia": 100
       },
       "zasoby": {
         "programy": 100,
-        "jedzenie": 100,
+        "jedzenie": 200,
         "diamenty": 100,
         "ubrania": 100,
         "narzedzia": 100
@@ -43,8 +43,8 @@
       "zmiana": "konserwatysta",
       "produktywnosc": {
         "programy": 100,
-        "jedzenie": 100,
-        "diamenty": 100,
+        "jedzenie": 20,
+        "diamenty": 1000,
         "ubrania": 100,
         "narzedzia": 100
       },
@@ -52,7 +52,7 @@
         "programy": 100,
         "jedzenie": 100,
         "diamenty": 100,
-        "ubrania": 1000,
+        "ubrania": 10,
         "narzedzia": 100
       }
     },
@@ -78,6 +78,29 @@
         "ubrania": 1000,
         "narzedzia": 100
       }
+    },
+    {
+      "id": 4,
+      "poziom": 1,
+      "kariera": "rzemieslnik",
+      "kupowanie": "technofob",
+      "produkcja": "krotkowzroczny",
+      "uczenie": "pracus",
+      "zmiana": "konserwatysta",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 1000,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 1000,
+        "narzedzia": 100
+      }
     }
   ],
   "spekulanci": [
@@ -85,7 +108,33 @@
       "id": 12,
       "kariera": {
         "typ": "sredni",
-        "historia_spekulanta_sredniego": 2
+        "historia_spekulanta_sredniego": 5
+      },
+      "zasoby": {
+        "diamenty": 101,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
+    },
+    {
+      "id": 13,
+      "kariera": {
+        "typ": "regulujacy"
+      },
+      "zasoby": {
+        "diamenty": 101,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
+    },
+    {
+      "id": 14,
+      "kariera": {
+        "typ": "wypukly"
       },
       "zasoby": {
         "diamenty": 101,

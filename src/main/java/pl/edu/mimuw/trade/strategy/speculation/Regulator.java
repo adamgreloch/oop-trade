@@ -20,14 +20,17 @@ public class Regulator extends SpeculationStrategy {
     Set<Offer> offers = new HashSet<>();
     int today = Simulation.day();
     double factor, avg;
+    int quantity;
 
     for (Tradeable product : ProductFactory.previewTradeable()) {
       avg = Simulation.stock.getAveragePrice(today - 1, product);
       factor = calculateFactor(product, today);
       offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
               PURCHASE_QUANTITY, avg * factor * PURCHASE_FACTOR));
-      offers.add(OfferFactory.speculatorSellOffer(speculator, product,
-              speculator.quantityOf(product), avg * factor * SELL_FACTOR));
+      quantity = speculator.quantityOf(product);
+      if (quantity > 0)
+        offers.add(OfferFactory.speculatorSellOffer(speculator, product,
+                quantity, avg * factor * SELL_FACTOR));
     }
     return offers;
   }

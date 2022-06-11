@@ -50,7 +50,7 @@ public class StockLog {
   }
 
   public int getWorkerSellOffered(Product levelled, int day) {
-    if (days.isEmpty() || day == 0) return 0;
+    if (days.isEmpty() || day == 0 || !days.contains(day - 1)) return 0;
     return days.get(day - 1).getWorkerSellOffered(levelled);
   }
 
@@ -79,12 +79,12 @@ public class StockLog {
   }
 
   public double getAveragePrice(int day, Tradeable product) {
-    if (days.isEmpty() || day == 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getAveragePrice(product);
+    if (days.isEmpty() || day <= 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getAveragePrice(product);
     return days.get(day - 1).getAveragePrice(product);
   }
 
   public int getSoldQuantity(int day, Tradeable product) {
-    if (days.isEmpty() || day == 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getSoldQuantity(product);
+    if (days.isEmpty() || day <= 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getSoldQuantity(product);
     return days.get(day - 1).getSoldQuantity(product);
   }
 

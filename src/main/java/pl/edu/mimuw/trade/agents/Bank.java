@@ -1,14 +1,13 @@
 package pl.edu.mimuw.trade.agents;
 
 import pl.edu.mimuw.trade.simulation.Offer;
-import pl.edu.mimuw.trade.simulation.Stock;
 
 import static java.lang.Double.MAX_VALUE;
 
 public class Bank extends Agent {
 
-  public Bank(Stock stock) {
-    super(Integer.MAX_VALUE, stock);
+  public Bank() {
+    super(Integer.MAX_VALUE);
   }
 
   public void act() {

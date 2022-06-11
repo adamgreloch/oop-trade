@@ -18,14 +18,14 @@ public class Stock {
 
   public Stock(StockStrategy stockStrategy, DayLog fallBack) {
     this.stockStrategy = stockStrategy;
-    this.bank = new Bank(this);
+    this.bank = new Bank();
     this.log = new StockLog(fallBack);
     this.workerOfferQueues = new HashSet<>();
     this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
   }
 
   public Stock(StockStrategy stockStrategy, StockLog log) {
-    this.bank = new Bank(this);
+    this.bank = new Bank();
     this.log = log;
     this.stockStrategy = stockStrategy;
     this.workerOfferQueues = new HashSet<>();

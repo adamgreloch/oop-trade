@@ -2,14 +2,12 @@ package pl.edu.mimuw.trade.agents;
 
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.career.Career;
-import pl.edu.mimuw.trade.agents.career.Occupation;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.simulation.Simulation;
-import pl.edu.mimuw.trade.simulation.Stock;
 import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
 import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
 import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
@@ -26,7 +24,7 @@ public class Worker extends Agent {
 
   @SerializedName("produktywnosc")
   private Productivity productivity;
-  @SerializedName(value = "kariera")
+  @SerializedName("kariera")
   private Career career;
 
   @SerializedName("zmiana")
@@ -44,6 +42,7 @@ public class Worker extends Agent {
     super();
   }
 
+/*
   public Worker(int id, Stock stock, Productivity productivity,
                 Occupation occupation,
                 int occupationLevel,
@@ -51,18 +50,19 @@ public class Worker extends Agent {
                 PurchaseStrategy purchaseStrategy,
                 ProductionStrategy productionStrategy,
                 StudyingStrategy studyingStrategy) {
-    super(id, stock);
+    super(id);
     this.productivity = productivity;
     this.career = new Career(occupation, occupationLevel);
 
     this.storageBag = new Bag();
-    this.storageBag.setOwner(this);
+    this.storageBag.setWorkerOwner(this);
 
     this.careerStrategy = careerStrategy;
     this.purchaseStrategy = purchaseStrategy;
     this.productionStrategy = productionStrategy;
     this.studyingStrategy = studyingStrategy;
   }
+*/
 
   public void act() {
     if (studyingStrategy.isStudyDay(this))
@@ -134,7 +134,7 @@ public class Worker extends Agent {
 
   private void activateBuffs() {
     productivity.clearBuffs();
-    storageBag.setOwner(this);
+    storageBag.setWorkerOwner(this);
     storageBag.listBuffableProducts().forEach(productivity::addBuff);
     productivity.updateBuffs();
   }

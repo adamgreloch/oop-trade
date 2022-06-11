@@ -13,7 +13,7 @@ public class Bag implements ProductivityBuff {
    * Stores distinguishable products such as clothes, tools and programs.
    */
   protected Map<Product, Map<Integer, LinkedList<Product>>> contents;
-  private Worker owner;
+  private Worker workerOwner;
 
   public Bag() {
     this.contents = new HashMap<>();
@@ -193,14 +193,14 @@ public class Bag implements ProductivityBuff {
     return res;
   }
 
-  public void setOwner(Worker owner) {
-    this.owner = owner;
+  public void setWorkerOwner(Worker workerOwner) {
+    this.workerOwner = workerOwner;
   }
 
   public ProductivityVector getBuffValue() {
-    assert owner.starvationLevel() < Worker.DEATH_THRESHOLD;
+    assert workerOwner.starvationLevel() < Worker.DEATH_THRESHOLD;
 
-    switch (owner.starvationLevel()) {
+    switch (workerOwner.starvationLevel()) {
       case 1:
         return new ProductivityVector(MINOR_STARVATION_PENALTY);
       case 2:

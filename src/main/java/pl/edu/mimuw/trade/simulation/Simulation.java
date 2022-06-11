@@ -17,7 +17,6 @@ import java.util.Random;
 public class Simulation {
   public static Random RANDOM = new Random();
 
-  @Expose(deserialize = false)
   private static int day = 1;
   @SerializedName("gielda")
   private StockStrategy stockStrategy;
@@ -30,8 +29,11 @@ public class Simulation {
   private transient LinkedList<Agent> agents;
   private transient LinkedList<Agent> dead;
 
-  public static transient Stock stock;
+  public static Stock stock;
 
+  @SerializedName("dzien")
+  @Expose(deserialize = false)
+  private int lastDay;
   @SerializedName("ceny_srednie")
   private Map<String, Double> lastDayAvgPrices;
   @SerializedName("ceny_max")
@@ -74,6 +76,7 @@ public class Simulation {
     lastDayMaxPrices = stock.log.mapLastMaxPrices();
     lastDayMinPrices = stock.log.mapLastMinPrices();
     lastDayAvgPrices = stock.log.mapLastAvgPrices();
+    lastDay = day;
     day++;
     stock.newDay();
   }

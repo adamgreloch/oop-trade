@@ -37,7 +37,14 @@
   "spekulanci": [
     {
       "id": 12,
-      "kariera": "sredni"
+      "kariera": "sredni",
+      "zasoby": {
+        "diamenty": 101,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
     }
   ]
 }

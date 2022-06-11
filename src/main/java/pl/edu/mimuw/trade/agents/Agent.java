@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
-import pl.edu.mimuw.trade.simulation.Stock;
 
 import java.util.Set;
 
@@ -13,21 +12,20 @@ public abstract class Agent {
   @SerializedName("id")
   private int id;
 
-  protected transient Bag saleBag;
-
   @SerializedName("zasoby")
   protected Bag storageBag;
+  protected transient Bag saleBag;
 
   protected transient boolean isAlive = true;
 
   public Agent() {
+    this.storageBag = new Bag();
     this.saleBag = new Bag();
   }
 
-  public Agent(int id, Stock stock) {
+  public Agent(int id) {
+    this();
     this.id = id;
-    this.saleBag = new Bag();
-    this.storageBag = saleBag;
   }
 
   /**

@@ -11,13 +11,12 @@ public class Speculator extends Agent {
   SpeculationStrategy speculationStrategy;
 
   public Speculator() {
-    super();
   }
 
   // TODO find out why Speculator has a null storageBag
 
   public Speculator(int id, Stock stock, SpeculationStrategy speculationStrategy) {
-    super(id, stock);
+    super(id);
     this.speculationStrategy = speculationStrategy;
   }
 
@@ -25,6 +24,7 @@ public class Speculator extends Agent {
   }
 
   public void makeOffers() {
+    this.saleBag = storageBag;
     Simulation.stock.addOffer(speculationStrategy.makeOffers(this), this);
   }
 

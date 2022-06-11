@@ -38,6 +38,7 @@ public class Worker extends Agent {
   private StudyingStrategy studyingStrategy;
 
   private transient int hunger = 0;
+  private transient boolean isStudying;
 
   public Worker() {
     super();
@@ -45,6 +46,7 @@ public class Worker extends Agent {
   }
 
   public void act() {
+    isStudying = false;
     if (studyingStrategy.isStudyDay(this))
       this.study();
     else
@@ -52,6 +54,7 @@ public class Worker extends Agent {
   }
 
   public void makeOffers() {
+    if (isStudying) return;
     Set<Offer> offers = new HashSet<>();
     Iterator<Product> productsToSell = saleBag.iterateThroughLevels();
     while (productsToSell.hasNext()) {
@@ -81,6 +84,7 @@ public class Worker extends Agent {
     else
       career.advanceLevel();
     hunger = 0;
+    isStudying = true;
   }
 
   private void starve() {

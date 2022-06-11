@@ -116,4 +116,9 @@ public class Simulation {
   public DayLog getCurrent() {
     return stock.log.getCurrent();
   }
+
+  @Override
+  public String toString() {
+    return "Simulation: day " + day;
+  }
 }

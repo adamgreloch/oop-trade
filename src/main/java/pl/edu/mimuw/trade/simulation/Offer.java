@@ -86,7 +86,7 @@ public class Offer implements Comparable<Offer> {
     log.logTransaction(this.product, sellPrice, soldQuantity);
 
     int res = this.quantity - other.quantity;
-    System.out.println(sell.issuer + " sold " + soldQuantity + " x " + product + " to " + buy.issuer);
+    System.out.println(sell.issuer + " sold " + soldQuantity + " x " + product + " to " + buy.issuer + " for " + sellPrice + "/item");
     if (res <= 0) this.isCompleted = true;
     if (res >= 0) other.isCompleted = true;
   }

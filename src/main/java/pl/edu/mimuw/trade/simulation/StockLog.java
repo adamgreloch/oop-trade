@@ -2,28 +2,22 @@ package pl.edu.mimuw.trade.simulation;
 
 import pl.edu.mimuw.trade.products.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class StockLog {
 
-  private final List<DayLog> days;
+  private final Map<Integer, DayLog> days;
   private transient final DayLog fallBack;
   private transient DayLog previous;
   private transient DayLog current;
 
-  public StockLog() {
-    this.days = new LinkedList<>();
-    this.fallBack = new DayLog(0, null);
-    this.current = new DayLog(1, this.fallBack);
-    this.previous = fallBack;
-  }
-
   public StockLog(DayLog fallBack) {
-    this.days = new LinkedList<>();
+    this.days = new HashMap<>();
     this.fallBack = fallBack;
     this.current = new DayLog(1, this.fallBack);
+    this.days.put(0, fallBack);
+    this.days.put(1, current);
     this.previous = fallBack;
   }
 
@@ -47,29 +41,29 @@ public class StockLog {
     current.logTransaction(product, sellPrice, soldQuantity);
   }
 
-  public void logWorkerSellOffered(Product levelled, int quantity) {
+  public void logWorkerSellOffered(Tradeable levelled, int quantity) {
     current.logWorkerSellOffered(levelled, quantity);
   }
 
-  public void logOfferedQuantities(Product levelled, int quantity) {
+  public void logOfferedQuantities(Tradeable levelled, int quantity) {
     current.logOfferedQuantities(levelled, quantity);
   }
 
-  public int getOfferedQuantities(Product levelled, int day) {
-    if (days.isEmpty() || day == 0 || !days.contains(day - 1)) return 0;
-    return days.get(day - 1).getOfferedQuantities(levelled);
+  public int getOfferedQuantities(Tradeable levelled, int day) {
+    if (days.isEmpty()) return 0;
+    return days.get(day).getOfferedQuantities(levelled);
   }
 
-  public int getWorkerSellOffered(Product levelled, int day) {
-    if (days.isEmpty() || day == 0 || !days.contains(day - 1)) return 0;
-    return days.get(day - 1).getWorkerSellOffered(levelled);
+  public int getWorkerSellOffered(Tradeable levelled, int day) {
+    if (days.isEmpty() || day <= 0) return 0;
+    return days.get(day).getWorkerSellOffered(levelled);
   }
 
   void newDay() {
     if (current.day < Simulation.day()) {
-      days.add(current);
       previous = current;
       current = new DayLog(Simulation.day(), this.fallBack);
+      days.put(Simulation.day(), current);
     }
   }
 
@@ -89,14 +83,18 @@ public class StockLog {
     return current.mapMinPrices();
   }
 
+  private boolean shouldFallback(int day, Tradeable product) {
+    return day < 0 || !days.get(day).soldThatDay(product);
+  }
+
   public double getAveragePrice(int day, Tradeable product) {
-    if (days.isEmpty() || day <= 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getAveragePrice(product);
-    return days.get(day - 1).getAveragePrice(product);
+    if (shouldFallback(day, product)) return fallBack.getAveragePrice(product);
+    return days.get(day).getAveragePrice(product);
   }
 
   public int getSoldQuantity(int day, Tradeable product) {
-    if (days.isEmpty() || day <= 0 || !days.get(day - 1).soldThatDay(product)) return fallBack.getSoldQuantity(product);
-    return days.get(day - 1).getSoldQuantity(product);
+    if (shouldFallback(day, product)) return fallBack.getSoldQuantity(product);
+    return days.get(day).getSoldQuantity(product);
   }
 
   public String printCurrent() {

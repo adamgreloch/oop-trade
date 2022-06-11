@@ -55,7 +55,7 @@ public class DayLog {
   public void logWorkerSellOffered(Product levelled, int quantity) {
     assert levelled instanceof Tradeable;
     Product product = levelled.generalize();
-    this.quantitiesOfferedByWorkers.put(product, this.quantitiesSold.getOrDefault(product, 0) + quantity);
+    this.quantitiesOfferedByWorkers.put(product, this.quantitiesOfferedByWorkers.getOrDefault(product, 0) + quantity);
   }
 
   public void logOfferedQuantities(Product levelled, int quantity) {
@@ -65,10 +65,12 @@ public class DayLog {
   }
 
   public int getOfferedQuantities(Product product) {
+    if (!this.quantitiesInOffers.containsKey(product.generalize())) return 0;
     return this.quantitiesInOffers.get(product.generalize());
   }
 
   public int getWorkerSellOffered(Product product) {
+    if (!this.quantitiesOfferedByWorkers.containsKey(product.generalize())) return 0;
     return this.quantitiesOfferedByWorkers.get(product.generalize());
   }
 

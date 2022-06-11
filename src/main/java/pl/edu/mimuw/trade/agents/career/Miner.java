@@ -6,7 +6,6 @@ import pl.edu.mimuw.trade.products.Product;
 
 public class Miner extends Occupation {
 
-  // TODO Worker can't become a Miner
   public Miner() {
     super("gornik");
   }

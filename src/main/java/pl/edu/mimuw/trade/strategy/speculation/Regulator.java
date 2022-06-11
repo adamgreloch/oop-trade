@@ -19,6 +19,8 @@ public class Regulator extends SpeculationStrategy {
   public Set<Offer> makeOffers(Speculator speculator) {
     Set<Offer> offers = new HashSet<>();
     int today = Simulation.day();
+    if (today == 1) return offers;
+
     double factor, avg;
     int quantity;
 

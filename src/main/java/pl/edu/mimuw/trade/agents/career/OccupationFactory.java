@@ -1,6 +1,7 @@
 package pl.edu.mimuw.trade.agents.career;
 
 import pl.edu.mimuw.trade.products.Product;
+import pl.edu.mimuw.trade.simulation.Simulation;
 
 public class OccupationFactory {
   public static final Craftsman craftsman = new Craftsman();
@@ -19,5 +20,9 @@ public class OccupationFactory {
       if (occupation.produceBuffedProduct(1).generalize().equals(product.generalize()))
         return occupation;
     throw new IllegalArgumentException("Occupation related to " + product + " doesn't exist");
+  }
+
+  public static Occupation randomOccupation() {
+    return occupations[Simulation.RANDOM.nextInt(occupations.length)];
   }
 }

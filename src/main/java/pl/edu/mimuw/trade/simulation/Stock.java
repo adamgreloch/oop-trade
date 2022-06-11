@@ -3,11 +3,12 @@ package pl.edu.mimuw.trade.simulation;
 import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.agents.Bank;
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.*;
+
+import static pl.edu.mimuw.trade.simulation.OfferType.SELL;
 
 public class Stock {
 
@@ -48,7 +49,8 @@ public class Stock {
       OfferQueue queue = new OfferQueue(issuer);
       for (Offer offer : offers) {
         queue.add(offer);
-        log.logWorkerSellOffered(offer.product, offer.quantity());
+        if (offer.offerType == SELL)
+          log.logWorkerSellOffered(offer.product, offer.quantity());
       }
       workerOfferQueues.add(queue);
     } else speculatorOffers.addAll(offers);
@@ -66,7 +68,7 @@ public class Stock {
 
         found = findBestSpeculatorOffer(workerOffer);
         if (found == null) {
-          if (workerOffer.offerType == OfferType.SELL)
+          if (workerOffer.offerType == SELL)
             found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product));
           else {
             workerOfferQueues.remove(workerOfferQueue);
@@ -97,11 +99,11 @@ public class Stock {
     log.newDay();
   }
 
-  public void logOfferedQuantities(Product levelled, int quantity) {
+  public void logOfferedQuantities(Tradeable levelled, int quantity) {
     log.logOfferedQuantities(levelled, quantity);
   }
 
-  public int getOfferedQuantities(Product levelled, int day) {
+  public int getOfferedQuantities(Tradeable levelled, int day) {
     return log.getOfferedQuantities(levelled, day);
   }
 
@@ -113,7 +115,7 @@ public class Stock {
     return log.getSoldQuantity(day, product);
   }
 
-  public int getWorkerSellOffered(Product product, int day) {
+  public int getWorkerSellOffered(Tradeable product, int day) {
     return log.getWorkerSellOffered(product, day);
   }
 

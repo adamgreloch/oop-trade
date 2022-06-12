@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade;
+package pl.edu.mimuw;
 
 import pl.edu.mimuw.trade.io.GsonWrapper;
 import pl.edu.mimuw.trade.simulation.SimulationWrapper;

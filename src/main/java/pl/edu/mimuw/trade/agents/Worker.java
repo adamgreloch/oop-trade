@@ -147,6 +147,14 @@ public class Worker extends Agent {
     return career.productionLevel(product);
   }
 
+  public int ownedClothes() {
+    return storageBag.countClothes();
+  }
+
+  public int quantityProduced() {
+    return saleBag.totalQuantity();
+  }
+
   @Override
   public String toString() {
     return "Worker (Agent " + id()

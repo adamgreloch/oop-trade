@@ -287,6 +287,13 @@ public class Bag implements ProductivityBuff {
       findProduct(key).clear();
   }
 
+  public int totalQuantity() {
+    int total = 0;
+    for (Product product : ProductFactory.previewProducts())
+      total += quantity(product);
+    return total;
+  }
+
   @Override
   public String toString() {
     return "food: " + countFood()

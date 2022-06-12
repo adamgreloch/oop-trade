@@ -11,7 +11,7 @@ public class Tool extends DistinguishableTradeable implements ProductivityBuff, 
 
   @Override
   public ProductivityVector getBuffValue() {
-    return new ProductivityVector(level());
+    return new ProductivityVector(this.level());
   }
 
   public int tradePriority() {

@@ -9,10 +9,6 @@ public class Diamond extends Product {
   }
 
   public double value() {
-    return value;
-  }
-
-  public Diamond add(double amount) {
-    return new Diamond(value + amount);
+    return this.value;
   }
 }

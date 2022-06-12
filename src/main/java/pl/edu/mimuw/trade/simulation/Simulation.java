@@ -15,7 +15,11 @@ import java.util.*;
  */
 public class Simulation {
   public static Random RANDOM = new Random();
-
+  public static Stock stock;
+  private static int day = 1;
+  private static int noClothesPenalty;
+  private final transient SortedSet<Agent> agents;
+  private final transient LinkedList<Agent> dead;
   @SerializedName("dzien")
   @Expose(deserialize = false)
   private int lastDay;
@@ -28,7 +32,6 @@ public class Simulation {
   @SerializedName("ceny_min")
   @Expose(deserialize = false)
   private Map<String, Double> lastDayMinPrices;
-
   @SerializedName("gielda")
   @SkipSerialization
   private StockStrategy stockStrategy;
@@ -38,34 +41,13 @@ public class Simulation {
   @SerializedName("kara_za_brak_ubran")
   @SkipSerialization
   private int NO_CLOTHES_PENALTY;
-
-  private static int day = 1;
-  private static int noClothesPenalty;
-
-  private transient SortedSet<Agent> agents;
-  private transient LinkedList<Agent> dead;
-
-  public static Stock stock;
-
   @SerializedName("ceny")
   @SkipSerialization
   private DayLog fallBack;
 
-  public Simulation(StockStrategy stockStrategy) {
-    this();
-    this.stockStrategy = stockStrategy;
-  }
-
   public Simulation() {
     this.agents = new TreeSet<>(Agent::compareTo);
     this.dead = new LinkedList<>();
-  }
-
-  public void init(LinkedList<Worker> workers, LinkedList<Speculator> speculators) {
-    Simulation.stock = new Stock(stockStrategy, fallBack);
-    this.agents.addAll(workers);
-    this.agents.addAll(speculators);
-    noClothesPenalty = NO_CLOTHES_PENALTY;
   }
 
   public static int day() {
@@ -76,49 +58,46 @@ public class Simulation {
     return noClothesPenalty;
   }
 
+  public void init(Collection<Worker> workers, Collection<Speculator> speculators) {
+    Simulation.stock = new Stock(this.stockStrategy, this.fallBack);
+    this.agents.addAll(workers);
+    this.agents.addAll(speculators);
+    noClothesPenalty = this.NO_CLOTHES_PENALTY;
+  }
+
   public void runDay() {
-    agents.forEach(Agent::act);
-
-    agents.forEach(Agent::makeOffers);
+    System.out.println("=== DAY" + day + " ===");
+    this.agents.forEach(Agent::act);
+    this.agents.forEach(Agent::makeOffers);
     stock.processTransactions();
+    this.agents.forEach(Agent::finishDay);
 
-    agents.forEach(Agent::finishDay);
+    this.checkForDeaths();
+    this.lastDayMaxPrices = stock.log.mapLastMaxPrices();
+    this.lastDayMinPrices = stock.log.mapLastMinPrices();
+    this.lastDayAvgPrices = stock.log.mapLastAvgPrices();
+    this.lastDay = day;
 
-    checkForDeaths();
-    lastDayMaxPrices = stock.log.mapLastMaxPrices();
-    lastDayMinPrices = stock.log.mapLastMinPrices();
-    lastDayAvgPrices = stock.log.mapLastAvgPrices();
-    lastDay = day;
-    System.out.println(getCurrent());
     day++;
     stock.newDay();
   }
 
   public void checkForDeaths() {
-    for (Agent agent : agents)
+    for (Agent agent : this.agents)
       if (agent.isDead()) {
-        dead.add(agent);
+        this.dead.add(agent);
         System.out.println(agent + " died on day " + day);
       }
 
-    for (Agent deadAgent : dead)
-      agents.remove(deadAgent);
+    this.dead.forEach(this.agents::remove);
   }
 
   public int simulationLength() {
-    return SIMULATION_LENGTH;
-  }
-
-  public Stock stock() {
-    return stock;
-  }
-
-  public DayLog getCurrent() {
-    return stock.log.getCurrent();
+    return this.SIMULATION_LENGTH;
   }
 
   @Override
   public String toString() {
-    return "Simulation: day " + day;
+    return "Simulation: day " + day + ". " + this.stockStrategy + "stock";
   }
 }

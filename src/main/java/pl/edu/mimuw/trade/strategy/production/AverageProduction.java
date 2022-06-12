@@ -19,7 +19,7 @@ public class AverageProduction extends ProductionStrategy {
     double maxAvg = 0, avg;
     Product picked = null;
     for (Tradeable product : ProductFactory.previewTradeable()) {
-      avg = StockAnalysis.avgPrice(product, reachPast);
+      avg = StockAnalysis.avgPrice(product, this.reachPast);
       if (avg > maxAvg) {
         maxAvg = avg;
         picked = product;

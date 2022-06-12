@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Stickler extends PurchaseStrategy {
-  private final Technophobe technophobe;
   private static final int MIN_CLOTHES_QUANTITY = 100;
+  private final Technophobe technophobe;
 
   public Stickler() {
     super("czyscioszek");
@@ -18,7 +18,7 @@ public class Stickler extends PurchaseStrategy {
   }
 
   public Set<Offer> purchasesToOffer(Worker worker) {
-    Set<Offer> offers = new HashSet<>(technophobe.purchasesToOffer(worker));
+    Set<Offer> offers = new HashSet<>(this.technophobe.purchasesToOffer(worker));
     int toPurchase = Worker.DAILY_CLOTHES_CONSUMPTION + MIN_CLOTHES_QUANTITY
             - worker.ownedClothes();
     offers.add(OfferFactory.workerPurchaseOffer(worker, ProductFactory.clothes, toPurchase));

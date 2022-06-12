@@ -17,15 +17,15 @@ public abstract class DistinguishableTradeable extends Tradeable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(productName, level, id);
+    return Objects.hash(this.productName, this.level, this.id);
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (o == null || this.getClass() != o.getClass()) return false;
     DistinguishableTradeable that = (DistinguishableTradeable) o;
-    return productName.equals(that.productName) && level == that.level && id == that.id;
+    return this.productName.equals(that.productName) && this.level == that.level && this.id == that.id;
   }
 
   public abstract int tradePriority();

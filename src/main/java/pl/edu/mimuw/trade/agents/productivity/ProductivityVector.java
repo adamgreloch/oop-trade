@@ -13,16 +13,16 @@ public class ProductivityVector {
   }
 
   private ProductivityVector(int[] data) {
-    assert data.length == PRODUCT_COUNT;
-    this.data = Arrays.copyOf(data, PRODUCT_COUNT);
+    assert data.length == this.PRODUCT_COUNT;
+    this.data = Arrays.copyOf(data, this.PRODUCT_COUNT);
   }
 
   public ProductivityVector() {
-    this.data = new int[PRODUCT_COUNT];
+    this.data = new int[this.PRODUCT_COUNT];
   }
 
   public ProductivityVector(int constant) {
-    this.data = new int[PRODUCT_COUNT];
+    this.data = new int[this.PRODUCT_COUNT];
     Arrays.fill(this.data, constant);
   }
 
@@ -36,48 +36,41 @@ public class ProductivityVector {
   }
 
   public void clear() {
-    this.data = new int[PRODUCT_COUNT];
+    this.data = new int[this.PRODUCT_COUNT];
   }
 
   public ProductivityVector add(ProductivityVector other) {
     ProductivityVector res = new ProductivityVector();
-    for (int i = 0; i < PRODUCT_COUNT; i++)
+    for (int i = 0; i < this.PRODUCT_COUNT; i++)
       res.data[i] = this.data[i] + other.data[i];
-    return res;
-  }
-
-  public ProductivityVector times(int scalar) {
-    ProductivityVector res = new ProductivityVector();
-    for (int i = 0; i < PRODUCT_COUNT; i++)
-      res.data[i] = this.data[i] * scalar;
     return res;
   }
 
   public ProductivityVector add(int scalar) {
     ProductivityVector res = new ProductivityVector();
-    for (int i = 0; i < PRODUCT_COUNT; i++)
+    for (int i = 0; i < this.PRODUCT_COUNT; i++)
       res.data[i] = this.data[i] + scalar;
     return res;
   }
 
   public int food() {
-    return data[0];
+    return this.data[0];
   }
 
   public int clothes() {
-    return data[1];
+    return this.data[1];
   }
 
   public int tools() {
-    return data[2];
+    return this.data[2];
   }
 
   public int diamonds() {
-    return data[3];
+    return this.data[3];
   }
 
   public int programs() {
-    return data[4];
+    return this.data[4];
   }
 
   private ProductivityVector buff(int idx, int buff) {
@@ -87,26 +80,26 @@ public class ProductivityVector {
   }
 
   public ProductivityVector buffFood(int buff) {
-    return buff(0, buff);
+    return this.buff(0, buff);
   }
 
   public ProductivityVector buffClothes(int buff) {
-    return buff(1, buff);
+    return this.buff(1, buff);
   }
 
   public ProductivityVector buffTools(int buff) {
-    return buff(2, buff);
+    return this.buff(2, buff);
   }
 
   public ProductivityVector buffDiamonds(int buff) {
-    return buff(3, buff);
+    return this.buff(3, buff);
   }
 
   public ProductivityVector buffPrograms(int buff) {
-    return buff(4, buff);
+    return this.buff(4, buff);
   }
 
   public ProductivityVector copyOf() {
-    return new ProductivityVector(data);
+    return new ProductivityVector(this.data);
   }
 }

@@ -14,12 +14,12 @@ public class Clothes extends DistinguishableTradeable implements ProductivityBuf
   }
 
   public int wearOnce() {
-    return --daysLeft;
+    return --this.daysLeft;
   }
 
   @Override
   public String info() {
-    return "days left: " + daysLeft;
+    return "days left: " + this.daysLeft;
   }
 
   @Override

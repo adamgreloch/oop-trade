@@ -11,19 +11,19 @@ public abstract class StackedTradeable extends Tradeable {
   }
 
   public int quantity() {
-    return quantity;
+    return this.quantity;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productName, quantity);
+    return Objects.hash(this.productName, this.quantity);
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (o == null || this.getClass() != o.getClass()) return false;
     StackedTradeable that = (StackedTradeable) o;
-    return productName.equals(that.productName);
+    return this.productName.equals(that.productName);
   }
 }

@@ -25,7 +25,7 @@ public abstract class Occupation {
   }
 
   public ProductivityVector getBuffVector(int level) {
-    return makeBuff(getBuffValue(level));
+    return this.makeBuff(this.getBuffValue(level));
   }
 
   protected abstract ProductivityVector makeBuff(int buffValue);
@@ -34,15 +34,15 @@ public abstract class Occupation {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(this.name);
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (o == null || this.getClass() != o.getClass()) return false;
     Occupation that = (Occupation) o;
-    return name.equals(that.name);
+    return this.name.equals(that.name);
   }
 
 }

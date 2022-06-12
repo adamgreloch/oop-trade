@@ -14,6 +14,6 @@ public class Periodical extends StudyingStrategy {
   }
 
   public boolean isStudyDay(Worker worker) {
-    return Simulation.day() % period == 0;
+    return Simulation.day() % this.period == 0;
   }
 }

@@ -34,7 +34,7 @@ public class Regulator extends SpeculationStrategy {
 
     for (Tradeable product : ProductFactory.previewTradeable()) {
       avg = Simulation.stock.getAveragePrice(today - 1, product);
-      factor = calculateFactor(product, today);
+      factor = this.calculateFactor(product, today);
       offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
               PURCHASE_QUANTITY, avg * factor * PURCHASE_FACTOR));
       quantity = speculator.ownsQuantity(product);

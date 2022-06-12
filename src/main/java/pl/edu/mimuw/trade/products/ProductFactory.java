@@ -73,6 +73,7 @@ public class ProductFactory {
     if (product instanceof Tool) res = newTools(quantity, level);
     if (product instanceof Program) res = newPrograms(quantity, level);
     if (product instanceof Diamond) res = newDiamonds(quantity);
+    if (res == null) throw new IllegalArgumentException(product + " is not creatable");
     return new HashSet<>(res);
   }
 }

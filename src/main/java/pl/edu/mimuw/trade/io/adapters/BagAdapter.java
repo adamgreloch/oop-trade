@@ -27,11 +27,11 @@ public class BagAdapter implements JsonSerializer<Bag>, JsonDeserializer<Bag> {
     JsonObject jo = (JsonObject) json;
     Bag bag = new Bag();
 
-    bag.storeFood(getInt(jo, "jedzenie"));
-    bag.storeDiamonds(getInt(jo, "diamenty"));
-    bag.storeProducts(ProductFactory.newClothes(getInt(jo, "ubrania"), 1));
-    bag.storeProducts(ProductFactory.newTools(getInt(jo, "narzedzia"), 1));
-    bag.storeProducts(ProductFactory.newPrograms(getInt(jo, "programy"), 1));
+    bag.storeFood(this.getInt(jo, "jedzenie"));
+    bag.storeDiamonds(this.getInt(jo, "diamenty"));
+    bag.storeProducts(ProductFactory.newClothes(this.getInt(jo, "ubrania"), 1));
+    bag.storeProducts(ProductFactory.newTools(this.getInt(jo, "narzedzia"), 1));
+    bag.storeProducts(ProductFactory.newPrograms(this.getInt(jo, "programy"), 1));
 
     return bag;
   }

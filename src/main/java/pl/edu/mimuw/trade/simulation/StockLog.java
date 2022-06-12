@@ -15,9 +15,9 @@ public class StockLog {
   public StockLog(DayLog fallBack) {
     this.days = new HashMap<>();
     this.fallBack = fallBack;
-    this.current = new DayLog(1, this.fallBack);
+    this.current = new DayLog(1);
     this.days.put(0, fallBack);
-    this.days.put(1, current);
+    this.days.put(1, this.current);
     this.previous = fallBack;
   }
 
@@ -25,79 +25,79 @@ public class StockLog {
    * @return Price of the lowest product purchase price the day before or price from zero-day.
    */
   public double previousLowest(Tradeable product) {
-    return previous.min(product, fallBack);
+    return this.previous.min(product, this.fallBack);
   }
 
   public void setFallBackPrices(double food, double clothes, double tools, double programs) {
-    fallBack.logTransaction(new Food(1), food, 1);
-    fallBack.logTransaction(new Clothes(1), clothes, 1);
-    fallBack.logTransaction(new Tool(1), tools, 1);
-    fallBack.logTransaction(new Program(1), programs, 1);
+    this.fallBack.logTransaction(new Food(1), food, 1);
+    this.fallBack.logTransaction(new Clothes(1), clothes, 1);
+    this.fallBack.logTransaction(new Tool(1), tools, 1);
+    this.fallBack.logTransaction(new Program(1), programs, 1);
   }
 
   // TODO maybe deredund some day?
 
   public void logTransaction(Tradeable product, double sellPrice, int soldQuantity) {
-    current.logTransaction(product, sellPrice, soldQuantity);
+    this.current.logTransaction(product, sellPrice, soldQuantity);
   }
 
   public void logWorkerSellOffered(Tradeable levelled, int quantity) {
-    current.logWorkerSellOffered(levelled, quantity);
+    this.current.logWorkerSellOffered(levelled, quantity);
   }
 
   public void logOfferedQuantities(Tradeable levelled, int quantity) {
-    current.logOfferedQuantities(levelled, quantity);
+    this.current.logOfferedQuantities(levelled, quantity);
   }
 
   public int getOfferedQuantities(Tradeable levelled, int day) {
-    if (days.isEmpty()) return 0;
-    return days.get(day).getOfferedQuantities(levelled);
+    if (this.days.isEmpty()) return 0;
+    return this.days.get(day).getOfferedQuantities(levelled);
   }
 
   public int getWorkerSellOffered(Tradeable levelled, int day) {
-    if (days.isEmpty() || day <= 0) return 0;
-    return days.get(day).getWorkerSellOffered(levelled);
+    if (this.days.isEmpty() || day <= 0) return 0;
+    return this.days.get(day).getWorkerSellOffered(levelled);
   }
 
   void newDay() {
-    if (current.day < Simulation.day()) {
-      previous = current;
-      current = new DayLog(Simulation.day(), this.fallBack);
-      days.put(Simulation.day(), current);
+    if (this.current.day < Simulation.day()) {
+      this.previous = this.current;
+      this.current = new DayLog(Simulation.day());
+      this.days.put(Simulation.day(), this.current);
     }
   }
 
   public DayLog getCurrent() {
-    return current;
+    return this.current;
   }
 
   public Map<String, Double> mapLastAvgPrices() {
-    return current.mapAvgPrices();
+    return this.current.mapAvgPrices();
   }
 
   public Map<String, Double> mapLastMaxPrices() {
-    return current.mapMaxPrices();
+    return this.current.mapMaxPrices();
   }
 
   public Map<String, Double> mapLastMinPrices() {
-    return current.mapMinPrices();
+    return this.current.mapMinPrices();
   }
 
   private boolean shouldFallback(int day, Tradeable product) {
-    return day < 0 || !days.get(day).soldThatDay(product);
+    return day < 0 || !this.days.get(day).soldThatDay(product);
   }
 
   public double getAveragePrice(int day, Tradeable product) {
-    if (shouldFallback(day, product)) return fallBack.getAveragePrice(product);
-    return days.get(day).getAveragePrice(product);
+    if (this.shouldFallback(day, product)) return this.fallBack.getAveragePrice(product);
+    return this.days.get(day).getAveragePrice(product);
   }
 
   public int getSoldQuantity(int day, Tradeable product) {
-    if (shouldFallback(day, product)) return fallBack.getSoldQuantity(product);
-    return days.get(day).getSoldQuantity(product);
+    if (this.shouldFallback(day, product)) return this.fallBack.getSoldQuantity(product);
+    return this.days.get(day).getSoldQuantity(product);
   }
 
   public String printCurrent() {
-    return current.toString();
+    return this.current.toString();
   }
 }

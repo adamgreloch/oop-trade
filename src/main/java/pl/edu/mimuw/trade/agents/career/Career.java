@@ -23,34 +23,34 @@ public class Career implements ProductivityBuff {
   }
 
   public void changeOccupation(Occupation next) {
-    if (careers == null)
-      careers = new HashMap<>();
+    if (this.careers == null)
+      this.careers = new HashMap<>();
 
-    if (!careers.containsKey(next))
-      careers.put(next, 1);
+    if (!this.careers.containsKey(next))
+      this.careers.put(next, 1);
 
-    current = next;
+    this.current = next;
   }
 
   public int productionLevel(Product product) {
-    Product current = currentProduct();
+    Product current = this.currentProduct();
     if (product.generalize().equals(current)) return current.level();
     else return 1;
   }
 
   public int occupationLevel() {
-    return careers.get(current);
+    return this.careers.get(this.current);
   }
 
   public Product currentProduct() {
-    return current.produceBuffedProduct(occupationLevel());
+    return this.current.produceBuffedProduct(this.occupationLevel());
   }
 
   public void advanceLevel() {
-    careers.put(current, occupationLevel() + 1);
+    this.careers.put(this.current, this.occupationLevel() + 1);
   }
 
   public ProductivityVector getBuffValue() {
-    return current.getBuffVector(occupationLevel());
+    return this.current.getBuffVector(this.occupationLevel());
   }
 }

@@ -10,16 +10,15 @@ import pl.edu.mimuw.trade.io.GsonWrapper;
 import java.util.LinkedList;
 
 public class SimulationWrapper {
-  @SerializedName("info")
-  private Simulation simulation;
   @SerializedName("robotnicy")
   private final LinkedList<Worker> workers;
   @SerializedName("spekulanci")
   private final LinkedList<Speculator> speculators;
-
   private transient final StringBuffer outputBuffer;
-  private transient JsonObject output;
-  private transient JsonArray dailyOutputs;
+  private final transient JsonObject output;
+  private final transient JsonArray dailyOutputs;
+  @SerializedName("info")
+  private Simulation simulation;
 
   public SimulationWrapper() {
     this.workers = new LinkedList<>();
@@ -27,19 +26,19 @@ public class SimulationWrapper {
     this.outputBuffer = new StringBuffer();
     this.output = new JsonObject();
     this.dailyOutputs = new JsonArray();
-    this.output.add("symulacja", dailyOutputs);
+    this.output.add("symulacja", this.dailyOutputs);
   }
 
   public void runSimulation() {
-    simulation.init(workers, speculators);
-    while (Simulation.day() <= simulation.simulationLength()) {
-      simulation.runDay();
-      dailyOutputs.add(GsonWrapper.toJsonTree(this));
+    this.simulation.init(this.workers, this.speculators);
+    while (Simulation.day() <= this.simulation.simulationLength()) {
+      this.simulation.runDay();
+      this.dailyOutputs.add(GsonWrapper.toJsonTree(this));
     }
   }
 
   public String getOutput() {
-    outputBuffer.append(GsonWrapper.toJson(output));
-    return outputBuffer.toString();
+    this.outputBuffer.append(GsonWrapper.toJson(this.output));
+    return this.outputBuffer.toString();
   }
 }

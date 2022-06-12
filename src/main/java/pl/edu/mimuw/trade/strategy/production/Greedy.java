@@ -14,7 +14,7 @@ public class Greedy extends ProductionStrategy {
 
   public Product pickToProduce(Worker worker) {
     double profit, maxProfit = 0;
-    int quantity = 0;
+    int quantity;
     int today = Simulation.day();
     double avg;
     Product picked = null;

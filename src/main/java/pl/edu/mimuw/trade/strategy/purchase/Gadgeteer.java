@@ -19,9 +19,9 @@ public class Gadgeteer extends PurchaseStrategy {
   }
 
   public Set<Offer> purchasesToOffer(Worker worker) {
-    if (mechanized == null)
-      this.mechanized = new Mechanized(TOOLS_TO_BUY);
-    Set<Offer> offers = new HashSet<>(mechanized.purchasesToOffer(worker));
+    if (this.mechanized == null)
+      this.mechanized = new Mechanized(this.TOOLS_TO_BUY);
+    Set<Offer> offers = new HashSet<>(this.mechanized.purchasesToOffer(worker));
     offers.add(OfferFactory.workerPurchaseOffer(worker,
             ProductFactory.program, worker.quantityProduced()));
     return offers;

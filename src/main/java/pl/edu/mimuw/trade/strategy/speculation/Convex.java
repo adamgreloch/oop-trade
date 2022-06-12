@@ -23,7 +23,7 @@ public class Convex extends SpeculationStrategy {
     double shape, avg;
     int quantity;
     for (Tradeable product : ProductFactory.previewTradeable()) {
-      shape = functionShape(product, today);
+      shape = this.functionShape(product, today);
       avg = Simulation.stock.getAveragePrice(today - 1, product);
       if (shape > 0) // Function is strictly convex, we buy.
         offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,

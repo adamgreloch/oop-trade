@@ -14,6 +14,6 @@ public class Economical extends StudyingStrategy {
   }
 
   public boolean isStudyDay(Worker worker) {
-    return worker.diamonds() > diamondThreshold;
+    return worker.diamonds() > this.diamondThreshold;
   }
 }

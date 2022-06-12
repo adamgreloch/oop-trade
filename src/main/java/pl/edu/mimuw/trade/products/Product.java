@@ -12,7 +12,7 @@ public class Product {
   }
 
   public int level() {
-    return level;
+    return this.level;
   }
 
   /**
@@ -29,26 +29,26 @@ public class Product {
 
   @Override
   public int hashCode() {
-    return Objects.hash(productName);
+    return Objects.hash(this.productName);
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (o == null || this.getClass() != o.getClass()) return false;
     Product that = (Product) o;
-    return productName.equals(that.productName);
+    return this.productName.equals(that.productName);
   }
 
   @Override
   public String toString() {
-    StringBuilder res = new StringBuilder(productName);
-    if (level > 0) res.append(" (level ").append(level).append("), ").append(info());
+    StringBuilder res = new StringBuilder(this.productName);
+    if (this.level > 0) res.append(" (level ").append(this.level).append("), ").append(this.info());
     return res.toString();
   }
 
   public String productName() {
-    return productName;
+    return this.productName;
   }
 
   public String info() {

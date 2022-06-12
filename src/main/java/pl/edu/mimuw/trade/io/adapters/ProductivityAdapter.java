@@ -25,11 +25,11 @@ public class ProductivityAdapter implements JsonSerializer<Productivity>, JsonDe
                                   JsonDeserializationContext context) throws JsonParseException {
     JsonObject jo = (JsonObject) json;
 
-    int food = getInt(jo, "jedzenie");
-    int diamonds = getInt(jo, "diamenty");
-    int clothes = getInt(jo, "ubrania");
-    int tools = getInt(jo, "narzedzia");
-    int programs = getInt(jo, "programy");
+    int food = this.getInt(jo, "jedzenie");
+    int diamonds = this.getInt(jo, "diamenty");
+    int clothes = this.getInt(jo, "ubrania");
+    int tools = this.getInt(jo, "narzedzia");
+    int programs = this.getInt(jo, "programy");
 
     return new Productivity(food, diamonds, clothes, tools, programs);
   }

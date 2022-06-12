@@ -41,15 +41,15 @@ public class Offer implements Comparable<Offer> {
   }
 
   public int level() {
-    return product.level();
+    return this.product.level();
   }
 
   public double price() {
-    return price;
+    return this.price;
   }
 
   public int quantity() {
-    return quantity;
+    return this.quantity;
   }
 
   @Override
@@ -71,7 +71,7 @@ public class Offer implements Comparable<Offer> {
     Offer buy = this.offerType == BUY ? this : other;
     Offer sell = this.offerType == BUY ? other : this;
 
-    int soldQuantity = Math.min(Math.min(buy.quantity, sell.quantity), (int) (buy.issuer.diamonds() / price));
+    int soldQuantity = Math.min(Math.min(buy.quantity, sell.quantity), (int) (buy.issuer.diamonds() / this.price));
 
     sell.quantity -= soldQuantity;
     buy.quantity -= soldQuantity;
@@ -86,7 +86,7 @@ public class Offer implements Comparable<Offer> {
     log.logTransaction(this.product, sellPrice, soldQuantity);
 
     int res = this.quantity - other.quantity;
-    System.out.println(sell.issuer + " sold " + soldQuantity + " x " + product + " to " + buy.issuer + " for " + sellPrice + "/item");
+    System.out.println(sell.issuer + " sold " + soldQuantity + " x " + this.product + " to " + buy.issuer + " for " + sellPrice + "/item");
     if (res <= 0) this.isCompleted = true;
     if (res >= 0) other.isCompleted = true;
   }
@@ -101,10 +101,10 @@ public class Offer implements Comparable<Offer> {
   }
 
   public boolean isCompleted() {
-    return isCompleted;
+    return this.isCompleted;
   }
 
   public String toString() {
-    return issuer + " wants to " + offerType + " " + quantity + "x" + product + " (level: " + product.level() + ") for " + price + " diamonds";
+    return this.issuer + " wants to " + this.offerType + " " + this.quantity + "x" + this.product + " (level: " + this.product.level() + ") for " + this.price + " diamonds";
   }
 }

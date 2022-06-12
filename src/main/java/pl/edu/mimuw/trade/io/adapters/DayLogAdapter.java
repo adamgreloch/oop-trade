@@ -25,11 +25,11 @@ public class DayLogAdapter implements JsonSerializer<DayLog>, JsonDeserializer<D
   public DayLog deserialize(JsonElement json, Type typeOfT,
                             JsonDeserializationContext context) throws JsonParseException {
     JsonObject jo = (JsonObject) json;
-    DayLog fallBack = new DayLog(0, null);
-    fallBack.logTransaction(ProductFactory.food, getDouble(jo, "jedzenie"), 1);
-    fallBack.logTransaction(ProductFactory.clothes, getDouble(jo, "ubrania"), 1);
-    fallBack.logTransaction(ProductFactory.tool, getDouble(jo, "narzedzia"), 1);
-    fallBack.logTransaction(ProductFactory.program, getDouble(jo, "programy"), 1);
+    DayLog fallBack = new DayLog(0);
+    fallBack.logTransaction(ProductFactory.food, this.getDouble(jo, "jedzenie"), 1);
+    fallBack.logTransaction(ProductFactory.clothes, this.getDouble(jo, "ubrania"), 1);
+    fallBack.logTransaction(ProductFactory.tool, this.getDouble(jo, "narzedzia"), 1);
+    fallBack.logTransaction(ProductFactory.program, this.getDouble(jo, "programy"), 1);
 
     return fallBack;
   }

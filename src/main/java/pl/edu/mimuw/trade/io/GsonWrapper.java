@@ -51,10 +51,6 @@ public class GsonWrapper {
     return gson.toJsonTree(src);
   }
 
-  public static <T> T fromJson(String json, Class<T> classOfT) {
-    return gson.fromJson(json, classOfT);
-  }
-
   public static <T> T fromJson(Reader json, Class<T> classOfT) {
     return gson.fromJson(json, classOfT);
   }

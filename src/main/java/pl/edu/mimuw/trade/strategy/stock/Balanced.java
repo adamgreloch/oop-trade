@@ -17,9 +17,9 @@ public class Balanced extends StockStrategy {
   }
 
   public List<OfferQueue> sortWorkerOffers(Set<OfferQueue> workerOffers) {
-    StockStrategy picked = capitalist;
+    StockStrategy picked = this.capitalist;
     if (Simulation.day() % 2 == 0)
-      picked = socialist;
+      picked = this.socialist;
     return picked.sortWorkerOffers(workerOffers);
   }
 }

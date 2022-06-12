@@ -2,7 +2,10 @@ package pl.edu.mimuw.trade.simulation;
 
 import pl.edu.mimuw.trade.agents.Agent;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.Spliterator;
+import java.util.TreeSet;
 import java.util.function.Consumer;
 
 public class OfferQueue implements Iterable<Offer> {
@@ -15,30 +18,22 @@ public class OfferQueue implements Iterable<Offer> {
   }
 
   public void add(Offer offer) {
-    offers.add(offer);
-  }
-
-  public void addAll(Collection<Offer> offers) {
-    offers.forEach(this::add);
+    this.offers.add(offer);
   }
 
   public Iterator<Offer> iterator() {
-    return offers.iterator();
+    return this.offers.iterator();
   }
 
   public void forEach(Consumer<? super Offer> action) {
-    offers.forEach(action);
+    this.offers.forEach(action);
   }
 
   public Spliterator<Offer> spliterator() {
-    return offers.spliterator();
-  }
-
-  public boolean isEmpty() {
-    return offers.isEmpty();
+    return this.offers.spliterator();
   }
 
   public Agent issuer() {
-    return issuer;
+    return this.issuer;
   }
 }

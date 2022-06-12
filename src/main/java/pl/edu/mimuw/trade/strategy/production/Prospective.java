@@ -21,7 +21,7 @@ public class Prospective extends ProductionStrategy {
     Product picked = null;
     for (Tradeable product : ProductFactory.previewTradeable()) {
       diff = Simulation.stock.getAveragePrice(today, product)
-              - Simulation.stock.getAveragePrice(today - reachPast, product);
+              - Simulation.stock.getAveragePrice(today - this.reachPast, product);
       if (diff > diffMax) {
         picked = product;
         diffMax = diff;

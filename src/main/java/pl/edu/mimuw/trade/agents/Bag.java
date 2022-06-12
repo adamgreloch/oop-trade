@@ -12,7 +12,7 @@ public class Bag implements ProductivityBuff {
   /**
    * Stores distinguishable products such as clothes, tools and programs.
    */
-  protected Map<Product, Map<Integer, LinkedList<Product>>> contents;
+  protected final Map<Product, Map<Integer, LinkedList<Product>>> contents;
   private Worker workerOwner;
 
   public Bag() {
@@ -40,8 +40,8 @@ public class Bag implements ProductivityBuff {
     Product key = new Food(1);
     int toTake = amount;
     while (toTake > 0) {
-      if (findAlike(key).isEmpty()) return null;
-      Food taken = (Food) findAlike(key).pop();
+      if (this.findAlike(key).isEmpty()) return null;
+      Food taken = (Food) this.findAlike(key).pop();
       toTake -= taken.quantity();
       if (toTake < 0)
         this.storeProduct(new Food(-toTake));
@@ -54,8 +54,8 @@ public class Bag implements ProductivityBuff {
     Product key = new Diamond(1);
     double toTake = amount;
     while (toTake > 0) {
-      if (findAlike(key).isEmpty()) return null;
-      Diamond taken = (Diamond) findAlike(key).pop();
+      if (this.findAlike(key).isEmpty()) return null;
+      Diamond taken = (Diamond) this.findAlike(key).pop();
       toTake -= taken.value();
       if (toTake < 0)
         this.storeProduct(new Diamond(-toTake));
@@ -63,7 +63,7 @@ public class Bag implements ProductivityBuff {
     return Collections.singleton(new Diamond(amount));
   }
 
-  public void storeProducts(Set<? extends Product> products) {
+  public void storeProducts(Iterable<? extends Product> products) {
     if (products == null) return;
     products.forEach(this::storeProduct);
   }
@@ -72,7 +72,7 @@ public class Bag implements ProductivityBuff {
     if (!this.contents.containsKey(product.generalize()))
       this.contents.put(product.generalize(), new HashMap<>());
 
-    Map<Integer, LinkedList<Product>> perLevel = findProduct(product);
+    Map<Integer, LinkedList<Product>> perLevel = this.findProduct(product);
 
     if (!perLevel.containsKey(product.level()))
       perLevel.put(product.level(), new LinkedList<>());
@@ -91,12 +91,12 @@ public class Bag implements ProductivityBuff {
    */
   public Set<Product> takeProducts(Product product, int quantity) {
     if (quantity < 0) throw new IllegalArgumentException();
-    if (product instanceof Food) return takeFood(quantity);
+    if (product instanceof Food) return this.takeFood(quantity);
 
     if (!this.contains(product)) return null;
     Set<Product> res = new HashSet<>();
 
-    LinkedList<Product> alike = findAlike(product);
+    LinkedList<Product> alike = this.findAlike(product);
 
     for (int i = 0; i < quantity; i++)
       res.add(alike.pop());
@@ -109,24 +109,24 @@ public class Bag implements ProductivityBuff {
   }
 
   protected LinkedList<Product> findAlike(Product product) {
-    if (findProduct(product) == null) return new LinkedList<>();
-    return findProduct(product).get(product.level());
+    if (this.findProduct(product) == null) return new LinkedList<>();
+    return this.findProduct(product).get(product.level());
   }
 
   public int quantity(Product product) {
     if (!this.contains(product)) return 0;
-    if (product instanceof Food) return countFood();
-    return findAlike(product).size();
+    if (product instanceof Food) return this.countFood();
+    return this.findAlike(product).size();
   }
 
   protected void remove(Product product) {
-    findProduct(product).get(product.level()).remove(product);
+    this.findProduct(product).get(product.level()).remove(product);
   }
 
   private JsonArray perLevelQuantities(Product product) {
     JsonArray jsonArray = new JsonArray();
     if (!this.contains(product)) return jsonArray;
-    Map<Integer, LinkedList<Product>> levelsMap = findProduct(product);
+    Map<Integer, LinkedList<Product>> levelsMap = this.findProduct(product);
     int maxLevel = 0;
     for (Integer level : levelsMap.keySet())
       maxLevel = Math.max(maxLevel, level);
@@ -142,42 +142,42 @@ public class Bag implements ProductivityBuff {
   }
 
   public JsonArray perLevelTools() {
-    return perLevelQuantities(ProductFactory.tool);
+    return this.perLevelQuantities(ProductFactory.tool);
   }
 
   public JsonArray perLevelPrograms() {
-    return perLevelQuantities(ProductFactory.program);
+    return this.perLevelQuantities(ProductFactory.program);
   }
 
   public JsonArray perLevelClothes() {
-    return perLevelQuantities(ProductFactory.clothes);
+    return this.perLevelQuantities(ProductFactory.clothes);
   }
 
   public int countAll(Product product) {
     if (!this.contains(product)) return 0;
     int quantity = 0;
-    for (LinkedList<Product> products : findProduct(product).values())
+    for (LinkedList<Product> products : this.findProduct(product).values())
       quantity += products.size();
     return quantity;
   }
 
   public int countClothes() {
-    return countAll(ProductFactory.clothes);
+    return this.countAll(ProductFactory.clothes);
   }
 
   public int countPrograms() {
-    return countAll(ProductFactory.program);
+    return this.countAll(ProductFactory.program);
   }
 
   public int countTools() {
-    return countAll(ProductFactory.tool);
+    return this.countAll(ProductFactory.tool);
   }
 
   public int countFood() {
     Product key = ProductFactory.food;
     if (!this.contains(key)) return 0;
     int count = 0;
-    for (Product p : findAlike(key))
+    for (Product p : this.findAlike(key))
       count += ((Food) p).quantity();
     return count;
   }
@@ -186,20 +186,20 @@ public class Bag implements ProductivityBuff {
     Product key = ProductFactory.diamond;
     if (!this.contains(key)) return 0;
     double value = 0;
-    for (Product p : findAlike(key))
+    for (Product p : this.findAlike(key))
       value += ((Diamond) p).value();
     return value;
   }
 
   public void clear() {
-    contents.clear();
+    this.contents.clear();
   }
 
   protected List<Clothes> listClothes() {
     Product key = ProductFactory.clothes;
-    if (!contains(key)) return null;
+    if (!this.contains(key)) return null;
     List<Clothes> res = new LinkedList<>();
-    for (LinkedList<Product> clothes : findProduct(key).values())
+    for (LinkedList<Product> clothes : this.findProduct(key).values())
       clothes.forEach(e -> res.add((Clothes) e));
     return res;
   }
@@ -207,7 +207,7 @@ public class Bag implements ProductivityBuff {
   public Iterator<Product> iterateThroughLevels() {
     List<Product> res = new LinkedList<>();
 
-    for (Map<Integer, LinkedList<Product>> levels : contents.values())
+    for (Map<Integer, LinkedList<Product>> levels : this.contents.values())
       levels.values().forEach(e -> res.add(e.peek()));
 
     return res.iterator();
@@ -217,8 +217,8 @@ public class Bag implements ProductivityBuff {
    * @return Program iterator in order from the highest levelled program to lowest.
    */
   public Iterator<Program> programsIterator() {
-    SortedSet<Program> programs = new TreeSet<>(Collections.reverseOrder(Program::compareTo)); // Highest level first
-    Map<Integer, LinkedList<Product>> programMap = findProduct(ProductFactory.program);
+    Set<Program> programs = new TreeSet<>(Collections.reverseOrder(Program::compareTo)); // Highest level first
+    Map<Integer, LinkedList<Product>> programMap = this.findProduct(ProductFactory.program);
 
     for (LinkedList<Product> products : programMap.values())
       products.forEach(e -> programs.add((Program) e));
@@ -230,7 +230,7 @@ public class Bag implements ProductivityBuff {
     List<ProductivityBuff> res = new LinkedList<>();
 
     for (Product buffable : ProductFactory.previewBuffable())
-      for (LinkedList<Product> productList : findProduct(buffable).values())
+      for (LinkedList<Product> productList : this.findProduct(buffable).values())
         productList.forEach(e -> res.add((ProductivityBuff) e));
 
     res.add(this);
@@ -242,14 +242,14 @@ public class Bag implements ProductivityBuff {
   }
 
   public ProductivityVector getBuffValue() {
-    assert workerOwner.starvationLevel() < Worker.DEATH_THRESHOLD;
+    assert this.workerOwner.starvationLevel() < Worker.DEATH_THRESHOLD;
 
     ProductivityVector buff = new ProductivityVector();
 
     if (this.countClothes() < Clothes.NO_CLOTHES_THRESHOLD)
       buff = buff.add(Simulation.noClothesPenalty());
 
-    switch (workerOwner.starvationLevel()) {
+    switch (this.workerOwner.starvationLevel()) {
       case 1:
         buff = buff.add(Food.MINOR_STARVATION_PENALTY);
         break;
@@ -263,16 +263,16 @@ public class Bag implements ProductivityBuff {
 
   public void wearClothes() {
     int toWear = Worker.DAILY_CLOTHES_CONSUMPTION;
-    List<Clothes> notWorn = listClothes();
+    List<Clothes> notWorn = this.listClothes();
     if (notWorn == null) return;
     if (notWorn.size() <= toWear) {
-      findProduct(ProductFactory.clothes).clear();
+      this.findProduct(ProductFactory.clothes).clear();
       return;
     }
     Collections.shuffle(notWorn);
     for (Clothes clothes : notWorn) {
       if (toWear == 0) break;
-      wearWhileCheckingCondition(clothes);
+      this.wearWhileCheckingCondition(clothes);
       toWear--;
     }
   }
@@ -283,23 +283,23 @@ public class Bag implements ProductivityBuff {
 
   public void useAllTools() {
     Product key = ProductFactory.tool;
-    if (contains(key))
-      findProduct(key).clear();
+    if (this.contains(key))
+      this.findProduct(key).clear();
   }
 
   public int totalQuantity() {
     int total = 0;
     for (Product product : ProductFactory.previewProducts())
-      total += quantity(product);
+      total += this.quantity(product);
     return total;
   }
 
   @Override
   public String toString() {
-    return "food: " + countFood()
-            + ", clothes: " + countClothes()
-            + ", tools: " + countTools()
-            + ", diamonds: " + countDiamonds()
-            + ", programs: " + countPrograms();
+    return "food: " + this.countFood()
+            + ", clothes: " + this.countClothes()
+            + ", tools: " + this.countTools()
+            + ", diamonds: " + this.countDiamonds()
+            + ", programs: " + this.countPrograms();
   }
 }

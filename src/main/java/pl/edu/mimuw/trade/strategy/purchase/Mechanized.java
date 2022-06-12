@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Mechanized extends PurchaseStrategy {
+  private final Stickler stickler;
   @SerializedName("liczba_narzedzi")
   private int TOOLS_TO_BUY;
-  private final Stickler stickler;
 
   public Mechanized() {
     super("zmechanizowany");
@@ -25,8 +25,8 @@ public class Mechanized extends PurchaseStrategy {
   }
 
   public Set<Offer> purchasesToOffer(Worker worker) {
-    Set<Offer> offers = new HashSet<>(stickler.purchasesToOffer(worker));
-    offers.add(OfferFactory.workerPurchaseOffer(worker, ProductFactory.tool, TOOLS_TO_BUY));
+    Set<Offer> offers = new HashSet<>(this.stickler.purchasesToOffer(worker));
+    offers.add(OfferFactory.workerPurchaseOffer(worker, ProductFactory.tool, this.TOOLS_TO_BUY));
     return offers;
   }
 }

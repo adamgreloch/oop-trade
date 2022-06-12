@@ -30,59 +30,39 @@ public class Productivity {
   }
 
   public void updateBuffs() {
-    totalBuff.clear();
-    for (ProductivityBuff buff : buffs)
-      totalBuff = totalBuff.add(buff.getBuffValue());
-    lastUpdated = Simulation.day();
+    this.totalBuff.clear();
+    for (ProductivityBuff buff : this.buffs)
+      this.totalBuff = this.totalBuff.add(buff.getBuffValue());
+    this.lastUpdated = Simulation.day();
   }
 
   private ProductivityVector getTotalBuff() {
-    if (lastUpdated < Simulation.day())
-      updateBuffs();
-    return totalBuff;
+    if (this.lastUpdated < Simulation.day())
+      this.updateBuffs();
+    return this.totalBuff;
   }
 
   public ProductivityVector get() {
-    return base.add(getTotalBuff());
-  }
-
-  public int food() {
-    return base.food() * (1 + getTotalBuff().food() / 100);
-  }
-
-  public int clothes() {
-    return base.clothes() * (1 + getTotalBuff().clothes() / 100);
-  }
-
-  public int tools() {
-    return base.tools() * (1 + getTotalBuff().tools() / 100);
-  }
-
-  public int diamonds() {
-    return base.diamonds() * (1 + getTotalBuff().diamonds() / 100);
-  }
-
-  public int programs() {
-    return base.programs() * (1 + getTotalBuff().programs() / 100);
+    return this.base.add(this.getTotalBuff());
   }
 
   public int foodBase() {
-    return base.food();
+    return this.base.food();
   }
 
   public int clothesBase() {
-    return base.clothes();
+    return this.base.clothes();
   }
 
   public int toolsBase() {
-    return base.tools();
+    return this.base.tools();
   }
 
   public int diamondsBase() {
-    return base.diamonds();
+    return this.base.diamonds();
   }
 
   public int programsBase() {
-    return base.programs();
+    return this.base.programs();
   }
 }

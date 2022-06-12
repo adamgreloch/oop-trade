@@ -12,9 +12,9 @@ import static pl.edu.mimuw.trade.simulation.OfferType.SELL;
 
 public class Stock {
 
-  private transient final Bank bank;
   final StockLog log;
-  private transient StockStrategy stockStrategy;
+  private transient final Bank bank;
+  private transient final StockStrategy stockStrategy;
   private transient final Set<OfferQueue> workerOfferQueues;
   private transient final SortedSet<Offer> speculatorOffers;
 
@@ -22,14 +22,6 @@ public class Stock {
     this.stockStrategy = stockStrategy;
     this.bank = new Bank();
     this.log = new StockLog(fallBack);
-    this.workerOfferQueues = new HashSet<>();
-    this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
-  }
-
-  public Stock(StockStrategy stockStrategy, StockLog log) {
-    this.bank = new Bank();
-    this.log = log;
-    this.stockStrategy = stockStrategy;
     this.workerOfferQueues = new HashSet<>();
     this.speculatorOffers = new TreeSet<>(Stock::compareBenefit);
   }
@@ -43,21 +35,22 @@ public class Stock {
     return res;
   }
 
-  public void addOffer(Set<Offer> offers, Agent issuer) {
-    offers.forEach(e -> log.logOfferedQuantities(e.product, e.quantity()));
+  public void addOffer(Collection<Offer> offers, Agent issuer) {
+    offers.forEach(e -> this.log.logOfferedQuantities(e.product, e.quantity()));
     if (issuer instanceof Worker) {
       OfferQueue queue = new OfferQueue(issuer);
       for (Offer offer : offers) {
         queue.add(offer);
         if (offer.offerType == SELL)
-          log.logWorkerSellOffered(offer.product, offer.quantity());
+          this.log.logWorkerSellOffered(offer.product, offer.quantity());
       }
-      workerOfferQueues.add(queue);
-    } else speculatorOffers.addAll(offers);
+      this.workerOfferQueues.add(queue);
+    }
+    else this.speculatorOffers.addAll(offers);
   }
 
   void processTransactions() {
-    List<OfferQueue> sorted = stockStrategy.sortWorkerOffers(workerOfferQueues);
+    List<OfferQueue> sorted = this.stockStrategy.sortWorkerOffers(this.workerOfferQueues);
     Offer found;
     for (OfferQueue workerOfferQueue : sorted) {
       Iterator<Offer> workerOfferQueueIterator = workerOfferQueue.iterator();
@@ -66,64 +59,56 @@ public class Stock {
         if (workerOffer == null || workerOffer.isCompleted())
           workerOffer = workerOfferQueueIterator.next();
 
-        found = findBestSpeculatorOffer(workerOffer);
+        found = this.findBestSpeculatorOffer(workerOffer);
         if (found == null) {
           if (workerOffer.offerType == SELL)
-            found = bank.buyAll(workerOffer, log.previousLowest(workerOffer.product));
+            found = this.bank.buyAll(workerOffer, this.log.previousLowest(workerOffer.product));
           else {
-            workerOfferQueues.remove(workerOfferQueue);
+            this.workerOfferQueues.remove(workerOfferQueue);
             break;
           }
         }
 
-        workerOffer.transaction(found, log);
-        if (found.isCompleted()) speculatorOffers.remove(found);
+        workerOffer.transaction(found, this.log);
+        if (found.isCompleted()) this.speculatorOffers.remove(found);
       }
     }
-    speculatorOffers.clear();
-    workerOfferQueues.clear();
+    this.speculatorOffers.clear();
+    this.workerOfferQueues.clear();
   }
 
   private Offer findBestSpeculatorOffer(Offer workerOffer) {
-    for (Offer offer : speculatorOffers)
+    for (Offer offer : this.speculatorOffers)
       if (offer.matches(workerOffer))
         return offer;
     return null;
   }
 
   public void setFallBackPrices(double food, double clothes, double tools, double programs) {
-    log.setFallBackPrices(food, clothes, tools, programs);
+    this.log.setFallBackPrices(food, clothes, tools, programs);
   }
 
   void newDay() {
-    log.newDay();
+    this.log.newDay();
   }
 
   public void logOfferedQuantities(Tradeable levelled, int quantity) {
-    log.logOfferedQuantities(levelled, quantity);
+    this.log.logOfferedQuantities(levelled, quantity);
   }
 
   public int getOfferedQuantities(Tradeable levelled, int day) {
-    return log.getOfferedQuantities(levelled, day);
+    return this.log.getOfferedQuantities(levelled, day);
   }
 
   public double getAveragePrice(int day, Tradeable product) {
-    return log.getAveragePrice(day, product);
+    return this.log.getAveragePrice(day, product);
   }
 
   public int getSoldQuantity(int day, Tradeable product) {
-    return log.getSoldQuantity(day, product);
+    return this.log.getSoldQuantity(day, product);
   }
 
   public int getWorkerSellOffered(Tradeable product, int day) {
-    return log.getWorkerSellOffered(product, day);
-  }
-
-  public String getDayLog() {
-    return log.printCurrent();
-  }
-
-  public void setStrategy(StockStrategy strategy) {
-    this.stockStrategy = strategy;
+    return this.log.getWorkerSellOffered(product, day);
   }
 }

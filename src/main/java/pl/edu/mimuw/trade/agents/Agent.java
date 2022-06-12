@@ -2,22 +2,19 @@ package pl.edu.mimuw.trade.agents;
 
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.products.Product;
-import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 
 import java.util.Set;
 
 public abstract class Agent implements Comparable<Agent> {
 
-  @SerializedName("id")
-  private int id;
-
   @SerializedName("zasoby")
   protected Bag storageBag;
   protected transient Bag saleBag;
-
   protected transient boolean isAlive = true;
   protected transient int actionPriority;
+  @SerializedName("id")
+  private int id;
 
   public Agent() {
     this.storageBag = new Bag();
@@ -40,43 +37,35 @@ public abstract class Agent implements Comparable<Agent> {
   public abstract void finishDay();
 
   public int id() {
-    return id;
+    return this.id;
   }
 
   public double diamonds() {
-    return storageBag.countDiamonds();
+    return this.storageBag.countDiamonds();
   }
 
   public boolean isDead() {
-    return !isAlive;
+    return !this.isAlive;
   }
 
   public void earnDiamonds(double amount) {
-    storageBag.storeDiamonds(amount);
+    this.storageBag.storeDiamonds(amount);
   }
 
   public void spendDiamonds(double amount) {
-    storageBag.takeDiamonds(amount);
+    this.storageBag.takeDiamonds(amount);
   }
 
-  public void acquireProducts(Set<Product> products) {
-    storageBag.storeProducts(products);
+  public void acquireProducts(Iterable<Product> products) {
+    this.storageBag.storeProducts(products);
   }
 
   public Set<Product> takeOutProduct(Product product, int quantity) {
-    return saleBag.takeProducts(product, quantity);
+    return this.saleBag.takeProducts(product, quantity);
   }
 
   public int ownsQuantity(Tradeable product) {
-    return storageBag.quantity(product);
-  }
-
-  public void giveStartingResources(int food, int clothes, int tools, double diamonds, int programs) {
-    storageBag.storeFood(food);
-    storageBag.storeDiamonds(diamonds);
-    storageBag.storeProducts(ProductFactory.newClothes(clothes, 1));
-    storageBag.storeProducts(ProductFactory.newTools(tools, 1));
-    storageBag.storeProducts(ProductFactory.newPrograms(programs, 1));
+    return this.storageBag.quantity(product);
   }
 
   @Override

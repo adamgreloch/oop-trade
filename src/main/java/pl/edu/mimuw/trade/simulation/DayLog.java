@@ -12,7 +12,6 @@ import static java.lang.Double.MAX_VALUE;
 
 public class DayLog {
 
-  int day;
   private final Set<Product> products;
   private final Map<Product, Double> max;
   private final Map<Product, Double> average;
@@ -20,7 +19,7 @@ public class DayLog {
   private final Map<Product, Integer> quantitiesSold;
   private final Map<Product, Integer> quantitiesOfferedByWorkers;
   private final Map<Product, Integer> quantitiesInOffers;
-  private DayLog fallBack;
+  int day;
 
   public DayLog() {
     this.products = new HashSet<>();
@@ -32,10 +31,9 @@ public class DayLog {
     this.quantitiesInOffers = new HashMap<>();
   }
 
-  public DayLog(int day, DayLog fallBack) {
+  public DayLog(int day) {
     this();
     this.day = day;
-    this.fallBack = fallBack;
   }
 
   public void logTransaction(Product levelled, double sellPrice, int soldQuantity) {
@@ -80,15 +78,15 @@ public class DayLog {
   }
 
   public Map<String, Double> mapAvgPrices() {
-    return mapPrices(this.average);
+    return this.mapPrices(this.average);
   }
 
   public Map<String, Double> mapMaxPrices() {
-    return mapPrices(this.max);
+    return this.mapPrices(this.max);
   }
 
   public Map<String, Double> mapMinPrices() {
-    return mapPrices(this.min);
+    return this.mapPrices(this.min);
   }
 
   private Map<String, Double> mapPrices(Map<Product, Double> prices) {
@@ -113,12 +111,12 @@ public class DayLog {
   @Override
   public String toString() {
     return "\nDayLog{" +
-            "day=" + day +
-            ", \nproducts=" + products +
-            ", \nmax=" + max +
-            ", \naverage=" + average +
-            ", \nmin=" + min +
-            ", \nquantities=" + quantitiesSold +
+            "day=" + this.day +
+            ", \nproducts=" + this.products +
+            ", \nmax=" + this.max +
+            ", \naverage=" + this.average +
+            ", \nmin=" + this.min +
+            ", \nquantities=" + this.quantitiesSold +
             '}';
   }
 }

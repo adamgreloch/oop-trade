@@ -13,6 +13,7 @@ import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
 import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
 import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -45,43 +46,43 @@ public class Worker extends Agent {
   }
 
   public void act() {
-    isStudying = false;
-    if (studyingStrategy.isStudyDay(this))
+    this.isStudying = false;
+    if (this.studyingStrategy.isStudyDay(this))
       this.study();
     else
       this.work();
   }
 
   public void makeOffers() {
-    if (isStudying) return;
-    Set<Offer> offers = new HashSet<>();
-    Iterator<Product> productsToSell = saleBag.iterateThroughLevels();
+    if (this.isStudying) return;
+    Collection<Offer> offers = new HashSet<>();
+    Iterator<Product> productsToSell = this.saleBag.iterateThroughLevels();
     while (productsToSell.hasNext()) {
       Tradeable p = (Tradeable) productsToSell.next();
-      if (saleBag.quantity(p) > 0)
-        offers.add(OfferFactory.workerSellOffer(this, p, saleBag.quantity(p)));
+      if (this.saleBag.quantity(p) > 0)
+        offers.add(OfferFactory.workerSellOffer(this, p, this.saleBag.quantity(p)));
     }
-    offers.addAll(purchaseStrategy.purchasesToOffer(this));
+    offers.addAll(this.purchaseStrategy.purchasesToOffer(this));
     Simulation.stock.addOffer(offers, this);
   }
 
   public void finishDay() {
-    eat();
-    storageBag.useAllTools();
-    storageBag.wearClothes();
+    this.eat();
+    this.storageBag.useAllTools();
+    this.storageBag.wearClothes();
   }
 
   private void work() {
-    activateBuffs();
-    Product picked = productionStrategy.pickToProduce(this);
+    this.activateBuffs();
+    Product picked = this.productionStrategy.pickToProduce(this);
     int quantity = ProductivityVector.find(this.getProductivity(), picked);
     Set<Product> produced = ProductFactory.produceAlike(picked, quantity, this.productionLevel(picked));
-    produced = upgradeWithPrograms(produced);
-    saleBag.storeProducts(produced);
+    produced = this.upgradeWithPrograms(produced);
+    this.saleBag.storeProducts(produced);
   }
 
   private Set<Product> upgradeWithPrograms(Set<Product> products) {
-    Iterator<Program> ownedPrograms = storageBag.programsIterator();
+    Iterator<Program> ownedPrograms = this.storageBag.programsIterator();
     if (!ownedPrograms.hasNext()) return products;
     Set<Product> res = new HashSet<>();
     Product usedProgram;
@@ -89,7 +90,7 @@ public class Worker extends Agent {
       if (product instanceof Levelled && ownedPrograms.hasNext()) {
         usedProgram = ownedPrograms.next();
         res.add(ProductFactory.produceAlike(product, usedProgram.level()));
-        storageBag.remove(usedProgram);
+        this.storageBag.remove(usedProgram);
       }
       else
         res.add(product);
@@ -98,67 +99,67 @@ public class Worker extends Agent {
   }
 
   private void study() {
-    if (careerStrategy.isCareerChangePending(this))
-      career.changeOccupation(careerStrategy.pickCareer(this));
+    if (this.careerStrategy.isCareerChangePending(this))
+      this.career.changeOccupation(this.careerStrategy.pickCareer(this));
     else
-      career.advanceLevel();
-    hunger = 0;
-    isStudying = true;
+      this.career.advanceLevel();
+    this.hunger = 0;
+    this.isStudying = true;
   }
 
   private void starve() {
-    if (hunger == DEATH_THRESHOLD)
-      die();
+    if (this.hunger == DEATH_THRESHOLD)
+      this.die();
     else
-      hunger++;
+      this.hunger++;
   }
 
   private void die() {
-    storageBag.clear();
-    isAlive = false;
+    this.storageBag.clear();
+    this.isAlive = false;
   }
 
   private void eat() {
-    if (storageBag.countFood() < DAILY_FOOD_CONSUMPTION)
-      starve();
-    storageBag.takeFood(DAILY_FOOD_CONSUMPTION);
+    if (this.storageBag.countFood() < DAILY_FOOD_CONSUMPTION)
+      this.starve();
+    this.storageBag.takeFood(DAILY_FOOD_CONSUMPTION);
   }
 
   public int starvationLevel() {
-    return hunger;
+    return this.hunger;
   }
 
   public ProductivityVector getProductivity() {
-    return productivity.get();
+    return this.productivity.get();
   }
 
   public Career getCareer() {
-    return career;
+    return this.career;
   }
 
   private void activateBuffs() {
-    productivity.clearBuffs();
-    storageBag.setWorkerOwner(this);
-    storageBag.listBuffableProducts().forEach(productivity::addBuff);
-    productivity.updateBuffs();
+    this.productivity.clearBuffs();
+    this.storageBag.setWorkerOwner(this);
+    this.storageBag.listBuffableProducts().forEach(this.productivity::addBuff);
+    this.productivity.updateBuffs();
   }
 
   public int productionLevel(Product product) {
-    return career.productionLevel(product);
+    return this.career.productionLevel(product);
   }
 
   public int ownedClothes() {
-    return storageBag.countClothes();
+    return this.storageBag.countClothes();
   }
 
   public int quantityProduced() {
-    return saleBag.totalQuantity();
+    return this.saleBag.totalQuantity();
   }
 
   @Override
   public String toString() {
-    return "Worker (Agent " + id()
-            + ", Food: " + storageBag.countFood()
-            + ", diamonds: " + storageBag.countDiamonds() + ")";
+    return "Worker (Agent " + this.id()
+            + ", Food: " + this.storageBag.countFood()
+            + ", diamonds: " + this.storageBag.countDiamonds() + ")";
   }
 }

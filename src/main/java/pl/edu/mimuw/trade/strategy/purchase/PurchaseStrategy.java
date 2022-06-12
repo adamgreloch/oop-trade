@@ -17,5 +17,4 @@ public abstract class PurchaseStrategy extends Strategy {
   }
 
   public abstract Set<Offer> purchasesToOffer(Worker worker);
-
 }

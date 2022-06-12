@@ -4,9 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.career.Career;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-import pl.edu.mimuw.trade.products.Product;
-import pl.edu.mimuw.trade.products.ProductFactory;
-import pl.edu.mimuw.trade.products.Tradeable;
+import pl.edu.mimuw.trade.products.*;
 import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.simulation.OfferFactory;
 import pl.edu.mimuw.trade.simulation.Simulation;
@@ -71,7 +69,6 @@ public class Worker extends Agent {
     eat();
     storageBag.useAllTools();
     storageBag.wearClothes();
-    // TODO Zużywa te programy komputerowe, których użył do produkcji w danym dniu.
   }
 
   private void work() {
@@ -79,7 +76,25 @@ public class Worker extends Agent {
     Product picked = productionStrategy.pickToProduce(this);
     int quantity = ProductivityVector.find(this.getProductivity(), picked);
     Set<Product> produced = ProductFactory.produceAlike(picked, quantity, this.productionLevel(picked));
+    produced = upgradeWithPrograms(produced);
     saleBag.storeProducts(produced);
+  }
+
+  private Set<Product> upgradeWithPrograms(Set<Product> products) {
+    Iterator<Program> ownedPrograms = storageBag.programsIterator();
+    if (!ownedPrograms.hasNext()) return products;
+    Set<Product> res = new HashSet<>();
+    Product usedProgram;
+    for (Product product : products) {
+      if (product instanceof Levelled && ownedPrograms.hasNext()) {
+        usedProgram = ownedPrograms.next();
+        res.add(ProductFactory.produceAlike(product, usedProgram.level()));
+        storageBag.remove(usedProgram);
+      }
+      else
+        res.add(product);
+    }
+    return res;
   }
 
   private void study() {

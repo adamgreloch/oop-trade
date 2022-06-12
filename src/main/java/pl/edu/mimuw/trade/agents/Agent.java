@@ -63,11 +63,11 @@ public abstract class Agent implements Comparable<Agent> {
     storageBag.storeProducts(products);
   }
 
-  public Set<Product> takeProducts(Product product, int quantity) {
+  public Set<Product> takeOutProduct(Product product, int quantity) {
     return saleBag.takeProducts(product, quantity);
   }
 
-  public int quantityOf(Tradeable product) {
+  public int ownsQuantity(Tradeable product) {
     return storageBag.quantity(product);
   }
 

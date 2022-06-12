@@ -56,6 +56,16 @@ public class ProductFactory {
     return res;
   }
 
+  public static Product produceAlike(Product product, int level) {
+    Product res = null;
+    if (product instanceof Food) res = new Food(1);
+    if (product instanceof Clothes) res = new Clothes(level);
+    if (product instanceof Tool) res = new Tool(level);
+    if (product instanceof Program) res = new Program(level);
+    if (product instanceof Diamond) res = new Diamond(1);
+    return res;
+  }
+
   public static Set<Product> produceAlike(Product product, int quantity, int level) {
     Set<? extends Product> res = null;
     if (product instanceof Food) res = newFood(quantity);

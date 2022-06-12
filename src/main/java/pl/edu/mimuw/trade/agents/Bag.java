@@ -213,6 +213,19 @@ public class Bag implements ProductivityBuff {
     return res.iterator();
   }
 
+  /**
+   * @return Program iterator in order from the highest levelled program to lowest.
+   */
+  public Iterator<Program> programsIterator() {
+    SortedSet<Program> programs = new TreeSet<>(Collections.reverseOrder(Program::compareTo)); // Highest level first
+    Map<Integer, LinkedList<Product>> programMap = findProduct(ProductFactory.program);
+
+    for (LinkedList<Product> products : programMap.values())
+      products.forEach(e -> programs.add((Program) e));
+
+    return programs.iterator();
+  }
+
   public List<ProductivityBuff> listBuffableProducts() {
     List<ProductivityBuff> res = new LinkedList<>();
 

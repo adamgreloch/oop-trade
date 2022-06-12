@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public abstract class DistinguishableTradeable extends Tradeable {
   private static int lastId = 0;
-  private final int id;
+  protected final int id;
 
   public DistinguishableTradeable(int level, String productName) {
     super(level, productName);

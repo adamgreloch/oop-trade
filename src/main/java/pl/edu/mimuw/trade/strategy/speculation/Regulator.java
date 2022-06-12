@@ -37,7 +37,7 @@ public class Regulator extends SpeculationStrategy {
       factor = calculateFactor(product, today);
       offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
               PURCHASE_QUANTITY, avg * factor * PURCHASE_FACTOR));
-      quantity = speculator.quantityOf(product);
+      quantity = speculator.ownsQuantity(product);
       if (quantity > 0)
         offers.add(OfferFactory.speculatorSellOffer(speculator, product,
                 quantity, avg * factor * SELL_FACTOR));

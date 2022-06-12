@@ -30,7 +30,7 @@ public class Convex extends SpeculationStrategy {
                 PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
       if (shape < 0) {
         // Function is strictly concave, we sell.
-        quantity = speculator.quantityOf(product);
+        quantity = speculator.ownsQuantity(product);
         if (quantity > 0)
           offers.add(OfferFactory.speculatorSellOffer(speculator, product,
                   quantity, avg * SELL_FACTOR));

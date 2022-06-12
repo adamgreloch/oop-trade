@@ -3,7 +3,7 @@ package pl.edu.mimuw.trade.products;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 
-public class Program extends DistinguishableTradeable implements ProductivityBuff {
+public class Program extends DistinguishableTradeable implements ProductivityBuff, Comparable<Program>, Levelled {
 
   public Program(int level) {
     super(level, "programy");
@@ -16,5 +16,12 @@ public class Program extends DistinguishableTradeable implements ProductivityBuf
 
   public int tradePriority() {
     return 3;
+  }
+
+  @Override
+  public int compareTo(Program other) {
+    int cmp = this.level - other.level;
+    if (cmp == 0) return this.id - other.id;
+    return cmp;
   }
 }

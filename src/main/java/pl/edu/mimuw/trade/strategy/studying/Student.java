@@ -18,6 +18,6 @@ public class Student extends StudyingStrategy {
   }
 
   public boolean isStudyDay(Worker worker) {
-    return FOOD_AMOUNT * this.margin * StockAnalysis.avgPrice(ProductFactory.food, this.period) >= worker.diamonds();
+    return FOOD_AMOUNT * this.margin * StockAnalysis.avgPriceOfDays(ProductFactory.food, this.period) >= worker.diamonds();
   }
 }

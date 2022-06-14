@@ -7,6 +7,8 @@ import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Simulation;
 
+import static pl.edu.mimuw.trade.simulation.Simulation.stock;
+
 public class Prospective extends ProductionStrategy {
   @SerializedName("historia_perspektywy")
   private int reachPast;
@@ -20,8 +22,8 @@ public class Prospective extends ProductionStrategy {
     double diffMax = 0, diff;
     Product picked = null;
     for (Tradeable product : ProductFactory.previewTradeable()) {
-      diff = Simulation.stock.getAveragePrice(today, product)
-              - Simulation.stock.getAveragePrice(today - this.reachPast, product);
+      diff = stock.log.getAveragePrice(today, product)
+              - stock.log.getAveragePrice(today - this.reachPast, product);
       if (diff > diffMax) {
         picked = product;
         diffMax = diff;

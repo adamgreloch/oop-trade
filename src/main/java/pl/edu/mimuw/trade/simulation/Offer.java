@@ -9,9 +9,6 @@ import java.util.Set;
 import static pl.edu.mimuw.trade.simulation.OfferType.BUY;
 import static pl.edu.mimuw.trade.simulation.OfferType.SELL;
 
-/**
- * Oferty kupna i sprzedaży, które będą następnie dopasowywane przez Giełdę.
- */
 public class Offer implements Comparable<Offer> {
 
   final OfferType offerType;

@@ -10,6 +10,8 @@ import pl.edu.mimuw.trade.simulation.Simulation;
 import java.util.HashSet;
 import java.util.Set;
 
+import static pl.edu.mimuw.trade.simulation.Simulation.stock;
+
 public class Convex extends SpeculationStrategy {
 
   public Convex() {
@@ -24,7 +26,7 @@ public class Convex extends SpeculationStrategy {
     int quantity;
     for (Tradeable product : ProductFactory.previewTradeable()) {
       shape = this.functionShape(product, today);
-      avg = Simulation.stock.getAveragePrice(today - 1, product);
+      avg = stock.log.getAveragePrice(today - 1, product);
       if (shape > 0) // Function is strictly convex, we buy.
         offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
                 PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
@@ -40,9 +42,9 @@ public class Convex extends SpeculationStrategy {
   }
 
   private double functionShape(Tradeable product, int today) {
-    double first = Simulation.stock.getAveragePrice(today - 3, product);
-    double mid = Simulation.stock.getAveragePrice(today - 2, product);
-    double last = Simulation.stock.getAveragePrice(today - 1, product);
+    double first = stock.log.getAveragePrice(today - 3, product);
+    double mid = stock.log.getAveragePrice(today - 2, product);
+    double last = stock.log.getAveragePrice(today - 1, product);
     return (first + last) / 2 - mid;
   }
 }

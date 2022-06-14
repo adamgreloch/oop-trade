@@ -2,6 +2,8 @@ package pl.edu.mimuw.trade.io.adapters;
 
 import com.google.gson.*;
 import pl.edu.mimuw.trade.agents.productivity.Productivity;
+import pl.edu.mimuw.trade.products.Product;
+import pl.edu.mimuw.trade.products.ProductFactory;
 
 import java.lang.reflect.Type;
 
@@ -11,11 +13,8 @@ public class ProductivityAdapter implements JsonSerializer<Productivity>, JsonDe
                                JsonSerializationContext context) {
     if (productivity == null) return null;
     JsonObject je = new JsonObject();
-    je.addProperty("programy", productivity.programsBase());
-    je.addProperty("jedzenie", productivity.foodBase());
-    je.addProperty("ubrania", productivity.clothesBase());
-    je.addProperty("narzedzia", productivity.toolsBase());
-    je.addProperty("diamenty", productivity.diamondsBase());
+    for (Product product : ProductFactory.previewProducts())
+      je.addProperty(product.productName(), productivity.baseOf(product));
 
     return je;
   }

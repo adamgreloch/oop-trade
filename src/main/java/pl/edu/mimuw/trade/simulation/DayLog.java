@@ -107,16 +107,4 @@ public class DayLog {
   public int getSoldQuantity(Tradeable product) {
     return this.quantitiesSold.get(product.generalize());
   }
-
-  @Override
-  public String toString() {
-    return "\nDayLog{" +
-            "day=" + this.day +
-            ", \nproducts=" + this.products +
-            ", \nmax=" + this.max +
-            ", \naverage=" + this.average +
-            ", \nmin=" + this.min +
-            ", \nquantities=" + this.quantitiesSold +
-            '}';
-  }
 }

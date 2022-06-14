@@ -28,7 +28,9 @@ public abstract class Occupation {
     return this.makeBuff(this.getBuffValue(level));
   }
 
-  protected abstract ProductivityVector makeBuff(int buffValue);
+  protected ProductivityVector makeBuff(int buffValue) {
+    return (new ProductivityVector()).buffProduct(produceBuffedProduct(1), buffValue);
+  }
 
   public abstract Product produceBuffedProduct(int level);
 

@@ -3,7 +3,7 @@ package pl.edu.mimuw.trade.products;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 
-public class Program extends DistinguishableTradeable implements ProductivityBuff, Comparable<Program>, Levelled {
+public class Program extends LevelledTradeable implements ProductivityBuff, Comparable<Program> {
 
   public Program(int level) {
     super(level, "programy");

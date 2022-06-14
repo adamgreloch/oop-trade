@@ -7,6 +7,8 @@ import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
 import pl.edu.mimuw.trade.simulation.Simulation;
 
+import static pl.edu.mimuw.trade.simulation.Simulation.stock;
+
 public class Greedy extends ProductionStrategy {
   public Greedy() {
     super("zachlanny");
@@ -20,7 +22,7 @@ public class Greedy extends ProductionStrategy {
     Product picked = null;
     for (Tradeable product : ProductFactory.previewTradeable()) {
       quantity = ProductivityVector.find(worker.getProductivity(), product);
-      avg = Simulation.stock.getAveragePrice(today - 1, product);
+      avg = stock.log.getAveragePrice(today - 1, product);
       profit = quantity * avg;
       if (profit > maxProfit) {
         maxProfit = profit;

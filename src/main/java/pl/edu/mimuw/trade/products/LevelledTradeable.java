@@ -2,11 +2,11 @@ package pl.edu.mimuw.trade.products;
 
 import java.util.Objects;
 
-public abstract class DistinguishableTradeable extends Tradeable {
+public abstract class LevelledTradeable extends Tradeable {
   private static int lastId = 0;
   protected final int id;
 
-  public DistinguishableTradeable(int level, String productName) {
+  public LevelledTradeable(int level, String productName) {
     super(level, productName);
     this.id = assignId();
   }
@@ -24,7 +24,7 @@ public abstract class DistinguishableTradeable extends Tradeable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || this.getClass() != o.getClass()) return false;
-    DistinguishableTradeable that = (DistinguishableTradeable) o;
+    LevelledTradeable that = (LevelledTradeable) o;
     return this.productName.equals(that.productName) && this.level == that.level && this.id == that.id;
   }
 

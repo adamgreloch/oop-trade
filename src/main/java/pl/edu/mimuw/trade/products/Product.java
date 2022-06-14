@@ -20,7 +20,7 @@ public class Product {
    * iff their product type (clothes, tools, programs etc.) is equal.
    * This means that objects of this class are not
    * distinguishable by this definition, but subclasses can be.
-   * @see DistinguishableTradeable
+   * @see LevelledTradeable
    */
 
   public Product generalize() {

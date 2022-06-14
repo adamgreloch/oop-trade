@@ -3,7 +3,7 @@ package pl.edu.mimuw.trade.products;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
 import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 
-public class Clothes extends DistinguishableTradeable implements ProductivityBuff, Levelled {
+public class Clothes extends LevelledTradeable implements ProductivityBuff {
   public static final int NO_CLOTHES_THRESHOLD = 100;
 
   private int daysLeft;

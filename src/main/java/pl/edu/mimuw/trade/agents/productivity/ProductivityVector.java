@@ -26,13 +26,17 @@ public class ProductivityVector {
     Arrays.fill(this.data, constant);
   }
 
-  public static int find(ProductivityVector vector, Product product) {
-    if (product instanceof Food) return vector.data[0];
-    if (product instanceof Clothes) return vector.data[1];
-    if (product instanceof Tool) return vector.data[2];
-    if (product instanceof Diamond) return vector.data[3];
-    if (product instanceof Program) return vector.data[4];
+  private static int indexOf(Product product) {
+    if (product instanceof Food) return 0;
+    if (product instanceof Clothes) return 1;
+    if (product instanceof Tool) return 2;
+    if (product instanceof Diamond) return 3;
+    if (product instanceof Program) return 4;
     throw new IllegalArgumentException("Product outside of simulation scope");
+  }
+
+  public static int find(ProductivityVector vector, Product product) {
+    return vector.data[indexOf(product)];
   }
 
   public void clear() {
@@ -53,24 +57,8 @@ public class ProductivityVector {
     return res;
   }
 
-  public int food() {
-    return this.data[0];
-  }
-
-  public int clothes() {
-    return this.data[1];
-  }
-
-  public int tools() {
-    return this.data[2];
-  }
-
-  public int diamonds() {
-    return this.data[3];
-  }
-
-  public int programs() {
-    return this.data[4];
+  public int valueOf(Product product) {
+    return this.data[indexOf(product)];
   }
 
   private ProductivityVector buff(int idx, int buff) {
@@ -79,24 +67,8 @@ public class ProductivityVector {
     return res;
   }
 
-  public ProductivityVector buffFood(int buff) {
-    return this.buff(0, buff);
-  }
-
-  public ProductivityVector buffClothes(int buff) {
-    return this.buff(1, buff);
-  }
-
-  public ProductivityVector buffTools(int buff) {
-    return this.buff(2, buff);
-  }
-
-  public ProductivityVector buffDiamonds(int buff) {
-    return this.buff(3, buff);
-  }
-
-  public ProductivityVector buffPrograms(int buff) {
-    return this.buff(4, buff);
+  public ProductivityVector buffProduct(Product product, int buff) {
+    return this.buff(indexOf(product), buff);
   }
 
   public ProductivityVector copyOf() {

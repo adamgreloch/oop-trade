@@ -10,9 +10,6 @@ import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
 
 import java.util.*;
 
-/**
- * Centrum symulacji. Przeprowadza rundy przez kolejne etapy, przeprowadza symulację przez kolejne rundy
- */
 public class Simulation {
   public static Random RANDOM = new Random();
   public static Stock stock;
@@ -88,7 +85,6 @@ public class Simulation {
         this.dead.add(agent);
         System.out.println(agent + " died on day " + day);
       }
-
     this.dead.forEach(this.agents::remove);
   }
 

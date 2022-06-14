@@ -87,12 +87,11 @@ public class Worker extends Agent {
     Set<Product> res = new HashSet<>();
     Product usedProgram;
     for (Product product : products) {
-      if (product instanceof Levelled && ownedPrograms.hasNext()) {
+      if (product instanceof LevelledTradeable && ownedPrograms.hasNext()) {
         usedProgram = ownedPrograms.next();
         res.add(ProductFactory.produceAlike(product, usedProgram.level()));
         this.storageBag.remove(usedProgram);
-      }
-      else
+      } else
         res.add(product);
     }
     return res;

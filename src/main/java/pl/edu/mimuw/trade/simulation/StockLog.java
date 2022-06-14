@@ -1,6 +1,6 @@
 package pl.edu.mimuw.trade.simulation;
 
-import pl.edu.mimuw.trade.products.*;
+import pl.edu.mimuw.trade.products.Tradeable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +27,6 @@ public class StockLog {
   public double previousLowest(Tradeable product) {
     return this.previous.min(product, this.fallBack);
   }
-
-  public void setFallBackPrices(double food, double clothes, double tools, double programs) {
-    this.fallBack.logTransaction(new Food(1), food, 1);
-    this.fallBack.logTransaction(new Clothes(1), clothes, 1);
-    this.fallBack.logTransaction(new Tool(1), tools, 1);
-    this.fallBack.logTransaction(new Program(1), programs, 1);
-  }
-
-  // TODO maybe deredund some day?
 
   public void logTransaction(Tradeable product, double sellPrice, int soldQuantity) {
     this.current.logTransaction(product, sellPrice, soldQuantity);
@@ -67,10 +58,6 @@ public class StockLog {
     }
   }
 
-  public DayLog getCurrent() {
-    return this.current;
-  }
-
   public Map<String, Double> mapLastAvgPrices() {
     return this.current.mapAvgPrices();
   }
@@ -95,9 +82,5 @@ public class StockLog {
   public int getSoldQuantity(int day, Tradeable product) {
     if (this.shouldFallback(day, product)) return this.fallBack.getSoldQuantity(product);
     return this.days.get(day).getSoldQuantity(product);
-  }
-
-  public String printCurrent() {
-    return this.current.toString();
   }
 }

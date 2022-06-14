@@ -10,13 +10,15 @@ import pl.edu.mimuw.trade.simulation.Simulation;
 import java.util.HashSet;
 import java.util.Set;
 
+import static pl.edu.mimuw.trade.simulation.Simulation.stock;
+
 /**
  * Is it just me, or the "regulating" formula actually deregulates the stock even more?
  * Regulator?
  * More like
  * Deregulator
  * Hahaha
- * *exits the room*
+ * *leaves*
  */
 public class Regulator extends SpeculationStrategy {
 
@@ -33,7 +35,7 @@ public class Regulator extends SpeculationStrategy {
     int quantity;
 
     for (Tradeable product : ProductFactory.previewTradeable()) {
-      avg = Simulation.stock.getAveragePrice(today - 1, product);
+      avg = stock.log.getAveragePrice(today - 1, product);
       factor = this.calculateFactor(product, today);
       offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
               PURCHASE_QUANTITY, avg * factor * PURCHASE_FACTOR));
@@ -46,8 +48,8 @@ public class Regulator extends SpeculationStrategy {
   }
 
   private double calculateFactor(Tradeable product, int today) {
-    double todays = Simulation.stock.getWorkerSellOffered(product, today);
-    double yesterdays = Simulation.stock.getWorkerSellOffered(product, today - 1);
+    double todays = stock.log.getWorkerSellOffered(product, today);
+    double yesterdays = stock.log.getWorkerSellOffered(product, today - 1);
     return todays / Math.max(yesterdays, 1);
   }
 }

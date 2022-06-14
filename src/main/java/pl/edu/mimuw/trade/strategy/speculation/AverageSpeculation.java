@@ -31,7 +31,7 @@ public class AverageSpeculation extends SpeculationStrategy {
 
   private Set<Offer> constructOffers(Speculator speculator, Tradeable product) {
     Set<Offer> offers = new HashSet<>();
-    double avg = StockAnalysis.avgPrice(product, this.reachPast);
+    double avg = StockAnalysis.avgPriceOfDays(product, this.reachPast);
     int quantity = speculator.ownsQuantity(product);
 
     if (quantity > 0) {

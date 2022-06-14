@@ -1,5 +1,6 @@
 package pl.edu.mimuw.trade.agents.productivity;
 
+import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.simulation.Simulation;
 
 import java.util.HashSet;
@@ -46,23 +47,7 @@ public class Productivity {
     return this.base.add(this.getTotalBuff());
   }
 
-  public int foodBase() {
-    return this.base.food();
-  }
-
-  public int clothesBase() {
-    return this.base.clothes();
-  }
-
-  public int toolsBase() {
-    return this.base.tools();
-  }
-
-  public int diamondsBase() {
-    return this.base.diamonds();
-  }
-
-  public int programsBase() {
-    return this.base.programs();
+  public int baseOf(Product product) {
+    return this.base.valueOf(product);
   }
 }

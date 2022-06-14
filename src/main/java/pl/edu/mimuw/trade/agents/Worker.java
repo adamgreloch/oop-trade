@@ -94,6 +94,7 @@ public class Worker extends Agent {
       this.career.advanceLevel();
     this.hunger = 0;
     this.isStudying = true;
+    System.out.println(this + " is studying today");
   }
 
   private void starve() {

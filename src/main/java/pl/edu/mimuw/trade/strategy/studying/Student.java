@@ -10,7 +10,7 @@ public class Student extends StudyingStrategy {
   private static final int FOOD_AMOUNT = 100;
 
   @SerializedName("zapas")
-  private int margin;
+  private int daysBuffer;
   @SerializedName("okres")
   private int period;
 
@@ -19,6 +19,6 @@ public class Student extends StudyingStrategy {
   }
 
   public boolean isStudyDay(Worker worker) {
-    return FOOD_AMOUNT * this.margin * StockAnalysis.avgPriceOfDays(ProductFactory.food, this.period) >= worker.diamonds();
+    return FOOD_AMOUNT * this.daysBuffer * StockAnalysis.avgPriceOfDays(ProductFactory.food, this.period) >= worker.diamonds();
   }
 }

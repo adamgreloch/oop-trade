@@ -61,7 +61,6 @@ public class Simulation {
   }
 
   public void runDay() {
-    System.out.println("=== DAY" + day + " ===");
     this.agents.forEach(Agent::act);
     this.agents.forEach(Agent::makeOffers);
     stock.processTransactions();
@@ -92,6 +91,6 @@ public class Simulation {
 
   @Override
   public String toString() {
-    return "Simulation: day " + day + ". " + this.stockStrategy + "stock";
+    return "Simulation: day " + day;
   }
 }

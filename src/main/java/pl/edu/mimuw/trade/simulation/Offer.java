@@ -4,12 +4,14 @@ import pl.edu.mimuw.trade.agents.Agent;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 
+import java.text.DecimalFormat;
 import java.util.Set;
 
 import static pl.edu.mimuw.trade.simulation.OfferType.BUY;
 import static pl.edu.mimuw.trade.simulation.OfferType.SELL;
 
 public class Offer implements Comparable<Offer> {
+  private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
   final OfferType offerType;
   final double price;
@@ -83,7 +85,9 @@ public class Offer implements Comparable<Offer> {
     log.logTransaction(this.product, sellPrice, soldQuantity);
 
     int res = this.quantity - other.quantity;
-    System.out.println(sell.issuer + " sold " + soldQuantity + " x " + this.product + " to " + buy.issuer + " for " + sellPrice + "/item");
+    System.out.println(sell.issuer + " sold " + soldQuantity
+            + " x " + this.product + " to " + buy.issuer
+            + " for " + decimalFormat.format(sellPrice) + "/item");
     if (res <= 0) this.isCompleted = true;
     if (res >= 0) other.isCompleted = true;
   }

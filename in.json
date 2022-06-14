@@ -1,0 +1,133 @@
+{
+  "info": {
+    "dlugosc": 30,
+    "gielda": "socjalistyczna",
+    "kara_za_brak_ubran": 2,
+    "ceny": {
+      "programy": 20,
+      "jedzenie": 35.27,
+      "ubrania": 10,
+      "narzedzia": 10
+    }
+  },
+  "robotnicy": [
+    {
+      "id": 1,
+      "poziom": 1,
+      "kariera": "rzemieslnik",
+      "kupowanie": {
+        "typ": "czyscioszek"
+      },
+      "produkcja": {
+        "typ": "krotkowzroczny"
+      },
+      "uczenie": {
+        "typ": "pracus"
+      },
+      "zmiana": "rewolucjonista",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
+    },
+    {
+      "id": 2,
+      "poziom": 1,
+      "kariera": "programista",
+      "kupowanie": {
+        "typ": "gadzeciarz"
+      },
+      "produkcja": {
+        "typ": "perspektywiczny"
+      },
+      "uczenie": {
+        "typ": "student",
+        "okres": 3,
+        "zapas": 2
+      },
+      "zmiana": "konserwatysta",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
+    },
+    {
+      "id": 3,
+      "poziom": 1,
+      "kariera": "rolnik",
+      "kupowanie": {
+        "typ": "technofob"
+      },
+      "produkcja": {
+        "typ": "krotkowzroczny"
+      },
+      "uczenie": {
+        "typ": "pracus"
+      },
+      "zmiana": "rewolucjonista",
+      "produktywnosc": {
+        "programy": 100,
+        "jedzenie": 100,
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100
+      },
+      "zasoby": {
+        "diamenty": 100,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
+    }
+  ],
+  "spekulanci": [
+    {
+      "id": 12,
+      "kariera": {
+        "typ": "regulujacy"
+      },
+      "zasoby": {
+        "diamenty": 3000,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 1000,
+        "programy": 100
+      }
+    },
+    {
+      "id": 13,
+      "kariera": {
+        "typ": "sredni",
+        "historia_spekulanta_sredniego": 2
+      },
+      "zasoby": {
+        "diamenty": 3000,
+        "ubrania": 100,
+        "narzedzia": 100,
+        "jedzenie": 100,
+        "programy": 100
+      }
+    }
+  ]
+}

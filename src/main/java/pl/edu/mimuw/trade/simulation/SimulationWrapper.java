@@ -32,6 +32,7 @@ public class SimulationWrapper {
   public void runSimulation() {
     this.simulation.init(this.workers, this.speculators);
     while (Simulation.day() <= this.simulation.simulationLength()) {
+      System.out.println("=== DAY " + Simulation.day() + " ===");
       this.simulation.runDay();
       this.dailyOutputs.add(GsonWrapper.toJsonTree(this));
     }

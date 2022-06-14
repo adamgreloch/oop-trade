@@ -5,13 +5,14 @@ import pl.edu.mimuw.trade.products.*;
 import pl.edu.mimuw.trade.simulation.*;
 import pl.edu.mimuw.trade.strategy.*;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
   public static final int DAILY_CLOTHES_CONSUMPTION = 100;
   public static final int DAILY_FOOD_CONSUMPTION = 100;
-
+  private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
   @SerializedName("produktywnosc")
   private Productivity productivity;
   @SerializedName("kariera")
@@ -148,6 +149,6 @@ public class Worker extends Agent {
   public String toString() {
     return "Worker (Agent " + this.id()
             + ", Food: " + this.storageBag.countFood()
-            + ", diamonds: " + this.storageBag.countDiamonds() + ")";
+            + ", diamonds: " + decimalFormat.format(this.storageBag.countDiamonds()) + ")";
   }
 }

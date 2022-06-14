@@ -7,6 +7,8 @@ import static pl.edu.mimuw.trade.simulation.Simulation.stock;
 public class StockAnalysis {
 
   public static double avgPriceOfDays(Tradeable product, int ofLastDays) {
+    if (ofLastDays < 1) throw new IllegalArgumentException();
+
     double sum = 0;
     int soldTotal = 0, sold;
     int reached;
@@ -15,6 +17,7 @@ public class StockAnalysis {
       sold = stock.log.getSoldQuantity(reached, product);
       soldTotal += sold;
       sum += sold * stock.log.getAveragePrice(reached, product);
+      if (reached == 0) break;
     }
     return sum / soldTotal;
   }

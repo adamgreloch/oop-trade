@@ -2,6 +2,7 @@ package pl.edu.mimuw.trade.strategy.studying;
 
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.simulation.Simulation;
+import pl.edu.mimuw.trade.strategy.StudyingStrategy;
 
 public class Distributive extends StudyingStrategy {
 

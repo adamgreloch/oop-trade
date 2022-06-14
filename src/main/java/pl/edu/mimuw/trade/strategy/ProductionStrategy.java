@@ -1,8 +1,7 @@
-package pl.edu.mimuw.trade.strategy.production;
+package pl.edu.mimuw.trade.strategy;
 
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.Product;
-import pl.edu.mimuw.trade.strategy.Strategy;
 
 /**
  * Interfejs strategii produkcji Robotnika.

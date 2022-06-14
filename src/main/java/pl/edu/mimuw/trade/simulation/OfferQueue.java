@@ -2,10 +2,7 @@ package pl.edu.mimuw.trade.simulation;
 
 import pl.edu.mimuw.trade.agents.Agent;
 
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.Spliterator;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class OfferQueue implements Iterable<Offer> {

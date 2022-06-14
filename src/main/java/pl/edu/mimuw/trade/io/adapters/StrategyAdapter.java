@@ -5,16 +5,9 @@ import pl.edu.mimuw.trade.strategy.Strategy;
 import pl.edu.mimuw.trade.strategy.career.Conservative;
 import pl.edu.mimuw.trade.strategy.career.Revolutionist;
 import pl.edu.mimuw.trade.strategy.production.*;
-import pl.edu.mimuw.trade.strategy.purchase.Gadgeteer;
-import pl.edu.mimuw.trade.strategy.purchase.Mechanized;
-import pl.edu.mimuw.trade.strategy.purchase.Stickler;
-import pl.edu.mimuw.trade.strategy.purchase.Technophobe;
-import pl.edu.mimuw.trade.strategy.speculation.AverageSpeculation;
-import pl.edu.mimuw.trade.strategy.speculation.Convex;
-import pl.edu.mimuw.trade.strategy.speculation.Regulator;
-import pl.edu.mimuw.trade.strategy.stock.Balanced;
-import pl.edu.mimuw.trade.strategy.stock.Capitalist;
-import pl.edu.mimuw.trade.strategy.stock.Socialist;
+import pl.edu.mimuw.trade.strategy.purchase.*;
+import pl.edu.mimuw.trade.strategy.speculation.*;
+import pl.edu.mimuw.trade.strategy.stock.*;
 import pl.edu.mimuw.trade.strategy.studying.*;
 
 import java.lang.reflect.Type;
@@ -23,7 +16,7 @@ import java.util.TreeMap;
 
 public class StrategyAdapter<T extends Strategy> implements JsonSerializer<T>, JsonDeserializer<T> {
 
-  static Map<String, Type> map = new TreeMap<>();
+  static final Map<String, Type> map = new TreeMap<>();
 
   static {
     map.put("konserwatysta", Conservative.class);

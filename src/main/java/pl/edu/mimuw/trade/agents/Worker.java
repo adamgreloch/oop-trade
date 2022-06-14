@@ -1,22 +1,11 @@
 package pl.edu.mimuw.trade.agents;
 
 import com.google.gson.annotations.SerializedName;
-import pl.edu.mimuw.trade.agents.career.Career;
-import pl.edu.mimuw.trade.agents.productivity.Productivity;
-import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.*;
-import pl.edu.mimuw.trade.simulation.Offer;
-import pl.edu.mimuw.trade.simulation.OfferFactory;
-import pl.edu.mimuw.trade.simulation.Simulation;
-import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
-import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
-import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
-import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
+import pl.edu.mimuw.trade.simulation.*;
+import pl.edu.mimuw.trade.strategy.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class Worker extends Agent {
   public static final int DEATH_THRESHOLD = 3;
@@ -139,7 +128,7 @@ public class Worker extends Agent {
   private void activateBuffs() {
     this.productivity.clearBuffs();
     this.storageBag.setWorkerOwner(this);
-    this.storageBag.listBuffableProducts().forEach(this.productivity::addBuff);
+    this.storageBag.listBuffingProducts().forEach(this.productivity::addBuff);
     this.productivity.updateBuffs();
   }
 
@@ -148,7 +137,7 @@ public class Worker extends Agent {
   }
 
   public int ownedClothes() {
-    return this.storageBag.countClothes();
+    return this.storageBag.quantity(ProductFactory.clothes);
   }
 
   public int quantityProduced() {

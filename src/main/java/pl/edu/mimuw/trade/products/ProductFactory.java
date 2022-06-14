@@ -1,8 +1,6 @@
 package pl.edu.mimuw.trade.products;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ProductFactory {
   public static final Food food = new Food(1);
@@ -11,7 +9,7 @@ public class ProductFactory {
   public static final Program program = new Program(1);
   public static final Diamond diamond = new Diamond(1);
 
-  private static final Product[] buffable = {clothes, tool, program};
+  private static final Product[] buffing = {tool};
   private static final Tradeable[] tradeable = {food, clothes, tool, program};
   private static final Product[] products = {food, clothes, tool, program, diamond};
 
@@ -23,8 +21,8 @@ public class ProductFactory {
     return tradeable.clone();
   }
 
-  public static Product[] previewBuffable() {
-    return buffable.clone();
+  public static Product[] previewBuffing() {
+    return buffing.clone();
   }
 
   public static Set<Food> newFood(int quantity) {

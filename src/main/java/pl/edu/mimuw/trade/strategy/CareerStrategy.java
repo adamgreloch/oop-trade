@@ -1,8 +1,7 @@
-package pl.edu.mimuw.trade.strategy.career;
+package pl.edu.mimuw.trade.strategy;
 
+import pl.edu.mimuw.trade.agents.Occupation;
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.agents.career.Occupation;
-import pl.edu.mimuw.trade.strategy.Strategy;
 
 /**
  * Interfejs strategii zmian ścieżki kariery. Implementować go będą np. Konserwatysta i Rewolucjonista.

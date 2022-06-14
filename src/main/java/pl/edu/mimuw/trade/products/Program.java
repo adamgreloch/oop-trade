@@ -1,17 +1,9 @@
 package pl.edu.mimuw.trade.products;
 
-import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
-import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-
-public class Program extends LevelledTradeable implements ProductivityBuff, Comparable<Program> {
+public class Program extends LevelledTradeable implements Comparable<Program> {
 
   public Program(int level) {
     super(level, "programy");
-  }
-
-  @Override
-  public ProductivityVector getBuffValue() {
-    return new ProductivityVector();
   }
 
   public int tradePriority() {

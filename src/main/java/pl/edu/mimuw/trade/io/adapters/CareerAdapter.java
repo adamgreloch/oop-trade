@@ -1,10 +1,9 @@
 package pl.edu.mimuw.trade.io.adapters;
 
 import com.google.gson.*;
-import pl.edu.mimuw.trade.agents.career.Career;
-import pl.edu.mimuw.trade.agents.career.Occupation;
+import pl.edu.mimuw.trade.agents.Career;
+import pl.edu.mimuw.trade.agents.occupations.OccupationFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 public class CareerAdapter implements JsonSerializer<Career>, JsonDeserializer<Career> {
@@ -22,20 +21,15 @@ public class CareerAdapter implements JsonSerializer<Career>, JsonDeserializer<C
     }
   }
 
-  // TODO troche straszny kod
-
-  @SuppressWarnings("unchecked")
   public Career deserialize(JsonElement json, Type typeOfT,
                             JsonDeserializationContext context) throws JsonParseException {
     String type = json.getAsString();
-    Class c = (Class) Occupations.map.get(type);
+    Type c = Occupations.map.get(type);
+
     if (c == null)
       throw new RuntimeException("Unknown class: " + type);
-    try {
-      return new Career(((Occupation) c.getDeclaredConstructor().newInstance()), 1);
-    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-      throw new RuntimeException(e);
-    }
+
+    return new Career(OccupationFactory.instanceFromType(c), 1);
   }
 
 }

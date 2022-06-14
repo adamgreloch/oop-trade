@@ -2,16 +2,14 @@ package pl.edu.mimuw.trade.simulation;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import pl.edu.mimuw.trade.agents.Agent;
-import pl.edu.mimuw.trade.agents.Speculator;
-import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.agents.*;
 import pl.edu.mimuw.trade.io.SkipSerialization;
-import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
+import pl.edu.mimuw.trade.strategy.StockStrategy;
 
 import java.util.*;
 
 public class Simulation {
-  public static Random RANDOM = new Random();
+  public static final Random RANDOM = new Random();
   public static Stock stock;
   private static int day = 1;
   private static int noClothesPenalty;

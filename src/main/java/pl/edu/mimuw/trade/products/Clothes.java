@@ -1,9 +1,6 @@
 package pl.edu.mimuw.trade.products;
 
-import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
-import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
-
-public class Clothes extends LevelledTradeable implements ProductivityBuff {
+public class Clothes extends LevelledTradeable {
   public static final int NO_CLOTHES_THRESHOLD = 100;
 
   private int daysLeft;
@@ -20,11 +17,6 @@ public class Clothes extends LevelledTradeable implements ProductivityBuff {
   @Override
   public String info() {
     return "days left: " + this.daysLeft;
-  }
-
-  @Override
-  public ProductivityVector getBuffValue() {
-    return new ProductivityVector();
   }
 
   public int tradePriority() {

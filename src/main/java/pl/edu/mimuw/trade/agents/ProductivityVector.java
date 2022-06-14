@@ -1,4 +1,4 @@
-package pl.edu.mimuw.trade.agents.productivity;
+package pl.edu.mimuw.trade.agents;
 
 import pl.edu.mimuw.trade.products.*;
 

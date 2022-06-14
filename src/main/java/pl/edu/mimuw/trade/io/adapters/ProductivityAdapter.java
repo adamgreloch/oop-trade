@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.io.adapters;
 
 import com.google.gson.*;
-import pl.edu.mimuw.trade.agents.productivity.Productivity;
+import pl.edu.mimuw.trade.agents.Productivity;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.ProductFactory;
 

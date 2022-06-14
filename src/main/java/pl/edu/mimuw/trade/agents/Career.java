@@ -1,14 +1,12 @@
-package pl.edu.mimuw.trade.agents.career;
+package pl.edu.mimuw.trade.agents;
 
-import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
-import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Career implements ProductivityBuff {
-  private transient Map<Occupation, Integer> careers; // Value indicates advancement level
+  private transient Map<Occupation, Integer> careers; // Integer value indicates advancement level
 
   private Occupation current;
 
@@ -23,12 +21,8 @@ public class Career implements ProductivityBuff {
   }
 
   public void changeOccupation(Occupation next) {
-    if (this.careers == null)
-      this.careers = new HashMap<>();
-
-    if (!this.careers.containsKey(next))
-      this.careers.put(next, 1);
-
+    if (this.careers == null) this.careers = new HashMap<>();
+    if (!this.careers.containsKey(next)) this.careers.put(next, 1);
     this.current = next;
   }
 

@@ -1,7 +1,6 @@
-package pl.edu.mimuw.trade.strategy.studying;
+package pl.edu.mimuw.trade.strategy;
 
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.strategy.Strategy;
 
 public abstract class StudyingStrategy extends Strategy {
 

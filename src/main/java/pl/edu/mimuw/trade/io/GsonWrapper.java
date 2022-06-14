@@ -1,18 +1,10 @@
 package pl.edu.mimuw.trade.io;
 
 import com.google.gson.*;
-import pl.edu.mimuw.trade.agents.Bag;
-import pl.edu.mimuw.trade.agents.career.Career;
-import pl.edu.mimuw.trade.agents.career.Occupation;
-import pl.edu.mimuw.trade.agents.productivity.Productivity;
+import pl.edu.mimuw.trade.agents.*;
 import pl.edu.mimuw.trade.io.adapters.*;
 import pl.edu.mimuw.trade.simulation.DayLog;
-import pl.edu.mimuw.trade.strategy.career.CareerStrategy;
-import pl.edu.mimuw.trade.strategy.production.ProductionStrategy;
-import pl.edu.mimuw.trade.strategy.purchase.PurchaseStrategy;
-import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
-import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
-import pl.edu.mimuw.trade.strategy.studying.StudyingStrategy;
+import pl.edu.mimuw.trade.strategy.*;
 
 import java.io.Reader;
 

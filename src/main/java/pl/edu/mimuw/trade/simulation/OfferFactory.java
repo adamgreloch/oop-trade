@@ -1,8 +1,6 @@
 package pl.edu.mimuw.trade.simulation;
 
-import pl.edu.mimuw.trade.agents.Agent;
-import pl.edu.mimuw.trade.agents.Speculator;
-import pl.edu.mimuw.trade.agents.Worker;
+import pl.edu.mimuw.trade.agents.*;
 import pl.edu.mimuw.trade.products.Tradeable;
 
 import static pl.edu.mimuw.trade.simulation.OfferType.SELL;

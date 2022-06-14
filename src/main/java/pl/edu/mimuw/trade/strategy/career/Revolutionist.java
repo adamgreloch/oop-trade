@@ -1,13 +1,12 @@
 package pl.edu.mimuw.trade.strategy.career;
 
+import pl.edu.mimuw.trade.agents.Occupation;
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.agents.career.Occupation;
-import pl.edu.mimuw.trade.agents.career.OccupationFactory;
-import pl.edu.mimuw.trade.products.Product;
-import pl.edu.mimuw.trade.products.ProductFactory;
-import pl.edu.mimuw.trade.products.Tradeable;
+import pl.edu.mimuw.trade.agents.occupations.OccupationFactory;
+import pl.edu.mimuw.trade.products.*;
 import pl.edu.mimuw.trade.simulation.Simulation;
 import pl.edu.mimuw.trade.simulation.StockAnalysis;
+import pl.edu.mimuw.trade.strategy.CareerStrategy;
 
 public class Revolutionist extends CareerStrategy {
   private static final int MODULO = 17;

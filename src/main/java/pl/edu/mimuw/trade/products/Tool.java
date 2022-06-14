@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.products;
 
-import pl.edu.mimuw.trade.agents.productivity.ProductivityBuff;
-import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
+import pl.edu.mimuw.trade.agents.ProductivityBuff;
+import pl.edu.mimuw.trade.agents.ProductivityVector;
 
 public class Tool extends LevelledTradeable implements ProductivityBuff {
 

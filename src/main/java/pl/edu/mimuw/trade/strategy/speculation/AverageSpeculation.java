@@ -4,9 +4,8 @@ import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Speculator;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.products.Tradeable;
-import pl.edu.mimuw.trade.simulation.Offer;
-import pl.edu.mimuw.trade.simulation.OfferFactory;
-import pl.edu.mimuw.trade.simulation.StockAnalysis;
+import pl.edu.mimuw.trade.simulation.*;
+import pl.edu.mimuw.trade.strategy.SpeculationStrategy;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,8 +38,7 @@ public class AverageSpeculation extends SpeculationStrategy {
               PURCHASE_QUANTITY, avg * PURCHASE_FACTOR));
       offers.add(OfferFactory.speculatorSellOffer(speculator, product,
               quantity, avg * SELL_FACTOR));
-    }
-    else
+    } else
       offers.add(OfferFactory.speculatorPurchaseOffer(speculator, product,
               PURCHASE_QUANTITY, avg * FRESH_PURCHASE_FACTOR));
 

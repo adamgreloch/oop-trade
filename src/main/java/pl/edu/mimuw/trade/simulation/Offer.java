@@ -14,8 +14,8 @@ public class Offer implements Comparable<Offer> {
   final OfferType offerType;
   final double price;
   final Tradeable product;
+  final boolean isWorkerOffer;
   private final Agent issuer;
-  boolean isWorkerOffer;
   private int quantity;
   private boolean isCompleted = false;
 

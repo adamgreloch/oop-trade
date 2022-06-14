@@ -1,6 +1,5 @@
-package pl.edu.mimuw.trade.agents.career;
+package pl.edu.mimuw.trade.agents;
 
-import pl.edu.mimuw.trade.agents.productivity.ProductivityVector;
 import pl.edu.mimuw.trade.products.Product;
 
 import java.util.Objects;
@@ -38,6 +37,8 @@ public abstract class Occupation {
   public int hashCode() {
     return Objects.hash(this.name);
   }
+
+  public abstract Occupation copyOf();
 
   @Override
   public boolean equals(Object o) {

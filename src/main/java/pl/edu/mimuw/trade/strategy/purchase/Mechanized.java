@@ -5,6 +5,7 @@ import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.simulation.Offer;
 import pl.edu.mimuw.trade.simulation.OfferFactory;
+import pl.edu.mimuw.trade.strategy.PurchaseStrategy;
 
 import java.util.HashSet;
 import java.util.Set;

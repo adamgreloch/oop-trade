@@ -2,6 +2,7 @@ package pl.edu.mimuw.trade.strategy.stock;
 
 import pl.edu.mimuw.trade.simulation.OfferQueue;
 import pl.edu.mimuw.trade.simulation.Simulation;
+import pl.edu.mimuw.trade.strategy.StockStrategy;
 
 import java.util.List;
 import java.util.Set;

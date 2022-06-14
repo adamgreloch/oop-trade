@@ -2,10 +2,9 @@ package pl.edu.mimuw.trade.strategy.production;
 
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.products.Product;
-import pl.edu.mimuw.trade.products.ProductFactory;
-import pl.edu.mimuw.trade.products.Tradeable;
+import pl.edu.mimuw.trade.products.*;
 import pl.edu.mimuw.trade.simulation.StockAnalysis;
+import pl.edu.mimuw.trade.strategy.ProductionStrategy;
 
 public class AverageProduction extends ProductionStrategy {
   @SerializedName("historia_sredniej_produkcji")

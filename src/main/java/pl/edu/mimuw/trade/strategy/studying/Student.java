@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.products.ProductFactory;
 import pl.edu.mimuw.trade.simulation.StockAnalysis;
+import pl.edu.mimuw.trade.strategy.StudyingStrategy;
 
 public class Student extends StudyingStrategy {
   private static final int FOOD_AMOUNT = 100;

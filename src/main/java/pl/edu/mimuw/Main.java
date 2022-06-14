@@ -3,9 +3,7 @@ package pl.edu.mimuw;
 import pl.edu.mimuw.trade.io.GsonWrapper;
 import pl.edu.mimuw.trade.simulation.SimulationWrapper;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Main {
 

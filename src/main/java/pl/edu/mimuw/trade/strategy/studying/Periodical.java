@@ -3,6 +3,7 @@ package pl.edu.mimuw.trade.strategy.studying;
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.agents.Worker;
 import pl.edu.mimuw.trade.simulation.Simulation;
+import pl.edu.mimuw.trade.strategy.StudyingStrategy;
 
 public class Periodical extends StudyingStrategy {
 

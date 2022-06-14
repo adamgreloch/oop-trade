@@ -3,10 +3,7 @@ package pl.edu.mimuw.trade.simulation;
 import pl.edu.mimuw.trade.products.Product;
 import pl.edu.mimuw.trade.products.Tradeable;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.Double.MAX_VALUE;
 

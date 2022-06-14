@@ -2,7 +2,7 @@ package pl.edu.mimuw.trade.agents;
 
 import com.google.gson.annotations.SerializedName;
 import pl.edu.mimuw.trade.simulation.Simulation;
-import pl.edu.mimuw.trade.strategy.speculation.SpeculationStrategy;
+import pl.edu.mimuw.trade.strategy.SpeculationStrategy;
 
 public class Speculator extends Agent {
 

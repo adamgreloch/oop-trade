@@ -1,7 +1,7 @@
 package pl.edu.mimuw.trade.io.adapters;
 
 import com.google.gson.*;
-import pl.edu.mimuw.trade.agents.career.Occupation;
+import pl.edu.mimuw.trade.agents.Occupation;
 
 import java.lang.reflect.Type;
 

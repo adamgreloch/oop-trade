@@ -1,9 +1,7 @@
 package pl.edu.mimuw.trade.simulation;
 
-import pl.edu.mimuw.trade.agents.Agent;
-import pl.edu.mimuw.trade.agents.Bank;
-import pl.edu.mimuw.trade.agents.Worker;
-import pl.edu.mimuw.trade.strategy.stock.StockStrategy;
+import pl.edu.mimuw.trade.agents.*;
+import pl.edu.mimuw.trade.strategy.StockStrategy;
 
 import java.util.*;
 
@@ -44,8 +42,7 @@ public class Stock {
           this.log.logWorkerSellOffered(offer.product, offer.quantity());
       }
       this.workerOfferQueues.add(queue);
-    }
-    else this.speculatorOffers.addAll(offers);
+    } else this.speculatorOffers.addAll(offers);
   }
 
   void processTransactions() {

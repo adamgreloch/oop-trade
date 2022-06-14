@@ -1,6 +1,5 @@
 .gradle
 .idea
 build
-wrapper
 task.pdf
 *.json
